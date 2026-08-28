@@ -175,7 +175,7 @@
         {
           "branch": "main",
           "commit": "01f6a600bba0f34cccb5f2c774ae40b94d6060c3",
-          "snapshot_path": "plugins/astrbot_plugin_komga_manager"
+          "snapshot_path": "branches/astrbot_plugin_komga_manager/main"
         }
       ],
       "bundle_path": null

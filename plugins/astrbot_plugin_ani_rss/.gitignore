@@ -1,7 +1,0 @@
-__pycache__/
-*.py[cod]
-.ruff_cache/
-.pytest_cache/
-data/
-*_config.json
-local_config.json
