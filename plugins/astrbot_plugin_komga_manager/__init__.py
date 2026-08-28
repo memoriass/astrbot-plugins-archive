@@ -1,0 +1,2 @@
+"""AstrBot Komga manager plugin."""
+

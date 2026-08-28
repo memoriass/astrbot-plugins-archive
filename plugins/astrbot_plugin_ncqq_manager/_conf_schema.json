@@ -1,0 +1,124 @@
+{
+    "default_manager": {
+        "title": "默认管理器 ID",
+        "type": "string",
+        "description": "未显式指定 manager 时使用的面板 ID，应匹配下方管理器面板列表中的某一项。",
+        "default": "local"
+    },
+    "manager_profiles": {
+        "title": "管理器面板列表",
+        "type": "template_list",
+        "description": "配置一个或多个 ncqq-manager 面板。聊天或命令中可使用 manager=面板ID 或 面板ID/实例名 指定目标。",
+        "default": [],
+        "templates": {
+            "ncqq_manager": {
+                "name": "ncqq-manager 面板",
+                "hint": "添加一个可管理的 ncqq-manager 控制面板。",
+                "display_item": "name",
+                "hide_hint_in_list": true,
+                "items": {
+                    "id": {
+                        "description": "面板 ID",
+                        "type": "string",
+                        "hint": "用于 manager=local 或 local/实例名；建议只使用字母、数字、-、_。",
+                        "default": ""
+                    },
+                    "name": {
+                        "description": "显示名称",
+                        "type": "string",
+                        "hint": "用于 WebUI 和聊天返回中展示，例如 本地面板、云端面板。",
+                        "default": ""
+                    },
+                    "manager_url": {
+                        "description": "管理器地址",
+                        "type": "string",
+                        "hint": "ncqq-manager 后台地址，例如 http://127.0.0.1:8080。",
+                        "default": ""
+                    },
+                    "api_key": {
+                        "description": "API Key",
+                        "type": "string",
+                        "hint": "ncqq-manager API Key。不要把真实 key 写入仓库文档或测试记录。",
+                        "default": "",
+                        "password": true,
+                        "render_type": "password"
+                    }
+                }
+            }
+        }
+    },
+    "qrcode_private": {
+        "title": "二维码私聊发送",
+        "type": "bool",
+        "description": "群聊触发二维码时，通过私聊发送给请求者（防止他人误扫）。默认开启。",
+        "default": true
+    },
+    "notify_group": {
+        "title": "通知群号",
+        "type": "string",
+        "description": "管理通知推送的目标群号（掉线告警、恢复通知等）。留空则不推送群通知。",
+        "default": ""
+    },
+    "enable_group_whitelist": {
+        "title": "启用响应群白名单",
+        "type": "bool",
+        "description": "开启后，插件只响应 response_groups 中列出的群聊；私聊不受影响。",
+        "default": false
+    },
+    "response_groups": {
+        "title": "响应群白名单",
+        "type": "string",
+        "description": "允许插件响应的群号，支持逗号、空格、顿号分隔。仅在启用响应群白名单后生效。",
+        "default": ""
+    },
+    "enable_offline_notify": {
+        "title": "掉线通知",
+        "type": "bool",
+        "description": "开启后定时检测实例状态，掉线时私聊通知归属人并推送到通知群。",
+        "default": true
+    },
+    "health_check_interval": {
+        "title": "检测间隔（分钟）",
+        "type": "int",
+        "description": "实例健康检测的轮询间隔，单位分钟。建议 3~10 分钟。",
+        "default": 5
+    },
+    "enable_alert_webhook": {
+        "title": "接收掉线 POST 通知",
+        "type": "bool",
+        "description": "开启后启动独立本地 HTTP 接收器，用于接收 ncqq-manager plugin_api 规则发出的 login_lost 和 instance_offline POST 通知。",
+        "default": false
+    },
+    "alert_webhook_host": {
+        "title": "POST 通知监听地址",
+        "type": "string",
+        "description": "掉线 POST 接收器监听地址。默认只监听 127.0.0.1；如改为 0.0.0.0 或公网地址，必须配置 token。",
+        "default": "127.0.0.1"
+    },
+    "alert_webhook_port": {
+        "title": "POST 通知监听端口",
+        "type": "int",
+        "description": "掉线 POST 接收器监听端口。ncqq-manager 规则中的 webhook_url 需要指向该端口。",
+        "default": 6198
+    },
+    "alert_webhook_path": {
+        "title": "POST 通知路径",
+        "type": "string",
+        "description": "掉线 POST 接收路径。示例：/ncqq-manager/alerts。",
+        "default": "/ncqq-manager/alerts"
+    },
+    "alert_webhook_token": {
+        "title": "POST 通知 Token",
+        "type": "string",
+        "description": "可选鉴权 token。ncqq-manager webhook_url 可追加 ?token=...；若监听非 loopback 地址则必须配置。",
+        "default": "",
+        "password": true,
+        "render_type": "password"
+    },
+    "dashboard_stream_threshold": {
+        "title": "面板直出卡片上限",
+        "type": "int",
+        "description": "Plugin Pages 首页直出卡片数量上限（后端节点卡 + 绑定 + 审批）。超过后启用三排横向瀑布流。建议 7~10。",
+        "default": 10
+    }
+}

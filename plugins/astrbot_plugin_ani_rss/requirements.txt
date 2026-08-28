@@ -1,0 +1,3 @@
+aiohttp>=3.9
+Pillow>=10
+pylitehtml>=0.2.1

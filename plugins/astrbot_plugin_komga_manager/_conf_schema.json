@@ -1,0 +1,45 @@
+{
+  "base_url": {
+    "title": "Komga 地址",
+    "type": "string",
+    "description": "Komga 服务地址，例如 http://127.0.0.1:25600。",
+    "default": "http://127.0.0.1:25600"
+  },
+  "api_key": {
+    "title": "API Key",
+    "type": "string",
+    "description": "可选。配置后通过 X-API-Key 请求头访问 Komga。",
+    "default": ""
+  },
+  "username": {
+    "title": "用户名",
+    "type": "string",
+    "description": "未配置 API Key 时使用 HTTP Basic Auth。",
+    "default": ""
+  },
+  "password": {
+    "title": "密码",
+    "type": "string",
+    "description": "未配置 API Key 时使用 HTTP Basic Auth。",
+    "default": ""
+  },
+  "timeout_seconds": {
+    "title": "请求超时（秒）",
+    "type": "int",
+    "description": "Komga HTTP 请求总超时，范围 1-60 秒。",
+    "default": 15
+  },
+  "allow_public_url": {
+    "title": "允许公网 Komga 地址",
+    "type": "bool",
+    "description": "默认仅允许 localhost、回环或私网地址；确需公网部署时显式开启。",
+    "default": false
+  },
+  "default_limit": {
+    "title": "默认返回数量",
+    "type": "int",
+    "description": "列表和搜索默认返回条数，范围 1-100。",
+    "default": 20
+  }
+}
+

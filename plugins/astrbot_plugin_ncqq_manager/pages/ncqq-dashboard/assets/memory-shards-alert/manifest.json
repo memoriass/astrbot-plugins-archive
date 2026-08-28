@@ -1,0 +1,83 @@
+{
+  "version": "memory-alert-edge-v17-manual-20260620",
+  "source_manifest": "../memory-shards-scene/manifest.json",
+  "variants": [
+    "red",
+    "yellow"
+  ],
+  "policy": "Single retained manual alert baseline paired with scene-v14.",
+  "shards": [
+    {
+      "id": "shard-01-upper-left",
+      "source_scene_file": "shard-01-upper-left-scene-v14.png",
+      "files": {
+        "red": "shard-01-upper-left-alert-red-v17.png",
+        "yellow": "shard-01-upper-left-alert-yellow-v17.png"
+      },
+      "policy": "Single retained manual alert baseline paired with scene-v14."
+    },
+    {
+      "id": "shard-02-top-center",
+      "source_scene_file": "shard-02-top-center-scene-v14.png",
+      "files": {
+        "red": "shard-02-top-center-alert-red-v17.png",
+        "yellow": "shard-02-top-center-alert-yellow-v17.png"
+      },
+      "policy": "Single retained manual alert baseline paired with scene-v14."
+    },
+    {
+      "id": "shard-03-upper-right",
+      "source_scene_file": "shard-03-upper-right-scene-v14.png",
+      "files": {
+        "red": "shard-03-upper-right-alert-red-v17.png",
+        "yellow": "shard-03-upper-right-alert-yellow-v17.png"
+      },
+      "policy": "Single retained manual alert baseline paired with scene-v14."
+    },
+    {
+      "id": "shard-04-left-middle",
+      "source_scene_file": "shard-04-left-middle-scene-v14.png",
+      "files": {
+        "red": "shard-04-left-middle-alert-red-v17.png",
+        "yellow": "shard-04-left-middle-alert-yellow-v17.png"
+      },
+      "policy": "Single retained manual alert baseline paired with scene-v14."
+    },
+    {
+      "id": "shard-05-right-middle",
+      "source_scene_file": "shard-05-right-middle-scene-v14.png",
+      "files": {
+        "red": "shard-05-right-middle-alert-red-v17.png",
+        "yellow": "shard-05-right-middle-alert-yellow-v17.png"
+      },
+      "policy": "Single retained manual alert baseline paired with scene-v14."
+    },
+    {
+      "id": "shard-06-lower-left",
+      "source_scene_file": "shard-06-lower-left-scene-v14.png",
+      "files": {
+        "red": "shard-06-lower-left-alert-red-v17.png",
+        "yellow": "shard-06-lower-left-alert-yellow-v17.png"
+      },
+      "policy": "Single retained manual alert baseline paired with scene-v14."
+    },
+    {
+      "id": "shard-07-lower-center",
+      "source_scene_file": "shard-07-lower-center-scene-v14.png",
+      "files": {
+        "red": "shard-07-lower-center-alert-red-v17.png",
+        "yellow": "shard-07-lower-center-alert-yellow-v17.png"
+      },
+      "policy": "Single retained manual alert baseline paired with scene-v14."
+    },
+    {
+      "id": "shard-08-lower-right",
+      "source_scene_file": "shard-08-lower-right-scene-v14.png",
+      "files": {
+        "red": "shard-08-lower-right-alert-red-v17.png",
+        "yellow": "shard-08-lower-right-alert-yellow-v17.png"
+      },
+      "policy": "Single retained manual alert baseline paired with scene-v14."
+    }
+  ]
+}

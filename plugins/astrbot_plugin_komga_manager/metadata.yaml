@@ -1,0 +1,14 @@
+name: astrbot_plugin_komga_manager
+display_name: Komga Manager
+desc: Komga 漫画与电子书只读查询插件，写操作仅生成待确认提案。
+short_desc: 查询 Komga 书库、系列、书籍与阅读列表。
+version: 0.1.0
+author: memoriass
+repo: https://github.com/memoriass/astrbot_plugin_komga_manager
+astrbot_version: ">=4.17.0,<5.0.0"
+support_platforms:
+  - aiocqhttp
+  - webchat
+  - telegram
+  - discord
+

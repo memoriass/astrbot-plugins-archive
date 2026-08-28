@@ -1,0 +1,12 @@
+{
+  "archive_name": "AstrBot Plugins Archive",
+  "archive_date": "2026-08-28",
+  "purpose": "Reference snapshots only; not an active AstrBot plugin source.",
+  "excluded": ["planabot", "astrbot_plugin_plana_gallery", "astrbot_plugin_webhook_push"],
+  "plugins": [
+    {"name":"astrbot_plugin_ani_rss","source":"https://github.com/memoriass/astrbot_plugin_ani_rss","branch":"main","commit":"184a6bcf5980f1afb14c1430eaa864b5ebce991c","snapshot_path":"plugins/astrbot_plugin_ani_rss"},
+    {"name":"astrbot_plugin_bilibili_push","source":"https://github.com/memoriass/astrbot_plugin_bilibili_push","branch":"master","commit":"40e5f0802d402bc727bcee55265cdb8f010f90ea","snapshot_path":"plugins/astrbot_plugin_bilibili_push"},
+    {"name":"astrbot_plugin_ncqq_manager","source":"https://github.com/memoriass/astrbot_plugin_ncqq_manager","branch":"main","commit":"9323b60f1d05f4239535fda317ea15aee2ddbc03","snapshot_path":"plugins/astrbot_plugin_ncqq_manager"},
+    {"name":"astrbot_plugin_komga_manager","source":"local:C:/git/astrbot_plugin_komga_manager","branch":"main","commit":"01f6a600bba0f34cccb5f2c774ae40b94d6060c3","snapshot_path":"plugins/astrbot_plugin_komga_manager"}
+  ]
+}

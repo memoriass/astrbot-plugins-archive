@@ -1,0 +1,2 @@
+"""Komga plugin tests."""
+
