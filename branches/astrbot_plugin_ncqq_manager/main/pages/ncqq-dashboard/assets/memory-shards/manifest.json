@@ -1,0 +1,416 @@
+{
+  "version": "memory-generated-v2-20260620",
+  "source": "../memory-shards-generated-v2.png",
+  "source_size": {
+    "width": 1672,
+    "height": 941
+  },
+  "coordinate_system": "Source image pixels. Percent placement values are relative to source_size.",
+  "alpha_policy": "Solid manual polygon plus luminance-limited soft outer glow; original generated full image is preserved.",
+  "shards": [
+    {
+      "id": "shard-01-upper-left",
+      "file": "shard-01-upper-left.png",
+      "slot": "manager-primary",
+      "name": "upper-left large glass shard",
+      "crop_box": [
+        235,
+        53,
+        754,
+        468
+      ],
+      "polygon": [
+        [
+          331,
+          73
+        ],
+        [
+          260,
+          180
+        ],
+        [
+          354,
+          326
+        ],
+        [
+          493,
+          367
+        ],
+        [
+          727,
+          438
+        ],
+        [
+          586,
+          258
+        ]
+      ],
+      "placement_percent": {
+        "left": 14.055,
+        "top": 5.6323,
+        "width": 31.0407,
+        "height": 44.102
+      },
+      "natural_size": {
+        "width": 519,
+        "height": 415
+      }
+    },
+    {
+      "id": "shard-02-top-center",
+      "file": "shard-02-top-center.png",
+      "slot": "manager-secondary",
+      "name": "top center glass shard",
+      "crop_box": [
+        544,
+        29,
+        925,
+        424
+      ],
+      "polygon": [
+        [
+          559,
+          112
+        ],
+        [
+          634,
+          109
+        ],
+        [
+          675,
+          78
+        ],
+        [
+          824,
+          43
+        ],
+        [
+          905,
+          171
+        ],
+        [
+          843,
+          368
+        ],
+        [
+          776,
+          391
+        ]
+      ],
+      "placement_percent": {
+        "left": 32.5359,
+        "top": 3.0818,
+        "width": 22.7871,
+        "height": 41.9766
+      },
+      "natural_size": {
+        "width": 381,
+        "height": 395
+      }
+    },
+    {
+      "id": "shard-03-upper-right",
+      "file": "shard-03-upper-right.png",
+      "slot": "manager-tertiary",
+      "name": "upper-right long glass shard",
+      "crop_box": [
+        907,
+        71,
+        1498,
+        351
+      ],
+      "polygon": [
+        [
+          932,
+          291
+        ],
+        [
+          1054,
+          205
+        ],
+        [
+          1412,
+          87
+        ],
+        [
+          1480,
+          112
+        ],
+        [
+          1344,
+          241
+        ],
+        [
+          1040,
+          316
+        ]
+      ],
+      "placement_percent": {
+        "left": 54.2464,
+        "top": 7.5452,
+        "width": 35.3469,
+        "height": 29.7556
+      },
+      "natural_size": {
+        "width": 591,
+        "height": 280
+      }
+    },
+    {
+      "id": "shard-04-left-middle",
+      "file": "shard-04-left-middle.png",
+      "slot": "manager-quaternary",
+      "name": "left middle wide glass shard",
+      "crop_box": [
+        86,
+        362,
+        756,
+        607
+      ],
+      "polygon": [
+        [
+          207,
+          388
+        ],
+        [
+          360,
+          406
+        ],
+        [
+          593,
+          447
+        ],
+        [
+          717,
+          491
+        ],
+        [
+          724,
+          546
+        ],
+        [
+          642,
+          537
+        ],
+        [
+          551,
+          576
+        ],
+        [
+          340,
+          582
+        ],
+        [
+          110,
+          527
+        ]
+      ],
+      "placement_percent": {
+        "left": 5.1435,
+        "top": 38.4697,
+        "width": 40.0718,
+        "height": 26.0361
+      },
+      "natural_size": {
+        "width": 670,
+        "height": 245
+      }
+    },
+    {
+      "id": "shard-05-right-middle",
+      "file": "shard-05-right-middle.png",
+      "slot": "manager-quinary",
+      "name": "right middle wide glass shard",
+      "crop_box": [
+        1011,
+        329,
+        1561,
+        592
+      ],
+      "polygon": [
+        [
+          1040,
+          372
+        ],
+        [
+          1238,
+          356
+        ],
+        [
+          1545,
+          537
+        ],
+        [
+          1394,
+          572
+        ],
+        [
+          1228,
+          557
+        ],
+        [
+          1074,
+          433
+        ]
+      ],
+      "placement_percent": {
+        "left": 60.4665,
+        "top": 34.9628,
+        "width": 32.8947,
+        "height": 27.949
+      },
+      "natural_size": {
+        "width": 550,
+        "height": 263
+      }
+    },
+    {
+      "id": "shard-06-lower-left",
+      "file": "shard-06-lower-left.png",
+      "slot": "bindings",
+      "name": "lower-left glass shard",
+      "crop_box": [
+        228,
+        555,
+        687,
+        887
+      ],
+      "polygon": [
+        [
+          256,
+          852
+        ],
+        [
+          323,
+          728
+        ],
+        [
+          636,
+          583
+        ],
+        [
+          658,
+          610
+        ],
+        [
+          582,
+          751
+        ],
+        [
+          438,
+          872
+        ]
+      ],
+      "placement_percent": {
+        "left": 13.6364,
+        "top": 58.9798,
+        "width": 27.4522,
+        "height": 35.2816
+      },
+      "natural_size": {
+        "width": 459,
+        "height": 332
+      }
+    },
+    {
+      "id": "shard-07-lower-center",
+      "file": "shard-07-lower-center.png",
+      "slot": "approvals",
+      "name": "lower-center glass shard",
+      "crop_box": [
+        707,
+        518,
+        960,
+        834
+      ],
+      "polygon": [
+        [
+          731,
+          788
+        ],
+        [
+          753,
+          625
+        ],
+        [
+          813,
+          550
+        ],
+        [
+          920,
+          556
+        ],
+        [
+          937,
+          707
+        ],
+        [
+          793,
+          817
+        ]
+      ],
+      "placement_percent": {
+        "left": 42.2847,
+        "top": 55.0478,
+        "width": 15.1316,
+        "height": 33.5813
+      },
+      "natural_size": {
+        "width": 253,
+        "height": 316
+      }
+    },
+    {
+      "id": "shard-08-lower-right",
+      "file": "shard-08-lower-right.png",
+      "slot": "reserve",
+      "name": "lower-right glass shard",
+      "crop_box": [
+        970,
+        544,
+        1484,
+        854
+      ],
+      "polygon": [
+        [
+          999,
+          588
+        ],
+        [
+          1125,
+          570
+        ],
+        [
+          1419,
+          651
+        ],
+        [
+          1458,
+          754
+        ],
+        [
+          1426,
+          792
+        ],
+        [
+          1265,
+          817
+        ],
+        [
+          1058,
+          831
+        ]
+      ],
+      "placement_percent": {
+        "left": 58.0144,
+        "top": 57.8108,
+        "width": 30.7416,
+        "height": 32.9437
+      },
+      "natural_size": {
+        "width": 514,
+        "height": 310
+      }
+    }
+  ]
+}

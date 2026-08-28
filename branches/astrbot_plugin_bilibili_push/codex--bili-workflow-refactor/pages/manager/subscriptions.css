@@ -1,0 +1,354 @@
+.subscription-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  padding: 14px;
+  box-shadow: var(--shadow-soft);
+}
+
+.subscription-summary p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.subscription-summary-badges {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.subscription-summary-badges span {
+  min-width: 72px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgb(255 255 255 / 52%);
+  padding: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.subscription-summary-badges strong {
+  display: block;
+  color: var(--text);
+  font-size: 18px;
+}
+
+.subscription-editor {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  padding: 14px;
+  box-shadow: var(--shadow-soft);
+}
+
+.editor-heading,
+.editor-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.editor-heading p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.editor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.editor-grid label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.editor-grid span,
+.editor-check {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.editor-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editor-check input {
+  width: 16px;
+  height: 16px;
+}
+
+.subscription-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.subscription-card {
+  min-width: 0;
+  border-radius: 18px;
+}
+
+.subscription-card.is-disabled {
+  opacity: 0.72;
+}
+
+.subscription-media,
+.subscription-editor-preview {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 18px;
+  background: var(--surface-muted);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.subscription-media img,
+.subscription-editor-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.subscription-media::after,
+.subscription-editor-preview::after {
+  position: absolute;
+  inset: auto 0 0;
+  height: 46%;
+  background: linear-gradient(to top, rgb(0 0 0 / 90%), rgb(0 0 0 / 42%), transparent);
+  content: "";
+}
+
+.subscription-card-badges {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.media-badge {
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 999px;
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+}
+
+.media-badge.live {
+  background: linear-gradient(135deg, #fb7299, #ff8da1);
+}
+
+.media-badge.dyn {
+  background: linear-gradient(135deg, #00a1d6, #33b5e5);
+}
+
+.subscription-media-overlay {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  left: 14px;
+  z-index: 2;
+  color: #fff;
+}
+
+.subscription-media-overlay h2 {
+  overflow: hidden;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 6px rgb(0 0 0 / 55%);
+  white-space: nowrap;
+}
+
+.subscription-media-overlay p {
+  margin-top: 4px;
+  overflow: hidden;
+  color: rgb(255 255 255 / 78%);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subscription-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.subscription-pagination .ghost-button:disabled {
+  cursor: default;
+  opacity: 0.48;
+}
+
+.subscription-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.subscription-editor-preview {
+  aspect-ratio: 1;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.editor-preview-action {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 18%);
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.subscription-editor-fields {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.type-panel,
+.category-panel,
+.tag-field {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgb(255 255 255 / 48%);
+  padding: 12px;
+}
+
+.type-panel p,
+.category-panel p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.type-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.type-chip {
+  min-width: 0;
+}
+
+.type-chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.type-chip span {
+  display: grid;
+  min-height: 42px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-solid);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.type-chip input:checked + span {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.type-chip.live input:checked + span {
+  border-color: var(--live);
+  background: var(--live-soft);
+  color: var(--live);
+}
+
+.category-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.category-chip span {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-solid);
+  color: var(--muted);
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.category-chip input:checked + span {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.tag-field span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .subscription-summary,
+  .editor-heading,
+  .editor-actions,
+  .subscription-pagination {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .subscription-summary-badges,
+  .subscription-editor-layout,
+  .editor-grid {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .subscription-card-grid {
+    grid-template-columns: 1fr;
+  }
+}

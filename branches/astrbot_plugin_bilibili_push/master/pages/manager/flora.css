@@ -1,0 +1,46 @@
+:root {
+  --sunlit-grove-scene: url("./assets/sunlit-grove-green-girl.jpg");
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.page-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.app-main {
+  position: relative;
+  overflow: hidden;
+}
+
+.scene-girl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background:
+    linear-gradient(to right, rgb(255 255 250 / 94%), rgb(255 255 250 / 36%) 36%, transparent 72%),
+    var(--sunlit-grove-scene) 58% center / cover no-repeat;
+  opacity: 0.24;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-main > :not(.scene-girl) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 860px) {
+  .scene-girl {
+    inset: 0;
+    width: 100%;
+    background:
+      linear-gradient(to bottom, rgb(255 255 250 / 96%), rgb(255 255 250 / 36%) 46%, rgb(255 255 250 / 82%)),
+      var(--sunlit-grove-scene) 58% center / cover no-repeat;
+    opacity: 0.1;
+  }
+}

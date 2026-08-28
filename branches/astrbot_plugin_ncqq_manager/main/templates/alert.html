@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: __BODY_WIDTH__px;
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    background: #1a1a2e;
+    padding: 20px;
+    color: #e0e0e0;
+  }
+  .alert-card {
+    background: linear-gradient(135deg, rgba(30,30,60,0.95), rgba(20,20,50,0.98));
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    border-left: 4px solid __ACCENT_COLOR__;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .alert-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .alert-icon {
+    font-size: 28px;
+    line-height: 1;
+  }
+  .alert-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: __ACCENT_COLOR__;
+  }
+  .alert-time {
+    font-size: 12px;
+    color: #888;
+    margin-left: auto;
+  }
+  .alert-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .alert-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot.offline { background: #e74c3c; box-shadow: 0 0 6px #e74c3c88; }
+  .dot.online  { background: #2ecc71; box-shadow: 0 0 6px #2ecc7188; }
+  .dot.recover { background: #3498db; box-shadow: 0 0 6px #3498db88; }
+  .inst-info {
+    flex: 1;
+  }
+  .inst-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f0f0f0;
+  }
+  .inst-detail {
+    font-size: 12px;
+    color: #999;
+    margin-top: 2px;
+  }
+  .owner-tag {
+    font-size: 11px;
+    color: #aaa;
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .summary {
+    margin-top: 14px;
+    font-size: 12px;
+    color: #777;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+<div class="alert-card">
+  <div class="alert-header">
+    <span class="alert-icon">__ALERT_ICON__</span>
+    <span class="alert-title">__ALERT_TITLE__</span>
+    <span class="alert-time">__ALERT_TIME__</span>
+  </div>
+  <div class="alert-items">
+    __ALERT_ITEMS__
+  </div>
+  <div class="summary">__ALERT_SUMMARY__</div>
+</div>
+</body>
+</html>

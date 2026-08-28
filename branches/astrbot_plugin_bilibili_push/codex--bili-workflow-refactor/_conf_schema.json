@@ -1,0 +1,92 @@
+{
+  "enable_link_parser": {
+    "description": "启用 Bilibili 链接自动解析",
+    "type": "bool",
+    "default": true,
+    "hint": "开启后，聊天中出现 Bilibili 视频、动态、opus、直播间或短链时会自动解析。"
+  },
+  "push_on_startup": {
+    "description": "启动时推送当前直播状态",
+    "type": "bool",
+    "default": false,
+    "hint": "通常建议关闭，避免插件重启后推送已有直播。"
+  },
+  "check_interval": {
+    "description": "基础检查间隔（秒）",
+    "type": "int",
+    "default": 30,
+    "hint": "用于直播默认间隔和调度兜底；动态默认不会低于 120 秒。"
+  },
+  "dynamic_check_interval": {
+    "description": "动态检查间隔（秒）",
+    "type": "int",
+    "default": 120,
+    "hint": "建议保持 120 秒或更高，降低空间动态接口请求压力。"
+  },
+  "live_check_interval": {
+    "description": "直播检查间隔（秒）",
+    "type": "int",
+    "default": 30,
+    "hint": "直播状态接口已批量查询，建议 30 秒或更高。"
+  },
+  "request_delay_sec": {
+    "description": "批次间请求间隔（秒）",
+    "type": "float",
+    "default": 0.8,
+    "hint": "同一轮检查中不同 UP 或批次之间的轻量限速。"
+  },
+  "request_jitter_sec": {
+    "description": "调度随机抖动（秒）",
+    "type": "float",
+    "default": 5.0,
+    "hint": "避免固定整点集中请求。"
+  },
+  "live_batch_size": {
+    "description": "直播批量查询大小",
+    "type": "int",
+    "default": 50,
+    "hint": "同一批直播状态查询的 UID 数量，插件运行时会限制在 1 到 100。"
+  },
+  "risk_cooldown_sec": {
+    "description": "账号风控冷却时间（秒）",
+    "type": "int",
+    "default": 1800,
+    "hint": "账号触发 352、403 或 412 后暂时退出轮换，冷却后自动恢复。"
+  },
+  "search_cache_expiry_hours": {
+    "description": "搜索缓存有效期（小时）",
+    "type": "int",
+    "default": 24,
+    "hint": "聊天搜索 UP 主结果的缓存时间。"
+  },
+  "enable_ai_tools": {
+    "description": "启用 AI 工具",
+    "type": "bool",
+    "default": true,
+    "hint": "开启后，大模型可在自然语言对话中调用 Bilibili workflow 工具。"
+  },
+  "ai_pending_timeout_sec": {
+    "description": "AI 待处理事项有效期（秒）",
+    "type": "int",
+    "default": 300,
+    "hint": "候选选择和确认卡片的引用续跑有效时间。"
+  },
+  "enable_ai_auto_select_candidates": {
+    "description": "AI 高置信候选自动进入确认",
+    "type": "bool",
+    "default": true,
+    "hint": "只会进入确认流程，不会跳过最终用户确认。"
+  },
+  "ai_auto_select_confidence": {
+    "description": "AI 自动候选选择阈值",
+    "type": "float",
+    "default": 0.88,
+    "hint": "范围 0 到 1，越高越保守。"
+  },
+  "verify_ssl": {
+    "description": "校验 HTTPS 证书",
+    "type": "bool",
+    "default": true,
+    "hint": "建议保持开启。只有本机证书环境异常时再关闭。"
+  }
+}

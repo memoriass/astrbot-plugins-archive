@@ -1,0 +1,38 @@
+name: Update AstrBot Plugin Registry
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-registry:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate registry
+        run: python scripts/build_registry.py
+
+      - name: Commit registry changes
+        run: |
+          git add plugins.json plugins-md5.json
+          if git diff --cached --quiet; then
+            echo "No registry changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update plugin registry"
+          git push
+

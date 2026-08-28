@@ -1,0 +1,210 @@
+.page-shell {
+  display: grid;
+  width: min(1280px, calc(100% - 28px));
+  min-height: calc(100vh - 28px);
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 18px;
+  margin: 14px auto;
+}
+
+.side-rail {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 22px;
+  border: 1px solid rgb(255 255 255 / 72%);
+  border-radius: 999px;
+  background: rgb(255 255 251 / 78%);
+  padding: 14px 10px;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(14px);
+}
+
+.brand-mark {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 86%);
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, rgb(219 255 162), rgb(244 255 229) 58%, rgb(255 255 255));
+  box-shadow: inset 0 0 0 7px rgb(255 255 255 / 62%);
+}
+
+.brand-mark span {
+  width: 46px;
+  height: 46px;
+  background: url("./assets/brand-white-hair.png") center / contain no-repeat;
+  filter: drop-shadow(0 5px 8px rgb(65 85 45 / 16%));
+}
+
+.app-main {
+  min-width: 0;
+  min-height: calc(100vh - 28px);
+  margin-top: 8px;
+  border: 1px solid rgb(255 255 255 / 72%);
+  border-radius: 24px;
+  background: rgb(255 255 250 / 70%);
+  padding: 22px;
+  box-shadow: var(--shadow-soft);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.metrics[hidden] {
+  display: none;
+}
+
+.metric {
+  min-height: 96px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 16px;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.metric span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.metric strong {
+  display: block;
+  margin-top: 14px;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.tabs {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.tab {
+  display: grid;
+  min-width: 0;
+  justify-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  padding: 10px 6px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.tab.active {
+  background: var(--accent-strong);
+  color: #fff;
+  box-shadow: 0 12px 24px rgb(20 25 20 / 18%);
+}
+
+.tab-mark {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.82;
+}
+
+.tab[data-tab="subscriptions"] .tab-mark {
+  border-radius: 6px;
+}
+
+.tab[data-tab="accounts"] .tab-mark {
+  border-radius: 50% 50% 44% 44%;
+}
+
+.tab[data-tab="pending"] .tab-mark {
+  border-radius: 4px;
+  transform: rotate(45deg);
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.toolbar[hidden] {
+  display: none;
+}
+
+.panel {
+  display: none;
+  margin-top: 14px;
+}
+
+.panel.active {
+  display: block;
+}
+
+@media (max-width: 860px) {
+  .page-shell {
+    width: min(100% - 20px, 760px);
+    min-height: auto;
+    grid-template-columns: 1fr;
+    margin: 10px auto;
+  }
+
+  .side-rail {
+    position: static;
+    border-radius: 18px;
+    padding: 8px;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .tab {
+    min-height: 44px;
+  }
+
+  .app-main {
+    min-height: auto;
+    margin-top: 0;
+    border-radius: 18px;
+    padding: 14px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+}

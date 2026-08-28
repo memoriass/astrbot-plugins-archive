@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  width: fit-content;
+  height: fit-content;
+  display: block; /* Ensure body wraps content tightly */
+  font-family: 'Lato', sans-serif;
+}
+
+.movie-card {
+  font: 14px/22px "Lato", Arial, sans-serif;
+  color: #A9A8A3;
+  width: 600px;
+  /* Removed padding/margin on card itself to ensure tight fit */
+  background: transparent;
+}
+
+.container {
+  margin: 0;
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: none; /* Removed shadow to avoid clipping or extra space requirements in tight crop */
+  overflow: hidden; 
+}
+
+/* Background Hero Image */
+.hero {
+  height: 300px; 
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  background: url('{{ cover }}');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero:before {
+  content:'';
+  width:100%; height:100%;
+  position:absolute;
+  top:0; left:0;
+  background: rgba(0,0,0,0.1);
+}
+
+/* Avatar - Circular, Overlapping */
+.cover {
+  position: absolute;
+  top: 240px; 
+  left: 20px; /* Reduced margin */
+  z-index: 3;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  object-fit: cover;
+  background: #fff;
+  border: 4px solid #fff; 
+}
+
+/* Description Section */
+.description {
+  background: #fff;
+  padding: 70px 20px 30px 20px; /* Reduced side padding */
+  color: #555;
+  position: relative;
+  z-index: 2;
+}
+
+/* Row 1: Title */
+.row-title {
+    font-size: 24px; /* Increased from 20px */
+    font-weight: 700;
+    color: #333;
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+/* Row 2: User + Tag ----- Time (Space Between) */
+.row-meta {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.meta-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.username {
+    color: #00a1d6;
+    font-weight: bold;
+    font-size: 20px; /* Increased from 16px */
+}
+
+.tag {
+    display: inline-block;
+    background: #f4f5f7;
+    color: #666;
+    font-size: 12px; /* Increased from 11px */
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.tag-highlight {
+    background: #ffeef5; /* Light pink background */
+    color: #fb7299; /* Pink text */
+    font-weight: bold;
+}
+
+.tag-dynamic {
+    background: #e5f5fa; /* Light blue background */
+    color: #00a1d6; /* Blue text */
+    font-weight: bold;
+}
+
+.time {
+    color: #aaa;
+    font-size: 13px; /* Increased from 12px */
+}
+
+/* Row 4: Content */
+.content-text {
+    font-size: 17px; /* Increased from 15px */
+    line-height: 1.6;
+    color: #444;
+}
+
+.repost-block {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    font-size: 15px; /* Increased from 14px */
+    color: #666;
+    border-left: 3px solid #ddd;
+}
+
+</style>
+</head>
+<body>
+
+<div class="movie-card">
+  <div class="container">
+    
+    <!-- Hero -->
+    <div class="hero"></div>
+    
+    <!-- Avatar -->
+    <img src="{{ post.avatar }}" alt="avatar" class="cover" />
+    
+    <!-- Info -->
+    <div class="description">
+        
+        <!-- 1. Title -->
+        <div class="row-title">
+             {% if post.title %}
+                {{ post.title }}
+            {% else %}
+                发布了新动态
+            {% endif %}
+        </div>
+        
+        <!-- 2. User + Tag --- Time -->
+        <div class="row-meta">
+            <div class="meta-left">
+                <span class="username">{{ post.nickname }}</span>
+                <!-- Tag moved here -->
+                {% if post.platform == 'bilibili-live' %}
+                    <span class="tag tag-highlight">BILIBILI LIVE</span>
+                {% else %}
+                    <span class="tag tag-dynamic">BILIBILI DYNAMIC</span>
+                {% endif %}
+            </div>
+            
+            <span class="time">{{ date_str }}</span>
+        </div>
+        
+        <!-- 4. Content -->
+        <div class="content-text">
+            <p style="margin: 0;">
+                {% if post.repost %}
+                    {{ post.repost.content }}
+                {% else %}
+                    {{ post.content }}
+                {% endif %}
+            </p>
+            
+            {% if post.repost %}
+            <div class="repost-block">
+                转发自 {{ post.repost.nickname }}
+            </div>
+            {% endif %}
+        </div>
+        
+    </div> <!-- end description -->
+    
+  </div> <!-- end container -->
+</div> <!-- end movie-card -->
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>用户昵称对照表</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: transparent;
+    padding: 16px;
+  }
+  .container {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 16px;
+    width: fit-content;
+    min-width: 400px;
+    max-width: 800px;
+  }
+  .title {
+    color: #e6edf3;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .table {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .row {
+    display: flex;
+    border-bottom: 1px solid #30363d;
+    background: #0d1117;
+  }
+  .row:last-child {
+    border-bottom: none;
+  }
+  .row.header {
+    background: #21262d;
+    font-weight: 600;
+  }
+  .col {
+    padding: 10px 12px;
+    color: #c9d1d9;
+    font-size: 13px;
+    border-right: 1px solid #30363d;
+    word-break: break-all;
+  }
+  .col:last-child {
+    border-right: none;
+  }
+  .col.uid { width: 140px; font-family: monospace; }
+  .col.nick { width: 160px; font-weight: 600; color: #58a6ff; }
+  .col.inst { flex: 1; color: #8b949e; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="title">👥 用户昵称与实例绑定对照表</div>
+  <div class="table">
+    <div class="row header">
+      <div class="col uid">QQ 号码</div>
+      <div class="col nick">用户昵称</div>
+      <div class="col inst">绑定实例</div>
+    </div>
+    __ROWS__
+  </div>
+</div>
+
+</body>
+</html>
+

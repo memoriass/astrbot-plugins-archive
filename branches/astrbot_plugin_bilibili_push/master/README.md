@@ -1,0 +1,116 @@
+> **Archived project notice (2026-08-28)**
+>
+> This repository is no longer actively maintained as an independent AstrBot plugin project. The reference snapshot is preserved in [memoriass/astrbot-plugins-archive](https://github.com/memoriass/astrbot-plugins-archive). New maintenance and migration work should not be started here.
+# AstrBot Bilibili Push
+
+用于 AstrBot 的 Bilibili 订阅推送插件。支持订阅 UP 主动态、直播状态提醒、Bilibili 链接自动解析，并提供 Web 管理页。
+
+## 主要功能
+
+- 订阅 UP 主动态，自动推送视频、专栏、图文等新动态。
+- 订阅 UP 主直播状态，推送开播、标题变化和下播提醒。
+- 自动识别聊天中的 Bilibili 视频、动态、opus、直播间和短链。
+- 可选在解析视频链接时追加低清视频附件，默认关闭，并受文件大小限制保护。
+- 使用透明背景卡片展示订阅列表、账号状态、搜索候选和确认流程。
+- 在 AstrBot 插件页面中进入 `manager` 管理订阅、账号、待处理事项和手动直播检查。
+- 可接入 AstrBot AI，让用户用自然语言搜索、查看和管理订阅；写入订阅前仍会要求用户确认。
+
+## 快速使用
+
+下方示例使用 AstrBot 常见默认前缀 `/`。
+
+| 用途 | 命令 |
+| :--- | :--- |
+| 订阅动态 | `/添加b站订阅 <UID 或关键词>` |
+| 订阅直播 | `/添加b站直播 <UID 或关键词>` |
+| 删除动态订阅 | `/取消b站订阅 <UID 或名称>` |
+| 删除直播订阅 | `/取消b站直播 <UID 或名称>` |
+| 查看订阅 | `/b站订阅列表` |
+| 搜索 UP 主 | `/b站搜索 <关键词>` |
+| 登录 Bilibili 账号 | `/b站登录` |
+| 查看账号状态 | `/b站登录状态` |
+
+如果你的 AstrBot `wake_prefix` 不是 `/`，请把示例里的 `/` 替换为实际设置的前缀。
+
+示例：
+
+```text
+/添加b站订阅 946974
+/b站搜索 影视飓风
+```
+
+## AI 使用说明
+
+AI 能帮助执行搜索、查看订阅、添加订阅、删除订阅等操作。自然语言会先经过语义前置分流，判断应进入搜索、订阅、删除、列表或状态 workflow；如果语义分流失败或置信度不足，会回退到规则分流或让用户补充说明。
+
+用户只给出 UP 主名称时，插件会先搜索候选；搜索结果会再经过 AI 候选分析，结合名称、排序和粉丝数判断是否可直接进入确认流程，但不会直接写入或删除订阅。
+
+显式添加/删除命令也会进入同一套 workflow。关键词查询、历史别名、候选分析和确认卡逻辑保持一致；旧的 UID 直连查询失败不会再提前作为聊天错误抛出。
+
+删除订阅同样会先在当前会话订阅内做候选分析。AI 高置信时只会进入删除确认卡；低置信时展示候选卡，由用户引用序号选择。
+
+添加订阅在 UID 或高置信命中时会进入确认卡；如果展示候选卡，用户明确引用候选卡回复序号即视为最终确认并写入订阅。删除订阅仍需要引用确认卡回复“确认删除”。
+
+用户确认过的简称或网络代称会被当前会话记住；后续再次使用同一称呼时，插件会优先命中历史映射并直接进入确认流程。
+
+插件已经注册 Bilibili 专用 AI 工具。正常对话中，只要 AstrBot 当前模型和会话启用了工具调用，大模型可以在用户自然语言提到 B站、UP 主、动态订阅或直播订阅时自动调用工具。
+
+AI 工具链默认在后台处理，只把检索、分流和待确认结果交给模型组织回复，避免搜索和确认卡片连续刷屏。只有直接命令、被唤醒的自然语言 workflow，或工具显式要求 `present` 时，插件才会主动发送卡片。
+
+插件不提供额外的“AI 助手”聊天命令；AI 相关操作以自然语言触发，候选选择和确认通过引用卡片回复完成。
+
+健康和状态诊断 workflow 仅保留给内部或调试显式调用，不承接普通自然语言入口；用户侧排查优先使用订阅列表、账号状态、Web 管理页和明确的订阅操作结果。
+
+## Web 管理页
+
+在 AstrBot 插件详情页打开 `manager` 页面，可进行：
+
+- 查看运行概览、订阅数量、账号状态和待处理事项。
+- 新增、编辑、启停、删除订阅。
+- 通过 Cookie 或扫码登录管理 Bilibili 账号，并标记账号有效性。
+- 按群会话执行手动直播检查，或选择全部检查。
+- 清空过期或不再需要的待处理任务。
+
+Web 管理页不提供模板预览功能；模板预览仅作为开发脚本使用。
+
+## 常用配置
+
+插件已提供 `_conf_schema.json`，可在 AstrBot 插件配置页直接调整常用项。配置值会在插件启动时做类型和范围兜底，非法值会回落到默认值或安全范围。
+
+- `enable_link_parser`: 是否启用链接自动解析，默认开启。
+- `display_timezone`: 卡片显示时区，默认 `Asia/Shanghai`；无效值会回落到 `Asia/Shanghai`。
+- `enable_parser_video_download`: 解析 Bilibili 视频链接时是否追加视频附件，默认关闭。
+- `parser_video_max_size_mb`: 解析视频附件大小上限，默认 30MB。
+- `parser_video_download_timeout_sec`: 解析视频附件下载超时，默认 30 秒。
+- `check_interval`: 基础检查间隔，默认 60 秒。
+- `dynamic_check_interval`: 动态检查间隔，默认 300 秒，降低空间动态接口压力。
+- `live_check_interval`: 直播检查间隔，默认 90 秒。
+- `request_delay_sec`: 同一轮检查中不同 UP/批次之间的轻量间隔，默认 1.5 秒。
+- `request_jitter_sec`: 每轮检查的随机抖动，默认 30 秒，避免固定整点集中请求。
+- `live_batch_size`: 直播状态批量查询大小，默认 50。
+- `risk_cooldown_sec`: 账号触发风控后的冷却时间，默认 3600 秒。
+- `search_cache_expiry_hours`: 搜索缓存有效期，默认 48 小时。
+- `enable_ai_tools`: 是否允许 AI 工具执行。
+- `ai_pending_timeout_sec`: AI 待处理任务有效期。
+- `enable_ai_semantic_dispatch`: 是否启用 AI 语义前置分流，默认开启。
+- `ai_semantic_dispatch_confidence`: 语义分流阈值，默认 `0.82`。
+- `ai_semantic_dispatch_timeout_sec`: 语义分流超时，默认 `8` 秒；超时后自动回退。
+- `enable_ai_candidate_analysis`: 是否启用 AI 搜索候选分析，默认开启。
+- `ai_candidate_analysis_confidence`: 搜索候选分析阈值，默认 `0.86`。
+- `ai_candidate_analysis_timeout_sec`: 搜索候选分析超时，默认 `8` 秒；超时后自动回退。
+- `enable_ai_auto_select_candidates`: AI/自然语言模糊订阅时，是否允许高置信候选自动进入确认流程。
+- `ai_auto_select_confidence`: 自动候选选择阈值，默认 `0.88`。
+- `verify_ssl`: HTTPS 请求是否校验证书，建议保持开启。
+
+## 注意事项
+
+- 建议登录 Bilibili 账号以提升接口稳定性。
+- 每个订阅绑定当前会话；同一 UP 可在不同群或不同订阅类型下分别管理。
+- 订阅、账号池和会话目标保存在 SQLite；动态去重、直播状态和 AI 待处理事项保存在 AstrBot KV。
+- AI 删除、编辑和启停订阅会按 `UID + 类型 + 会话` 精确定位；删除前会进入确认卡。
+- 透明卡片会使用聊天程序自身背景，推送动态和直播卡片仍保留原有 HTML 模板风格。
+- 解析视频附件只作用于聊天链接自动解析，不会让订阅推送下载视频；超过大小限制或下载失败时只发送解析卡片。
+
+## 许可证
+
+MIT License

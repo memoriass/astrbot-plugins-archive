@@ -1,0 +1,414 @@
+body[data-stage-view="memory"] .scene-bg {
+  display: none;
+}
+
+body[data-stage-view="memory"]::before {
+  background: #020303;
+}
+
+body[data-stage-view="memory"]::after {
+  background: linear-gradient(180deg, rgb(0 0 0 / 28%), transparent 34%, rgb(0 0 0 / 46%));
+}
+
+.memory-stage {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  padding: clamp(224px, 24vh, 300px) clamp(18px, 3vw, 58px) 22px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.memory-board {
+  --memory-glass-offset-y: -26px;
+  position: relative;
+  z-index: 1;
+  width: min(1260px, 94vw, calc((100vh - 98px) * 1.777));
+  aspect-ratio: 1672 / 941;
+}
+
+.memory-board::before {
+  content: "";
+  position: absolute;
+  left: -12%;
+  top: -37%;
+  z-index: 0;
+  width: 124%;
+  aspect-ratio: 1672 / 1320;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 10%), rgb(0 0 0 / 28%)),
+    url("./assets/backgrounds/sora-shattered-star-bg-v7-generated-fill.png?v=sora-shard-bg-v7") center / 100% 100% no-repeat;
+  filter: brightness(0.68) saturate(0.92);
+  opacity: 0.66;
+  pointer-events: none;
+}
+
+.memory-board::after {
+  content: "";
+  position: absolute;
+  inset: -44vh -34vw;
+  z-index: 12;
+  pointer-events: none;
+  backdrop-filter: blur(2.4px) saturate(0.96);
+  -webkit-backdrop-filter: blur(2.4px) saturate(0.96);
+  mask-image: radial-gradient(ellipse at center, transparent 0 46%, rgb(0 0 0 / 36%) 62%, #000 100%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 0 46%, rgb(0 0 0 / 36%) 62%, #000 100%);
+}
+
+.memory-visual,
+.memory-piece {
+  position: absolute;
+  inset: 0;
+}
+
+.memory-visual {
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  transform: translateY(var(--memory-glass-offset-y));
+}
+
+.memory-piece {
+  --float-base-y: 0px;
+  --float-y: -5px;
+  --float-duration: 7.8s;
+  --float-delay: 0s;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  animation: memoryFloat var(--float-duration) ease-in-out infinite;
+  animation-delay: var(--float-delay);
+  opacity: 0.9;
+  filter:
+    brightness(0.78)
+    saturate(0.78)
+    contrast(0.94)
+    drop-shadow(0 10px 18px rgb(18 28 70 / 20%))
+    drop-shadow(0 1px 0 rgb(255 255 255 / 12%));
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.memory-piece.slot-2,
+.memory-piece.slot-7 {
+  opacity: 0.78;
+}
+
+.memory-board:has(.memory-link.slot-1:hover) .memory-piece.slot-1,
+.memory-board:has(.memory-link.slot-2:hover) .memory-piece.slot-2,
+.memory-board:has(.memory-link.slot-3:hover) .memory-piece.slot-3,
+.memory-board:has(.memory-link.slot-4:hover) .memory-piece.slot-4,
+.memory-board:has(.memory-link.slot-5:hover) .memory-piece.slot-5,
+.memory-board:has(.memory-link.slot-6:hover) .memory-piece.slot-6,
+.memory-board:has(.memory-link.slot-7:hover) .memory-piece.slot-7,
+.memory-board:has(.memory-link.slot-8:hover) .memory-piece.slot-8 {
+  opacity: 0.96;
+  filter:
+    brightness(0.92)
+    saturate(0.9)
+    contrast(0.98)
+    drop-shadow(0 15px 26px rgb(76 98 185 / 24%))
+    drop-shadow(0 0 14px rgb(210 226 255 / 16%));
+}
+
+.memory-shard {
+  --float-base-y: var(--memory-glass-offset-y);
+  --float-y: -5px;
+  --float-duration: 7.8s;
+  --float-delay: 0s;
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  opacity: 0;
+  animation: memoryFloat var(--float-duration) ease-in-out infinite;
+  animation-delay: var(--float-delay);
+}
+
+.memory-link {
+  isolation: isolate;
+  cursor: pointer;
+  opacity: 1;
+  overflow: visible;
+}
+
+.memory-link:hover,
+.memory-link:focus,
+.memory-link:focus-visible,
+.memory-link.is-hovered {
+  z-index: 10;
+  outline: 1px solid rgb(255 255 255 / 0%);
+}
+
+.memory-label {
+  position: absolute;
+  left: var(--label-x, 50%);
+  top: var(--label-y, 50%);
+  z-index: 2;
+  min-width: min(128px, 80%);
+  max-width: 86%;
+  display: grid;
+  place-items: center;
+  color: rgb(245 250 255 / 82%);
+  font-family: "STXingkai", "KaiTi", "FZShuTi", "Microsoft YaHei", cursive;
+  font-size: 12px;
+  line-height: 1.15;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  text-shadow:
+    0 1px 7px rgb(0 0 0 / 74%),
+    0 0 12px rgb(160 210 255 / 30%);
+  transform: translate(-50%, calc(-50% + 6px));
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease;
+}
+
+.memory-link:hover .memory-label,
+.memory-link:focus .memory-label,
+.memory-link:focus-visible .memory-label,
+.memory-link.is-hovered .memory-label {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.memory-label span,
+.memory-label em {
+  display: none;
+}
+
+.memory-label strong {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 92%) 0%, rgb(184 226 255 / 78%) 48%, rgb(255 224 168 / 82%) 100%);
+  background-clip: text;
+  color: rgb(238 248 255 / 84%);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.25px rgb(255 255 255 / 32%);
+  filter: drop-shadow(0 0 8px rgb(126 191 255 / 28%));
+}
+
+.memory-shard.slot-3 .memory-label,
+.memory-shard.slot-4 .memory-label,
+.memory-shard.slot-5 .memory-label {
+  min-width: min(148px, 72%);
+}
+
+.memory-shard.slot-7 .memory-label {
+  min-width: min(110px, 84%);
+  --label-x: 50%;
+  --label-y: 53%;
+}
+
+.memory-shard.slot-2 .memory-label {
+  --label-x: 53%;
+  --label-y: 50%;
+}
+
+.memory-shard.slot-7 .memory-label strong {
+  font-size: 16px;
+}
+
+.memory-edge-alert {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.72;
+  user-select: none;
+}
+
+@keyframes memoryFloat {
+  0%,
+  100% {
+    transform: translateY(var(--float-base-y));
+  }
+
+  50% {
+    transform: translateY(calc(var(--float-base-y) + var(--float-y)));
+  }
+}
+
+.memory-piece.slot-1,
+.memory-shard.slot-1 {
+  --float-y: -6px;
+  --float-duration: 8.4s;
+  --float-delay: -1.2s;
+  right: auto;
+  bottom: auto;
+  left: 14.055%;
+  top: 5.6323%;
+  width: 31.0407%;
+  height: 44.102%;
+  z-index: 4;
+}
+
+.memory-shard.slot-1 {
+  clip-path: polygon(18.50% 4.82%, 4.82% 30.60%, 22.93% 65.78%, 49.71% 75.66%, 94.80% 92.77%, 67.63% 49.40%);
+}
+
+.memory-piece.slot-2,
+.memory-shard.slot-2 {
+  --float-y: -4px;
+  --float-duration: 7.2s;
+  --float-delay: -3.1s;
+  right: auto;
+  bottom: auto;
+  left: 32.5359%;
+  top: 3.0818%;
+  width: 22.7871%;
+  height: 41.9766%;
+  z-index: 3;
+}
+
+.memory-shard.slot-2 {
+  clip-path: polygon(3.94% 21.01%, 23.62% 20.25%, 34.38% 12.41%, 73.49% 3.54%, 94.75% 35.95%, 78.48% 85.82%, 60.89% 91.65%);
+}
+
+.memory-piece.slot-3,
+.memory-shard.slot-3 {
+  --float-y: -5px;
+  --float-duration: 8s;
+  --float-delay: -2.4s;
+  right: auto;
+  bottom: auto;
+  left: 54.2464%;
+  top: 7.5452%;
+  width: 35.3469%;
+  height: 29.7556%;
+  z-index: 5;
+}
+
+.memory-shard.slot-3 {
+  clip-path: polygon(4.23% 78.57%, 24.87% 47.86%, 85.45% 5.71%, 96.95% 14.64%, 73.94% 60.71%, 22.50% 87.50%);
+}
+
+.memory-piece.slot-4,
+.memory-shard.slot-4 {
+  --float-y: -7px;
+  --float-duration: 9.1s;
+  --float-delay: -4.6s;
+  right: auto;
+  bottom: auto;
+  left: 5.1435%;
+  top: 38.4697%;
+  width: 40.0718%;
+  height: 26.0361%;
+  z-index: 4;
+}
+
+.memory-shard.slot-4 {
+  clip-path: polygon(18.06% 10.61%, 40.90% 17.96%, 75.67% 34.69%, 94.18% 52.65%, 95.22% 75.10%, 82.99% 71.43%, 69.40% 87.35%, 37.91% 89.80%, 3.58% 67.35%);
+}
+
+.memory-piece.slot-5,
+.memory-shard.slot-5 {
+  --float-y: -5px;
+  --float-duration: 7.6s;
+  --float-delay: -1.8s;
+  right: auto;
+  bottom: auto;
+  left: 60.4665%;
+  top: 34.9628%;
+  width: 32.8947%;
+  height: 27.949%;
+  z-index: 2;
+}
+
+.memory-shard.slot-5 {
+  clip-path: polygon(5.27% 16.35%, 41.27% 10.27%, 97.09% 79.09%, 69.64% 92.40%, 39.45% 86.69%, 11.45% 39.54%);
+}
+
+.memory-piece.slot-6,
+.memory-shard.slot-6 {
+  --float-y: -6px;
+  --float-duration: 8.8s;
+  --float-delay: -5.2s;
+  right: auto;
+  bottom: auto;
+  left: 13.6364%;
+  top: 58.9798%;
+  width: 27.4522%;
+  height: 35.2816%;
+  z-index: 2;
+}
+
+.memory-shard.slot-6 {
+  clip-path: polygon(6.10% 89.46%, 20.70% 52.11%, 88.89% 8.43%, 93.68% 16.57%, 77.12% 59.04%, 45.75% 95.48%);
+}
+
+.memory-piece.slot-7,
+.memory-shard.slot-7 {
+  --float-y: -4px;
+  --float-duration: 7.9s;
+  --float-delay: -2.9s;
+  right: auto;
+  bottom: auto;
+  left: 42.2847%;
+  top: 55.0478%;
+  width: 15.1316%;
+  height: 33.5813%;
+  z-index: 1;
+}
+
+.memory-shard.slot-7 {
+  clip-path: polygon(9.49% 85.44%, 18.18% 33.86%, 41.90% 10.13%, 84.19% 12.03%, 90.91% 59.81%, 33.99% 94.62%);
+}
+
+.memory-piece.slot-8,
+.memory-shard.slot-8 {
+  --float-y: -7px;
+  --float-duration: 9.4s;
+  --float-delay: -4s;
+  right: auto;
+  bottom: auto;
+  left: 58.0144%;
+  top: 57.8108%;
+  width: 30.7416%;
+  height: 32.9437%;
+  z-index: 1;
+}
+
+.memory-shard.slot-8 {
+  clip-path: polygon(5.64% 14.19%, 30.16% 8.39%, 87.35% 34.52%, 94.94% 67.74%, 88.72% 80.00%, 57.39% 88.06%, 17.12% 92.58%);
+}
+
+@media (max-width: 900px) {
+  .memory-stage {
+    padding: 210px 16px 24px;
+  }
+
+  .memory-board {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memory-piece,
+  .memory-shard {
+    --float-y: -5px !important;
+    --float-duration: 9.8s !important;
+  }
+}

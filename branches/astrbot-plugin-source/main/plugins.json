@@ -1,0 +1,59 @@
+{
+  "astrbot-plugin-ani-rss": {
+    "name": "astrbot_plugin_ani_rss",
+    "display_name": "ANI-RSS 订阅助手",
+    "desc": "对接 wushuo894/ani-rss 的 AstrBot workflow 插件，支持由 Agent 交互式搜索、选择字幕组并添加订阅。",
+    "short_desc": "通过 workflow 管理 ANI-RSS 订阅。",
+    "author": "memoriass",
+    "repo": "https://github.com/memoriass/astrbot_plugin_ani_rss",
+    "version": "1.1.3",
+    "updated_at": "2026-06-18T08:52:51Z",
+    "download_url": "https://github.com/memoriass/astrbot_plugin_ani_rss/archive/refs/heads/main.zip",
+    "support_platforms": [
+      "aiocqhttp",
+      "webchat",
+      "telegram",
+      "discord"
+    ],
+    "astrbot_version": ">=4.17.0,<5",
+    "logo": "https://raw.githubusercontent.com/memoriass/astrbot_plugin_ani_rss/main/logo.png"
+  },
+  "ncqq-manager": {
+    "name": "ncqq_manager",
+    "display_name": "NapCatQQ Manager",
+    "desc": "NapCatQQ 容器控制与后端路由插件，支持多 ncqq-manager 面板、实例管理、登录状态检查和配置诊断",
+    "short_desc": "NapCatQQ 容器与后端路由管理",
+    "author": "memoriass",
+    "repo": "https://github.com/memoriass/astrbot_plugin_ncqq_manager",
+    "version": "2.2.0-beta.4",
+    "updated_at": "2026-06-28T13:00:31Z",
+    "download_url": "https://github.com/memoriass/astrbot_plugin_ncqq_manager/archive/refs/heads/main.zip",
+    "support_platforms": [
+      "aiocqhttp"
+    ],
+    "astrbot_version": ">=4.25.0,<5.0.0",
+    "logo": "https://raw.githubusercontent.com/memoriass/astrbot_plugin_ncqq_manager/main/logo.png"
+  },
+  "astrbot-plugin-bilibili-push": {
+    "name": "astrbot_plugin_bilibili_push",
+    "display_name": "Bilibili 动态与直播推送",
+    "desc": "订阅 Bilibili UP 主动态和直播状态，自动推送到群聊，支持链接自动解析。",
+    "author": "memoriass",
+    "repo": "https://github.com/memoriass/astrbot_plugin_bilibili_push",
+    "version": "1.2.25",
+    "updated_at": "2026-07-03T20:47:56Z",
+    "download_url": "https://github.com/memoriass/astrbot_plugin_bilibili_push/archive/refs/heads/master.zip",
+    "logo": "https://raw.githubusercontent.com/memoriass/astrbot_plugin_bilibili_push/master/logo.png"
+  },
+  "webhook-push": {
+    "name": "Webhook Push",
+    "display_name": "通知推送插件",
+    "desc": "通用 Webhook 推送插件，支持媒体、游戏及自定义消息推送",
+    "author": "memoriass",
+    "repo": "https://github.com/memoriass/astrbot_plugin_webhook_push",
+    "version": "2.0.0",
+    "updated_at": "2026-02-27T02:25:18Z",
+    "download_url": "https://github.com/memoriass/astrbot_plugin_webhook_push/archive/refs/heads/main.zip",
+    "logo": "https://raw.githubusercontent.com/memoriass/astrbot_plugin_webhook_push/main/logo.png"
+  }
+}

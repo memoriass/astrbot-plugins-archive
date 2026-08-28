@@ -1,0 +1,19 @@
+[
+  {
+    "owner": "memoriass",
+    "name": "astrbot_plugin_ani_rss"
+  },
+  {
+    "owner": "memoriass",
+    "name": "astrbot_plugin_ncqq_manager"
+  },
+  {
+    "owner": "memoriass",
+    "name": "astrbot_plugin_bilibili_push"
+  },
+  {
+    "owner": "memoriass",
+    "name": "astrbot_plugin_webhook_push"
+  }
+]
+

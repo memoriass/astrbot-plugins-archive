@@ -1,0 +1,152 @@
+{
+  "display_timezone": {
+    "description": "卡片显示时区",
+    "type": "string",
+    "default": "Asia/Shanghai",
+    "hint": "用于动态、直播和链接解析卡片的时间显示。默认 Asia/Shanghai；填错会回落到 Asia/Shanghai。"
+  },
+  "enable_link_parser": {
+    "description": "启用 Bilibili 链接自动解析",
+    "type": "bool",
+    "default": true,
+    "hint": "开启后，聊天中出现 Bilibili 视频、动态、opus、直播间或短链时会自动解析。"
+  },
+  "enable_parser_video_download": {
+    "description": "解析视频时追加视频附件",
+    "type": "bool",
+    "default": false,
+    "hint": "默认关闭。开启后，仅在解析到 Bilibili 视频且文件不超过大小限制时，才下载低清 MP4 并随解析卡片发送。"
+  },
+  "parser_video_max_size_mb": {
+    "description": "解析视频附件大小上限（MB）",
+    "type": "int",
+    "default": 30,
+    "hint": "超过该大小会跳过视频附件，只发送解析卡片。插件运行时限制在 1 到 200。"
+  },
+  "parser_video_download_timeout_sec": {
+    "description": "解析视频下载超时（秒）",
+    "type": "int",
+    "default": 30,
+    "hint": "下载视频附件的最大等待时间。超时会跳过视频附件，不影响解析卡片。"
+  },
+  "push_on_startup": {
+    "description": "启动时推送当前直播状态",
+    "type": "bool",
+    "default": false,
+    "hint": "通常建议关闭，避免插件重启后推送已有直播。"
+  },
+  "check_interval": {
+    "description": "基础检查间隔（秒）",
+    "type": "int",
+    "default": 60,
+    "hint": "用于调度兜底。默认偏保守，降低新安装后的请求频率。"
+  },
+  "dynamic_check_interval": {
+    "description": "动态检查间隔（秒）",
+    "type": "int",
+    "default": 300,
+    "hint": "默认 5 分钟，降低空间动态接口请求压力。"
+  },
+  "live_check_interval": {
+    "description": "直播检查间隔（秒）",
+    "type": "int",
+    "default": 90,
+    "hint": "直播状态接口已批量查询，默认 90 秒，兼顾及时性和限流风险。"
+  },
+  "request_delay_sec": {
+    "description": "批次间请求间隔（秒）",
+    "type": "float",
+    "default": 1.5,
+    "hint": "同一轮检查中不同 UP 或批次之间的轻量限速。"
+  },
+  "request_jitter_sec": {
+    "description": "调度随机抖动（秒）",
+    "type": "float",
+    "default": 30.0,
+    "hint": "避免固定整点集中请求。"
+  },
+  "live_batch_size": {
+    "description": "直播批量查询大小",
+    "type": "int",
+    "default": 50,
+    "hint": "同一批直播状态查询的 UID 数量，插件运行时会限制在 1 到 100。"
+  },
+  "risk_cooldown_sec": {
+    "description": "账号风控冷却时间（秒）",
+    "type": "int",
+    "default": 3600,
+    "hint": "账号触发 352、403 或 412 后暂时退出轮换，冷却后自动恢复。"
+  },
+  "search_cache_expiry_hours": {
+    "description": "搜索缓存有效期（小时）",
+    "type": "int",
+    "default": 48,
+    "hint": "聊天搜索 UP 主结果的缓存时间。"
+  },
+  "enable_ai_tools": {
+    "description": "启用 AI 工具",
+    "type": "bool",
+    "default": true,
+    "hint": "开启后，大模型可在自然语言对话中调用 Bilibili workflow 工具。"
+  },
+  "ai_pending_timeout_sec": {
+    "description": "AI 待处理事项有效期（秒）",
+    "type": "int",
+    "default": 300,
+    "hint": "候选选择和确认卡片的引用续跑有效时间。"
+  },
+  "enable_ai_semantic_dispatch": {
+    "description": "启用 AI 语义前置分流",
+    "type": "bool",
+    "default": true,
+    "hint": "自然语言或 ai_dispatch 会先由当前大模型判断意图，再进入搜索、订阅、删除或状态 workflow。"
+  },
+  "ai_semantic_dispatch_confidence": {
+    "description": "AI 语义分流阈值",
+    "type": "float",
+    "default": 0.82,
+    "hint": "范围 0 到 1。低于阈值时回退到规则分流或让用户补充说明。"
+  },
+  "ai_semantic_dispatch_timeout_sec": {
+    "description": "AI 语义分流超时（秒）",
+    "type": "float",
+    "default": 8.0,
+    "hint": "前置判断的最大等待时间。超时后会自动回退，不阻断原有 workflow。"
+  },
+  "enable_ai_candidate_analysis": {
+    "description": "启用 AI 搜索候选分析",
+    "type": "bool",
+    "default": true,
+    "hint": "B 站搜索返回多个 UP 时，让大模型结合名称、排序和粉丝数判断是否可直接进入确认卡。"
+  },
+  "ai_candidate_analysis_confidence": {
+    "description": "AI 候选分析阈值",
+    "type": "float",
+    "default": 0.86,
+    "hint": "范围 0 到 1。低于阈值时回退本地评分或展示候选卡。"
+  },
+  "ai_candidate_analysis_timeout_sec": {
+    "description": "AI 候选分析超时（秒）",
+    "type": "float",
+    "default": 8.0,
+    "hint": "搜索后候选分析的最大等待时间。超时后自动回退。"
+  },
+  "enable_ai_auto_select_candidates": {
+    "description": "AI 高置信候选自动进入确认",
+    "type": "bool",
+    "default": true,
+    "hint": "只会进入确认流程，不会跳过最终用户确认。"
+  },
+  "ai_auto_select_confidence": {
+    "description": "AI 自动候选选择阈值",
+    "type": "float",
+    "default": 0.88,
+    "hint": "范围 0 到 1，越高越保守。"
+  },
+  "verify_ssl": {
+    "description": "校验 HTTPS 证书",
+    "type": "bool",
+    "default": true,
+    "hint": "建议保持开启。只有本机证书环境异常时再关闭。"
+  }
+}

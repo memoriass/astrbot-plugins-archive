@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+        }
+        .card {
+            width: 600px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 12px;
+            border: 1px solid #eee;
+        }
+        .author-info {
+            flex-grow: 1;
+        }
+        .author-name {
+            color: #fb7299;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .pub-time {
+            color: #999;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        .platform-logo {
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+        }
+        .content {
+            padding: 20px;
+        }
+        .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        .cover-container {
+            width: 100%;
+            position: relative;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .cover {
+            width: 100%;
+            display: block;
+        }
+        .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+        .footer {
+            padding: 10px 20px;
+            background: #fafafa;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            gap: 20px;
+            color: #999;
+            font-size: 13px;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <img src="{{ avatar }}" class="avatar" onerror="this.src='http://i0.hdslb.com/bfs/face/member/noface.jpg'">
+            <div class="author-info">
+                <div class="author-name">{{ nickname }}</div>
+                <div class="pub-time">{{ pub_time }}</div>
+            </div>
+            <img src="https://www.bilibili.com/favicon.ico?v=1" class="platform-logo">
+        </div>
+        <div class="content">
+            {% if title %}
+            <div class="title">{{ title }}</div>
+            {% endif %}
+            
+            {% if cover %}
+            <div class="cover-container">
+                <img src="{{ cover }}" class="cover">
+                {% if duration %}
+                <div class="duration">{{ duration }}</div>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            {% if description %}
+            <div class="description">{{ description }}</div>
+            {% endif %}
+        </div>
+        {% if stats %}
+        <div class="footer">
+            <div class="stat-item">播放: {{ stats.view | default('-') }}</div>
+            <div class="stat-item">点赞: {{ stats.like | default('-') }}</div>
+            <div class="stat-item">金币: {{ stats.coin | default('-') }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+flowchart TD
+    Entry["用户自然语言 / 命令 / LLM tool"] --> Request["WorkflowRequest"]
+    Request --> Runner["runner.py 统一分发"]
+    Runner --> Dispatch["ai_dispatch 前置分流"]
+    Runner --> Direct["显式 workflow"]
+
+    Dispatch --> Branches["branches.py 本地候选分支"]
+    Dispatch --> Semantic["semantic_dispatch.py LLM + 语义召回"]
+    Branches --> Select["选择受控分支"]
+    Semantic --> Select
+
+    Select --> Search["search_up\n只读搜索"]
+    Select --> Add["add_subscription\n添加前置"]
+    Select --> Remove["remove_subscription\n删除前置"]
+    Select --> Lists["list_* / find_subscription\n只读管理"]
+    Select --> Diagnose["account_status / diagnose_resolver\n只读诊断"]
+    Direct --> InternalDiag["diagnose_health / check_status\n内部调试"]
+    Select --> LiveCheck["check_live_*\n请求型检查"]
+
+    Direct --> Search
+    Direct --> Add
+    Direct --> Remove
+    Direct --> Lists
+    Direct --> Diagnose
+    Direct --> InternalDiag
+    Direct --> LiveCheck
+    Direct --> Pending["continue_pending\n引用续跑"]
+
+    Search --> SearchAI["candidate_analysis.py\n只推荐候选"]
+    SearchAI --> CandidateCard["候选卡 / AI 推荐"]
+
+    Add --> Resolve["实体解析 / 当前会话别名"]
+    Resolve --> SharedAlias["跨会话共享证据"]
+    SharedAlias --> BiliSearch["Bili 搜索兜底"]
+    BiliSearch --> CandidateAI["candidate_analysis.py\n候选分析"]
+    CandidateAI --> AddConfirm["确认订阅卡"]
+    CandidateAI --> AddCandidates["候选卡"]
+
+    Remove --> CurrentSubs["当前会话订阅候选"]
+    CurrentSubs --> RemoveAI["AI 当前订阅候选分析"]
+    RemoveAI --> RemoveConfirm["确认删除卡"]
+    RemoveAI --> RemoveCandidates["删除候选卡"]
+
+    Lists --> ListCard["订阅列表卡"]
+    Diagnose --> Text["只读诊断文本"]
+    InternalDiag --> InternalText["内部调试文本"]
+    LiveCheck --> CurrentLive["当前群直接检查"]
+    LiveCheck --> AllLiveConfirm["全部群检查确认卡"]
+
+    CandidateCard --> Pending
+    AddCandidates --> Pending
+    RemoveCandidates --> Pending
+    AddConfirm --> Pending
+    RemoveConfirm --> Pending
+    AllLiveConfirm --> Pending
+
+    Pending --> Write["确认或引用序号后写库 / 删除 / 执行检查"]
+    Pending --> Cancel["取消或过期"]
+
+    classDef readonly fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    classDef ai fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    classDef confirm fill:#fff8e1,stroke:#f9a825,color:#5d4037
+    classDef danger fill:#ffebee,stroke:#c62828,color:#7f0000
+    class Search,Lists,Diagnose,InternalDiag,ListCard,Text,InternalText readonly
+    class Dispatch,Semantic,SearchAI,CandidateAI,RemoveAI,SharedAlias ai
+    class AddConfirm,RemoveConfirm,AllLiveConfirm,Pending confirm
+    class Write danger

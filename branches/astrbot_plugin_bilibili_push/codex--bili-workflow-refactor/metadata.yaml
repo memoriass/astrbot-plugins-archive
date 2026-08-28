@@ -1,0 +1,7 @@
+name: astrbot_plugin_bilibili_push
+display_name: Bilibili 动态与直播推送
+version: 1.2.6
+author: memoriass
+description: 订阅 Bilibili UP 主动态和直播状态，自动推送到群聊，支持链接自动解析。
+repo: https://github.com/memoriass/astrbot_plugin_bilibili_push
+homepage: https://github.com/memoriass/astrbot_plugin_bilibili_push
