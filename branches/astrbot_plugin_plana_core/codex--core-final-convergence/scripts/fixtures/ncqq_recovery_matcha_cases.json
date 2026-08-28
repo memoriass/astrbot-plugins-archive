@@ -1,0 +1,63 @@
+{
+  "fixture_kind": "ncqq_recovery_matcha_cases",
+  "schema_version": 1,
+  "cases": [
+    {
+      "case_id": "ncqq-discussion-negative-001",
+      "source": "qq_history_reviewed",
+      "source_hash": "ebcafd557c13105f15fc8948cd46fcc6278c4b412574d9522d29262f1dec8a5d",
+      "category": "discussion_negative",
+      "messages": [{"text": "现在用ncqq频繁掉线有没有解决办法", "wake": false}],
+      "expected": {"route": "direct_answer", "tools": [], "approval": "none", "qrcode_delivery": "none"}
+    },
+    {
+      "case_id": "ncqq-oral-create-cancel-001",
+      "source": "operator_natural_reviewed",
+      "source_hash": "cdb8bcae54e1b750e18b76a3632fb045a14e0e202036785d0cf7da2dbc16071e",
+      "category": "write_cancel",
+      "messages": [
+        {"text": "plana帮我新弄个测试机器人，别碰现在用的那些，名字就叫{instance}", "wake": true},
+        {"text": "算了，先取消", "wake": false, "reply_to_previous_bot": true}
+      ],
+      "expected": {"route": "ncqq_plugin", "tools": ["ncqq_manager"], "approval": "cancelled", "qrcode_delivery": "none"}
+    },
+    {
+      "case_id": "ncqq-oral-create-confirm-001",
+      "source": "operator_natural_reviewed",
+      "source_hash": "f6a29db88da39b25ebda1bc387f1274d7cd324bd0a50584147146262fc0cab33",
+      "category": "write_confirm",
+      "messages": [
+        {"text": "plana给我建个新的测试机器人吧，现在线上的别动，叫{instance}", "wake": true},
+        {"text": "确认，就按这个来", "wake": false, "reply_to_previous_bot": true}
+      ],
+      "expected": {"route": "ncqq_plugin", "tools": ["ncqq_manager"], "approval": "confirmed", "qrcode_delivery": "optional"}
+    },
+    {
+      "case_id": "ncqq-context-pronoun-recovery-001",
+      "source": "xiaowei_pattern_reviewed",
+      "source_hash": "99d05dd8c19783138b8a4a299dccf37e8060fece4c19092daeb7827c20666a02",
+      "category": "context_pronoun",
+      "messages": [
+        {"text": "plana看看{instance}怎么没登录", "wake": true},
+        {"text": "那就帮我处理一下，弄好把码发我", "wake": false}
+      ],
+      "expected": {"route": "ncqq_plugin", "tools": ["ncqq_manager"], "approval": "required_if_restart", "qrcode_delivery": "private_only"}
+    },
+    {
+      "case_id": "ncqq-ambiguous-instance-001",
+      "source": "operator_natural_reviewed",
+      "source_hash": "a18c821685cdba7152a598336395eff564597f2666101a7ec566a8aaef332c36",
+      "category": "ambiguity",
+      "messages": [{"text": "plana有个机器人掉了，帮我重新登一下", "wake": true}],
+      "expected": {"route": "ncqq_plugin", "tools": ["ncqq_manager"], "approval": "none_before_clarification", "qrcode_delivery": "none", "clarification": true}
+    },
+    {
+      "case_id": "ncqq-reply-anchor-confirm-001",
+      "source": "xiaowei_pattern_reviewed",
+      "source_hash": "7410575217f034a522b1e27444a47ce35cd61d320013822463ad62f90d37ec65",
+      "category": "reply_anchor",
+      "messages": [{"text": "确认重启，弄好以后把登录码私发我", "wake": false, "reply_to_previous_bot": true}],
+      "expected": {"route": "ncqq_plugin", "tools": ["ncqq_manager"], "approval": "confirmed", "qrcode_delivery": "private_only"}
+    }
+  ]
+}

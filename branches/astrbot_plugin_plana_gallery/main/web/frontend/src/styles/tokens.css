@@ -1,0 +1,13 @@
+:root {
+  --primary: #4d6cf7;
+  --primary-dark: #3853d8;
+  --ink: #182034;
+  --muted: #69748a;
+  --line: #dfe4ee;
+  --panel: #fff;
+  --soft: #eef2ff;
+  --success: #18875e;
+  --warning: #b66a16;
+  --danger: #b93d50;
+  --shadow: 0 14px 40px rgba(25, 37, 68, 0.08);
+}

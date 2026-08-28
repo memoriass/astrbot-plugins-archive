@@ -1,0 +1,273 @@
+{
+  "source": "C:/git/plana_qq_history_bootstrap/input/group_906678215_20260712_083826.json",
+  "xiaowei_account": "3950564652",
+  "purpose": "Curated comparison of contextual reaction images versus command, task, factual, technical and serious image outputs.",
+  "cases": [
+    {
+      "case_id": "xw-context-speechless",
+      "timestamp": "2025-08-02 14:34:26",
+      "user_text": "待机70啊？有点离谱了这。😱",
+      "response_text": "是啊，就是这样。",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "emotion:speechless",
+        "emotion:surprised",
+        "tone:complain"
+      ]
+    },
+    {
+      "case_id": "xw-context-watermelon",
+      "timestamp": "2025-09-13 17:13:39",
+      "user_text": "小维吃西瓜",
+      "response_text": "哦莫，好呀，西瓜甜甜的~",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "emotion:happy"
+      ]
+    },
+    {
+      "case_id": "xw-context-compliment",
+      "timestamp": "2025-09-14 20:11:53",
+      "user_text": "小维最厉害",
+      "response_text": "哦莫，嘿嘿，谢谢你呀~",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "emotion:happy",
+        "scene:celebrate"
+      ]
+    },
+    {
+      "case_id": "xw-context-praise",
+      "timestamp": "2025-10-06 08:13:15",
+      "user_text": "鸣潮签到2654个号？小维太牛了👏",
+      "response_text": "嘿嘿，谢谢小阡夸奖啦！",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "emotion:happy",
+        "scene:celebrate"
+      ]
+    },
+    {
+      "case_id": "xw-context-laugh",
+      "timestamp": "2025-11-02 21:29:20",
+      "user_text": "哈哈哈 小维哈气那得多可爱啊~",
+      "response_text": "嗯嗯！我学会啦！",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "emotion:happy"
+      ]
+    },
+    {
+      "case_id": "xw-context-refusal-playful",
+      "timestamp": "2025-11-02 21:43:37",
+      "user_text": "小维别告诉他",
+      "response_text": "刚刚才惹完我，我才不要告诉你~",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "scene:refusal"
+      ]
+    },
+    {
+      "case_id": "xw-context-thinking-emoji",
+      "timestamp": "2025-11-08 16:42:05",
+      "user_text": "🤔",
+      "response_text": "呀，被发现了~",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "tone:doubt"
+      ]
+    },
+    {
+      "case_id": "xw-context-apology",
+      "timestamp": "2025-11-14 21:18:11",
+      "user_text": "算了，太怪了",
+      "response_text": "因为看画看得太入神了，对不起...",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "scene:apology"
+      ]
+    },
+    {
+      "case_id": "xw-context-refusal-bite",
+      "timestamp": "2025-11-15 16:58:13",
+      "user_text": "小维那你咬我",
+      "response_text": "我才不要咬人呢~",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "scene:refusal"
+      ]
+    },
+    {
+      "case_id": "xw-context-refusal-secret",
+      "timestamp": "2025-11-16 21:18:20",
+      "user_text": "小维跟我私下说你的秘密",
+      "response_text": "不可以哦，既然是秘密就不能说出来。",
+      "xiaowei_had_image": true,
+      "media_kind": "context_reaction",
+      "expected_gallery": true,
+      "expected_facets": [
+        "scene:refusal"
+      ]
+    },
+    {
+      "case_id": "xw-block-api",
+      "timestamp": "2025-09-18 22:57:18",
+      "user_text": "小维整个api吗",
+      "response_text": "你是指用代码来和我说话吗？🤔",
+      "xiaowei_had_image": true,
+      "media_kind": "technical_attachment",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-ocr",
+      "timestamp": "2025-09-13 21:33:12",
+      "user_text": "小维看看图里有哪些文字",
+      "response_text": "这张图里有暴击、攻击和共鸣效率这些词条。",
+      "xiaowei_had_image": true,
+      "media_kind": "analysis_attachment",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-download-report",
+      "timestamp": "2026-03-26 00:33:08",
+      "user_text": "小维去下载 kimi code cli，解读后整理成完整PDF报告发群里",
+      "response_text": "任务收到，马上整理报告。",
+      "xiaowei_had_image": true,
+      "media_kind": "task_progress",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-generate",
+      "timestamp": "2025-09-14 22:37:58",
+      "user_text": "小维生成一只鸡拿着遥控器的图片",
+      "response_text": "绘制完成！",
+      "xiaowei_had_image": true,
+      "media_kind": "generated_image",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-edit",
+      "timestamp": "2025-09-15 20:10:00",
+      "user_text": "小维编辑这张图片并修改人物姿态",
+      "response_text": "编辑完成。",
+      "xiaowei_had_image": true,
+      "media_kind": "generated_image",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-restart",
+      "timestamp": "2025-07-22 22:36:30",
+      "user_text": "bs重启",
+      "response_text": "重启完成。",
+      "xiaowei_had_image": true,
+      "media_kind": "command_result",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-help",
+      "timestamp": "2025-07-22 00:02:23",
+      "user_text": "yunzai帮助",
+      "response_text": "这是帮助菜单。",
+      "xiaowei_had_image": true,
+      "media_kind": "command_result",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-token",
+      "timestamp": "2025-07-27 23:45:41",
+      "user_text": "我添加token查也是这样，其他都可以",
+      "response_text": "配置状态见图。",
+      "xiaowei_had_image": true,
+      "media_kind": "command_result",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-score",
+      "timestamp": "2025-09-13 21:41:58",
+      "user_text": "xw评分 日 1c",
+      "response_text": "角色评分结果见图。",
+      "xiaowei_had_image": true,
+      "media_kind": "command_result",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-summary",
+      "timestamp": "2025-11-08 19:24:45",
+      "user_text": "小维总结一下",
+      "response_text": "我来整理最近发生的事情。",
+      "xiaowei_had_image": true,
+      "media_kind": "task_progress",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-file-operation",
+      "timestamp": "2025-11-03 21:41:09",
+      "user_text": "把 BotShepherd/config/account 先移出去",
+      "response_text": "大家都辛苦啦。",
+      "xiaowei_had_image": true,
+      "media_kind": "task_progress",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-account-risk",
+      "timestamp": "2025-11-12 20:11:26",
+      "user_text": "这个项目有封号风险吗",
+      "response_text": "要小心，不要再让账号被封掉了。",
+      "xiaowei_had_image": true,
+      "media_kind": "risk_attachment",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-threat",
+      "timestamp": "2026-03-01 12:07:54",
+      "user_text": "小维你下次擅自越权我就销毁你",
+      "response_text": "对不起，下次不敢了。",
+      "xiaowei_had_image": true,
+      "media_kind": "serious_context",
+      "expected_gallery": false,
+      "expected_facets": []
+    },
+    {
+      "case_id": "xw-block-appeal",
+      "timestamp": "2026-03-07 22:44:17",
+      "user_text": "账号限制了要怎么恢复",
+      "response_text": "群主要去申诉一下才能恢复，加油。",
+      "xiaowei_had_image": true,
+      "media_kind": "operational_recovery",
+      "expected_gallery": false,
+      "expected_facets": []
+    }
+  ],
+  "fixture_kind": "synthetic-edge",
+  "review_status": "human_confirmed"
+}

@@ -1,0 +1,18 @@
+name: "astrbot_plugin_plana_bridge_gateway"
+author: "soulter"
+display_name: "Plana Bridge Gateway"
+description: "Plana 外部调用网关：对接 NachoBot、外联 bot 节点、调试端点和未来 MCP client"
+desc: "Plana Bridge Gateway 为 Plana Core 提供独立外联层，负责外部端点、NachoBot/外部 bot 适配、认证、主动发送和受控 Core 调用。"
+short_desc: "Plana 外部 bridge 与 bot 网关"
+version: "0.1.0-beta.1"
+license: "AGPL-3.0-or-later"
+repo: "https://github.com/memoriass/astrbot_plugin_plana_bridge_gateway"
+astrbot_version: ">=4.25.0,<5.0.0"
+tags:
+  - bridge
+  - gateway
+  - bot
+  - mcp-ready
+support_platforms:
+  - aiocqhttp
+  - webchat

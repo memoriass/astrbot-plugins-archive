@@ -1,12 +1,184 @@
 {
   "archive_name": "AstrBot Plugins Archive",
   "archive_date": "2026-08-28",
-  "purpose": "Reference snapshots only; not an active AstrBot plugin source.",
-  "excluded": ["planabot", "astrbot_plugin_plana_gallery", "astrbot_plugin_webhook_push"],
+  "purpose": "Public reference archive of legacy AstrBot plugin repositories; no active plugin source.",
+  "excluded": [
+    "planabot"
+  ],
   "plugins": [
-    {"name":"astrbot_plugin_ani_rss","source":"https://github.com/memoriass/astrbot_plugin_ani_rss","branch":"main","commit":"184a6bcf5980f1afb14c1430eaa864b5ebce991c","snapshot_path":"plugins/astrbot_plugin_ani_rss"},
-    {"name":"astrbot_plugin_bilibili_push","source":"https://github.com/memoriass/astrbot_plugin_bilibili_push","branch":"master","commit":"40e5f0802d402bc727bcee55265cdb8f010f90ea","snapshot_path":"plugins/astrbot_plugin_bilibili_push"},
-    {"name":"astrbot_plugin_ncqq_manager","source":"https://github.com/memoriass/astrbot_plugin_ncqq_manager","branch":"main","commit":"9323b60f1d05f4239535fda317ea15aee2ddbc03","snapshot_path":"plugins/astrbot_plugin_ncqq_manager"},
-    {"name":"astrbot_plugin_komga_manager","source":"local:C:/git/astrbot_plugin_komga_manager","branch":"main","commit":"01f6a600bba0f34cccb5f2c774ae40b94d6060c3","snapshot_path":"plugins/astrbot_plugin_komga_manager"}
+    {
+      "name": "astrbot_plugin_ani_rss",
+      "source": "https://github.com/memoriass/astrbot_plugin_ani_rss",
+      "branches": [
+        {
+          "branch": "main",
+          "commit": "7c4cffeff5b222066cd9f98616ddacb654052c40",
+          "snapshot_path": "branches/astrbot_plugin_ani_rss/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_ani_rss.bundle"
+    },
+    {
+      "name": "astrbot_plugin_bilibili_push",
+      "source": "https://github.com/memoriass/astrbot_plugin_bilibili_push",
+      "branches": [
+        {
+          "branch": "codex/bili-workflow-refactor",
+          "commit": "aeef79b1f3eef94c4afff32272f067dbd8006495",
+          "snapshot_path": "branches/astrbot_plugin_bilibili_push/codex--bili-workflow-refactor"
+        },
+        {
+          "branch": "master",
+          "commit": "15d439a5bb386f93a62fbf2e3ad212816d9700fe",
+          "snapshot_path": "branches/astrbot_plugin_bilibili_push/master"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_bilibili_push.bundle"
+    },
+    {
+      "name": "astrbot_plugin_ncqq_manager",
+      "source": "https://github.com/memoriass/astrbot_plugin_ncqq_manager",
+      "branches": [
+        {
+          "branch": "main",
+          "commit": "6955cfc1d8310bda3ece5cf6ea7f0f84c717d8d8",
+          "snapshot_path": "branches/astrbot_plugin_ncqq_manager/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_ncqq_manager.bundle"
+    },
+    {
+      "name": "astrbot_plugin_webhook_push",
+      "source": "https://github.com/memoriass/astrbot_plugin_webhook_push",
+      "branches": [
+        {
+          "branch": "main",
+          "commit": "8f0002114373247b4e86d0f89ff6d539e47f7e2c",
+          "snapshot_path": "branches/astrbot_plugin_webhook_push/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_webhook_push.bundle"
+    },
+    {
+      "name": "astrbot-plugin-source",
+      "source": "https://github.com/memoriass/astrbot-plugin-source",
+      "branches": [
+        {
+          "branch": "main",
+          "commit": "fd27cf3dcea014e9f82c6ec221c57d9734476a69",
+          "snapshot_path": "branches/astrbot-plugin-source/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot-plugin-source.bundle"
+    },
+    {
+      "name": "astrbot_plugin_plana_bridge_gateway",
+      "source": "https://github.com/memoriass/astrbot_plugin_plana_bridge_gateway",
+      "branches": [
+        {
+          "branch": "codex/core-final-convergence",
+          "commit": "d5c6a9e3d1e5ee9ff91448926790343eaaa7bfe6",
+          "snapshot_path": "branches/astrbot_plugin_plana_bridge_gateway/codex--core-final-convergence"
+        },
+        {
+          "branch": "main",
+          "commit": "a5cd51a8bb2912d33c11693c8f52f6df546208f7",
+          "snapshot_path": "branches/astrbot_plugin_plana_bridge_gateway/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_plana_bridge_gateway.bundle"
+    },
+    {
+      "name": "astrbot_plugin_plana_core",
+      "source": "https://github.com/memoriass/astrbot_plugin_plana_core",
+      "branches": [
+        {
+          "branch": "codex/core-final-convergence",
+          "commit": "d59e00526507300f99f23dc70313dd7dac3ee1da",
+          "snapshot_path": "branches/astrbot_plugin_plana_core/codex--core-final-convergence"
+        },
+        {
+          "branch": "main",
+          "commit": "f214dc89757533d55938c3a133de82f59ba23d67",
+          "snapshot_path": "branches/astrbot_plugin_plana_core/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_plana_core.bundle"
+    },
+    {
+      "name": "astrbot_plugin_plana_gallery",
+      "source": "https://github.com/memoriass/astrbot_plugin_plana_gallery",
+      "branches": [
+        {
+          "branch": "main",
+          "commit": "0cf7db80c9e716f91064b9411aa0796ddb61ca14",
+          "snapshot_path": "branches/astrbot_plugin_plana_gallery/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_plana_gallery.bundle"
+    },
+    {
+      "name": "astrbot_plugin_plana_memory_warehouse",
+      "source": "https://github.com/memoriass/astrbot_plugin_plana_memory_warehouse",
+      "branches": [
+        {
+          "branch": "main",
+          "commit": "399c6f0d5c6d2008b8982c231b70d96a8bc4e7d9",
+          "snapshot_path": "branches/astrbot_plugin_plana_memory_warehouse/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_plana_memory_warehouse.bundle"
+    },
+    {
+      "name": "astrbot_plugin_plana_skill_center",
+      "source": "https://github.com/memoriass/astrbot_plugin_plana_skill_center",
+      "branches": [
+        {
+          "branch": "codex/plana-skill-center-hermes",
+          "commit": "1da1ea5dbc3ecddf8757576a9550ad9424c1af03",
+          "snapshot_path": "branches/astrbot_plugin_plana_skill_center/codex--plana-skill-center-hermes"
+        },
+        {
+          "branch": "codex/retire-skill-center",
+          "commit": "a18992fd00c7608f1dff5a65fe2b3cb9ed0c2293",
+          "snapshot_path": "branches/astrbot_plugin_plana_skill_center/codex--retire-skill-center"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_plana_skill_center.bundle"
+    },
+    {
+      "name": "astrbot_plugin_plana_tts",
+      "source": "https://github.com/memoriass/astrbot_plugin_plana_tts",
+      "branches": [
+        {
+          "branch": "codex/retire-tts",
+          "commit": "035167ab46273755aa656c1a015f59f01bee5d50",
+          "snapshot_path": "branches/astrbot_plugin_plana_tts/codex--retire-tts"
+        },
+        {
+          "branch": "codex/sibling-service-transport",
+          "commit": "b38a6ba036cd9abd2edefa7c81fb3aeaa5a10243",
+          "snapshot_path": "branches/astrbot_plugin_plana_tts/codex--sibling-service-transport"
+        },
+        {
+          "branch": "main",
+          "commit": "0965a7572a097bb876a6315f987e2743f8fc2340",
+          "snapshot_path": "branches/astrbot_plugin_plana_tts/main"
+        }
+      ],
+      "bundle_path": "bundles/astrbot_plugin_plana_tts.bundle"
+    },
+    {
+      "name": "astrbot_plugin_komga_manager",
+      "source": "local:C:/git/astrbot_plugin_komga_manager",
+      "branches": [
+        {
+          "branch": "main",
+          "commit": "01f6a600bba0f34cccb5f2c774ae40b94d6060c3",
+          "snapshot_path": "plugins/astrbot_plugin_komga_manager"
+        }
+      ],
+      "bundle_path": null
+    }
   ]
 }

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Movie Card</title>
+    <style>
+        /* Localized Fonts */
+        @font-face {
+            font-family: 'Noto Sans SC';
+            font-style: normal;
+            font-weight: 400;
+            src: url({% if font_base64_regular %}"data:font/opentype;base64,{{ font_base64_regular }}"{% else %}"{{ resource_path }}/fonts/SourceHanSansCN-Regular.otf"{% endif %}) format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Noto Sans SC';
+            font-style: normal;
+            font-weight: 700;
+            src: url({% if font_base64_bold %}"data:font/opentype;base64,{{ font_base64_bold }}"{% else %}"{{ resource_path }}/fonts/SourceHanSansCN-Bold.otf"{% endif %}) format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            src: url('{{ resource_path }}/fonts/Lato-Regular.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            src: url('{{ resource_path }}/fonts/Lato-Bold.ttf') format('truetype');
+        }
+
+        /* Based on Andre Madarang's Movie Card design via Fribly/CodePen */
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: transparent;
+            font-family: "Lato", "Noto Sans SC", "WenQuanYi Micro Hei", "Droid Sans Fallback", Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .movie-card {
+            width: 780px;
+            background: #F0F0ED;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: block;
+        }
+
+        .hero {
+            height: 342px;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        /* The slanted background effect */
+        .hero:before {
+            content: '';
+            width: 100%;
+            height: 110%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #34495e;
+
+                {
+                % if poster_url %
+            }
+
+            background-image: url("{{ poster_url }}");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+
+                {
+                % endif %
+            }
+
+            z-index: -1;
+            transform: skewY(-2.2deg);
+            transform-origin: 0 0;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .cover {
+            position: absolute;
+            top: 160px;
+            left: 40px;
+            z-index: 20;
+            width: 187px;
+            height: 282px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .details {
+            padding: 180px 0 0 280px;
+        }
+
+        .title1 {
+            color: #2C3E50;
+            font-size: 24px;
+            /* 减小字号以适应侧边栏 */
+            margin-bottom: 8px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .title2 {
+            color: #E74C3C;
+            /* 使用更明显的红色作为标签颜色 */
+            font-size: 11px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .description {
+            padding-bottom: 30px;
+            min-height: 200px;
+            font-size: 15px;
+            line-height: 24px;
+            color: #777;
+            display: flex;
+        }
+
+        .column1 {
+            padding-left: 40px;
+            padding-top: 120px;
+            width: 240px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .tag {
+            background: white;
+            border-radius: 10px;
+            padding: 4px 10px;
+            font-size: 13px;
+            margin: 0 4px 10px 4px;
+            display: inline-block;
+            color: #555;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .column2 {
+            padding-left: 20px;
+            padding-top: 30px;
+            padding-right: 40px;
+            flex-grow: 1;
+        }
+
+        .column2 p {
+            margin: 0 0 20px 0;
+            color: #555;
+        }
+
+        .kv-container {
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+
+        .kv-row {
+            display: flex;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .label {
+            color: #999;
+            font-weight: 700;
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .value {
+            color: #444;
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="movie-card card">
+        {% if poster_url %}
+        <img src="{{ poster_url }}" alt="cover" class="cover" />
+        {% endif %}
+
+        <div class="hero">
+            <!-- 此时背景图不再被文字遮挡 -->
+        </div>
+
+        <div class="description">
+            <div class="column1">
+                <div class="title2">WEBHOOK NOTIFICATION</div>
+                <div class="title1">{{ title }}</div>
+            </div>
+
+            <div class="column2">
+                <div class="kv-container">
+                    {% for item in items %}
+                    {% if item.type == 'kv' %}
+                    <div class="kv-row">
+                        <span class="label">{{ item.label }}</span>
+                        <span class="value">{{ item.value }}</span>
+                    </div>
+                    {% elif item.type == 'text' %}
+                    <p>{{ item.text }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

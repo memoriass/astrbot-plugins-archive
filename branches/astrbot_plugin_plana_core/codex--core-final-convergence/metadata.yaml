@@ -1,0 +1,20 @@
+name: "astrbot_plugin_plana_core"
+author: "soulter"
+display_name: "Plana Core"
+description: "陪伴对话、Persona、关系记忆、领域插件统合与 Codex 授权评审中枢"
+desc: "Plana Core 是 AstrBot 内的陪伴与治理中枢，负责记忆策略、领域路由、写操作确认和原生 Codex 结果交付。"
+short_desc: "陪伴中枢、外置记忆与受控 Codex 治理"
+version: "0.3.0-beta.1"
+license: "AGPL-3.0-or-later"
+repo: "https://github.com/memoriass/astrbot_plugin_plana_core"
+astrbot_version: ">=4.25.0,<5.0.0"
+tags:
+  - memory
+  - companion
+  - web
+  - codex
+  - governance
+support_platforms:
+  - aiocqhttp
+  - webchat
+

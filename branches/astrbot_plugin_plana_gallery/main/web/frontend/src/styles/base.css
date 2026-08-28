@@ -1,0 +1,12 @@
+html {
+  background: #f3f5f9;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+:focus-visible {
+  scroll-margin: 24px;
+}

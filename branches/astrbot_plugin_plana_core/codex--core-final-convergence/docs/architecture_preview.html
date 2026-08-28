@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plana Core 架构预览</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --text: #18202a;
+      --muted: #5d6875;
+      --line: #d9dee7;
+      --accent: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      padding: 28px 36px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .summary {
+      max-width: 1120px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    main {
+      padding: 24px 36px 40px;
+    }
+
+    section {
+      margin: 0 0 24px;
+      padding: 22px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: auto;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .note {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mermaid {
+      min-width: 1080px;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Plana Core 架构预览</h1>
+    <p class="summary">
+      当前图表基于项目审计结果整理，重点呈现插件接手开发所需的模型架构、框架内秘书中枢边界、多模型顾问层、能力裁剪方向，以及受控 workflow 内核。
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>1. 整体模型架构</h2>
+      <p class="note">入口层保持薄入口，业务能力集中到运行时和服务模块；长期状态进入 SQLite 数据层；Web 与 Bridge 均通过受控服务边界访问核心。</p>
+      <pre class="mermaid">
+flowchart TB
+  user["用户 / 群聊上下文"] --> astrbot["AstrBot 事件与命令层"]
+  admin["管理员 / 接手开发者"] --> webui["Web 管理与诊断界面"]
+  external["External / 外部协作模型"] --> sidecar["Bridge Gateway"]
+
+  subgraph entry["插件入口层：薄入口"]
+    main["main.py<br>注册、配置、生命周期装配"]
+    lifecycle["plugin/plugin_lifecycle.py<br>启动、停止、资源清理"]
+    pluginWeb["plugin/plugin_web.py<br>Web 装配"]
+    pluginBridge["plugin/plugin_bridge.py<br>Bridge 装配"]
+  end
+
+  subgraph runtime["核心运行时：业务能力中枢"]
+    rt["PlanaRuntime"]
+    prompt["PromptBuilder<br>人格、记忆、上下文注入"]
+    activator["MemoryActivator<br>记忆激活与写入触发"]
+    recall["PlanaRecallEngine<br>结构化与语义召回"]
+    planner["LLM Memory Query Planner<br>查询建议，不直接执行副作用"]
+    task["TaskQueue + RulePlanner<br>任务计划与规则执行"]
+    safety["SafetyGate + PendingTask<br>确认边界与安全门"]
+    maint["MemoryMaintenance<br>表结构、健康检查、维护"]
+    ops["runtime_ops.py<br>运行时操作聚合"]
+  end
+
+  subgraph data["SQLite 数据层：长期业务状态"]
+    identity["identity / session"]
+    persona["persona / scope"]
+    memories["episodic / semantic / tool memories"]
+    graph["relation / concept"]
+    audit["audit_log / recall_gaps / proactive / feedback"]
+    reserved["reserved<br>person_info / memory_embeddings"]
+  end
+
+  subgraph web["Web 层：管理、诊断、可视化"]
+    embedded["AstrBot 内嵌 Dashboard"]
+    fastapi["Standalone FastAPI<br>默认 127.0.0.1"]
+    adminapi["Admin API<br>经服务层读写"]
+    page["page.py<br>页面与静态资源"]
+  end
+
+  subgraph bridge["Bridge 层：受控协作协议"]
+    contract["BridgeContract"]
+    requests["plana_requests<br>kind 白名单"]
+    active["Active Send API<br>默认关闭，需 token"]
+  end
+
+  astrbot --> main
+  main --> lifecycle --> rt
+  main --> pluginWeb --> web
+  main --> pluginBridge --> bridge
+  rt --> prompt
+  rt --> activator
+  rt --> recall
+  rt --> planner
+  rt --> task
+  rt --> safety
+  rt --> maint
+  rt --> ops
+  prompt --> data
+  activator --> data
+  recall --> data
+  task --> data
+  safety --> audit
+  maint --> data
+  ops --> data
+  webui --> embedded
+  webui --> fastapi
+  embedded --> adminapi --> rt
+  fastapi --> adminapi
+  sidecar --> contract --> requests --> rt
+  active --> safety
+      </pre>
+    </section>
+
+    <section>
+      <h2>2. 能力地图与收敛状态</h2>
+      <p class="note">当前优化重点不是无限扩能力，而是在 AstrBot 框架内保留秘书中枢，关闭高风险外扩能力，并把自主 workflow 缩到可注册、可校验、可审计的内核。</p>
+      <pre class="mermaid">
+flowchart LR
+  start["当前接手目标<br>稳定记忆核心，收敛外扩能力"] --> keep
+
+  subgraph keep["A. 核心保留能力"]
+    k1["记忆建模<br>Identity / Session / Persona / Scope"]
+    k2["记忆存储<br>Episodic / Semantic / Tool / Relation / Concept"]
+    k3["召回与注入<br>RecallEngine + PromptBuilder"]
+    k4["记忆激活<br>MemoryActivator"]
+    k5["任务与规则<br>TaskQueue + RulePlanner"]
+    k6["安全与审计<br>SafetyGate + PendingTask + AuditLog"]
+    k7["管理面板<br>Embedded Dashboard + Admin API"]
+    k8["受控协作<br>Bridge Gateway + plana_requests"]
+  end
+
+  keep --> review
+  subgraph review["B. 保留但必须闭环"]
+    r1["memory_embeddings<br>需明确生成、更新、检索策略"]
+    r2["person_info<br>需定义信息来源与确认边界"]
+    r3["PAD 情绪持久化<br>需验证真实产品价值"]
+    r4["反馈处理器<br>需接入可审计的改进闭环"]
+  end
+
+  keep --> cut
+  subgraph cut["C. 默认关闭或裁剪"]
+    c1["TTS 默认关闭<br>避免插件职责外扩"]
+    c2["Active Send 默认关闭<br>注册必须配置 token"]
+    c3["Standalone Web 默认本地监听<br>非回环且无密码拒绝启动"]
+    c4["自由 Workflow 裁定裁剪<br>改为 registry + compiler"]
+  end
+
+  review --> next
+  cut --> next
+  subgraph next["D. 后续最小演进"]
+    n1["Secretary Workflow Kernel<br>框架内秘书中枢"]
+    n2["多模型顾问可辅助规划与审计<br>但 step 必须来自 registry"]
+    n3["每个 step 声明<br>schema / 权限 / 确认 / 审计"]
+    n4["先补文档与验证脚本<br>再扩大能力面"]
+  end
+      </pre>
+    </section>
+
+    <section>
+      <h2>3. 多模型协作与 Workflow 决策</h2>
+      <p class="note">多模型交互保留为秘书中枢的顾问层，可调用高编程能力模型做计划与审计，但执行权留在本地 compiler、SafetyGate 与服务层。</p>
+      <pre class="mermaid">
+flowchart TD
+  ext["外部模型 / 主 LLM / 管理端"] --> router["Secretary Router"]
+  router --> advisor["Advisor Layer<br>planner / coding / critic / memory"]
+  advisor --> intent["intent / audit report / workflow draft"]
+  intent --> registry["Capability Registry<br>只允许已注册 step"]
+  registry --> compile{"Compiler 校验通过?"}
+  compile -->|否| reject["拒绝<br>unknown_step / invalid_schema / over_budget"]
+  compile -->|是| validate["本地校验<br>identity / session / scope / permission"]
+
+  validate --> ro{"是否只读?"}
+  ro -->|是| direct["直接执行并返回<br>search / list / diagnostics / status"]
+  ro -->|否| sideEffect{"是否写入、删除、批量变更<br>或改变账号/外部状态?"}
+
+  sideEffect -->|是| pending["确认边界<br>PendingTask / Admin UI / 用户确认"]
+  pending --> audit["审计记录<br>actor / request / params / result"]
+  audit --> service["执行本地服务层<br>禁止外部模型直接落库或执行副作用"]
+
+  sideEffect -->|否| guarded["安全门执行<br>SafetyGate + service API"]
+
+  direct --> result["标准化结果返回"]
+  guarded --> result
+  service --> result
+  result --> ext
+
+  subgraph current["当前保留策略"]
+    c1["框架内秘书中枢"]
+    c2["多模型可产出计划、审计、workflow draft"]
+    c3["step 必须来自本地 registry"]
+    c4["副作用必须经过确认与审计"]
+  end
+
+  subgraph rejectPlan["当前不建议引入"]
+    x1["自然语言直接执行 workflow"]
+    x2["顾问模型直接编排副作用链"]
+    x3["绕过 PendingTask / AuditLog 的写操作"]
+    x4["无 schema、无权限、无审计的动态工具调用"]
+  end
+
+  subgraph future["Secretary Workflow Kernel"]
+    f1["注册稳定能力 step"]
+    f2["固定输入 schema"]
+    f3["明确权限与确认策略"]
+    f4["全链路审计"]
+    f5["候选：memory.search / task.propose / memory.propose_write"]
+  end
+
+  intent -.-> current
+  pending -.-> rejectPlan
+  audit -.-> future
+      </pre>
+    </section>
+  </main>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+      flowchart: {
+        htmlLabels: true,
+        curve: "basis"
+      }
+    });
+  </script>
+</body>
+</html>

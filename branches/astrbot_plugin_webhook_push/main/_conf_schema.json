@@ -1,0 +1,190 @@
+{
+  "group_id": {
+    "description": "目标群组ID",
+    "type": "string",
+    "hint": "接收媒体通知的群组ID",
+    "default": ""
+  },
+  "webhook_port": {
+    "description": "Webhook监听端口",
+    "type": "int",
+    "hint": "HTTP服务器监听的端口号",
+    "default": 60071
+  },
+  "media_template": {
+    "description": "媒体路由渲染模板",
+    "type": "string",
+    "options": [
+      "media_movie_daily.html",
+      "media_movie_modern.html"
+    ],
+    "hint": "选择媒体路由推送内容所使用的渲染样式",
+    "default": "media_movie_modern.html",
+    "enum": [
+      "media_movie_daily.html",
+      "media_movie_modern.html"
+    ]
+  },
+  "game_template": {
+    "description": "游戏路由渲染模板",
+    "type": "string",
+    "options": [
+      "game_modern.html"
+    ],
+    "hint": "选择游戏路由推送内容所使用的渲染样式",
+    "default": "game_modern.html",
+    "enum": [
+      "game_modern.html"
+    ]
+  },
+  "game_ai_analyze": {
+    "description": "启用游戏推送 AI 智能识别",
+    "type": "bool",
+    "hint": "开启后将使用 LLM 对推送内容进行深度识别和摘要",
+    "default": true
+  },
+  "game_ai_max_tokens": {
+    "description": "游戏推送 AI 分析最大字数限制",
+    "type": "int",
+    "default": 150
+  },
+  "common_template": {
+    "description": "通用路由渲染模板",
+    "type": "string",
+    "options": [
+      "common_blog.html"
+    ],
+    "hint": "选择通用路由推送内容所使用的渲染样式",
+    "default": "common_blog.html",
+    "enum": [
+      "common_blog.html"
+    ]
+  },
+  "platform_name": {
+    "description": "消息平台名称",
+    "type": "string",
+    "options": [
+      "auto",
+      "llonebot",
+      "napcat",
+      "aiocqhttp",
+      "telegram",
+      "kook",
+      "discord",
+      "onebotv11"
+    ],
+    "hint": "发送消息的平台名称。推荐使用 'auto' 自动检测",
+    "default": "auto"
+  },
+  "preferred_translator": {
+    "description": "首选翻译引擎",
+    "type": "string",
+    "options": [
+      "tencent",
+      "baidu",
+      "google"
+    ],
+    "hint": "选择首选翻译 API，若失败则自动按顺序降级",
+    "default": "tencent"
+  },
+  "enable_translation": {
+    "description": "启用剧情自动翻译",
+    "type": "bool",
+    "hint": "当媒体剧作为非中文时，自动启用翻译",
+    "default": false
+  },
+  "media_routes": {
+    "description": "媒体Webhook路由路径",
+    "type": "list",
+    "hint": "处理媒体相关推送的路由",
+    "default": [
+      "/media-webhook"
+    ]
+  },
+  "game_routes": {
+    "description": "游戏Webhook路由路径",
+    "type": "list",
+    "hint": "处理游戏相关推送的路由",
+    "default": [
+      "/game-webhook"
+    ]
+  },
+  "common_routes": {
+    "description": "通用/扩展Webhook路由路径",
+    "type": "list",
+    "hint": "处理普通消息推送",
+    "default": [
+      "/webhook"
+    ]
+  },
+  "batch_interval_seconds": {
+    "description": "批量发送间隔(秒)",
+    "type": "int",
+    "default": 300
+  },
+  "batch_min_size": {
+    "description": "触发合并转发的最小消息数",
+    "type": "int",
+    "default": 3
+  },
+  "cache_ttl_seconds": {
+    "description": "重复请求缓存过期时间(秒)",
+    "type": "int",
+    "default": 300
+  },
+  "tmdb_api_key": {
+    "description": "TMDB API Key",
+    "type": "string",
+    "default": ""
+  },
+  "fanart_api_key": {
+    "description": "Fanart.tv API Key",
+    "type": "string",
+    "default": ""
+  },
+  "tvdb_api_key": {
+    "description": "TVDB API Key",
+    "type": "string",
+    "default": ""
+  },
+  "sender_id": {
+    "description": "发送者账号 (适配合并转发)",
+    "type": "string",
+    "default": "2659908767"
+  },
+  "sender_name": {
+    "description": "发送者昵称 (适配合并转发)",
+    "type": "string",
+    "default": "媒体通知"
+  },
+  "tencent_secret_id": {
+    "description": "腾讯翻译 SecretId",
+    "type": "string",
+    "default": ""
+  },
+  "tencent_secret_key": {
+    "description": "腾讯翻译 SecretKey",
+    "type": "string",
+    "default": ""
+  },
+  "baidu_app_id": {
+    "description": "百度翻译 AppId",
+    "type": "string",
+    "default": ""
+  },
+  "baidu_secret_key": {
+    "description": "百度翻译 SecretKey",
+    "type": "string",
+    "default": ""
+  },
+  "cache_persistence_days": {
+    "description": "数据库缓存有效期(天)",
+    "type": "int",
+    "default": 7
+  },
+  "webhook_token": {
+    "description": "Webhook 鉴权 Token",
+    "type": "string",
+    "default": ""
+  }
+}

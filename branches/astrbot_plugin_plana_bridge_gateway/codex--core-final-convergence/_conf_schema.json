@@ -1,0 +1,198 @@
+{
+  "enabled": {
+    "description": "启用 Bridge Gateway",
+    "type": "bool",
+    "hint": "默认开启。Bridge 只负责内网转发和外部网关适配，不执行 Core 任务。",
+    "default": true
+  },
+  "internal_lan_mode": {
+    "description": "内网信任模式",
+    "type": "bool",
+    "hint": "默认开启。Core/Bridge 优先同进程调用，Codex Runner 走内网 allowlist，不要求内部 token/header。",
+    "default": true
+  },
+  "external_gateway_mode": {
+    "description": "外部网关模式",
+    "type": "bool",
+    "hint": "默认关闭。只有 Bridge 需要直接对外提供 HTTP API 时才开启；开启后应配置 Gateway API Token。",
+    "default": false
+  },
+  "api_token": {
+    "description": "外部 Gateway API Token",
+    "type": "string",
+    "hint": "仅 external_gateway_mode=true 时使用。内网信任模式不需要填写。",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "core_bridge_url": {
+    "description": "Core Bridge fallback URL",
+    "type": "string",
+    "hint": "仅同进程 Core 不可用时作为调试 fallback；正常内网部署不依赖该 URL。",
+    "default": "http://127.0.0.1:6185/api/plug/plana_core/bridge/payload"
+  },
+  "core_state_url": {
+    "description": "Core 状态 fallback URL",
+    "type": "string",
+    "hint": "仅同进程 Core 不可用时作为调试 fallback。",
+    "default": "http://127.0.0.1:6185/api/plug/plana_core/bridge/state"
+  },
+  "core_proactive_poll_url": {
+    "description": "Core 主动任务领取 fallback URL",
+    "type": "string",
+    "hint": "仅同进程 proactive 队列不可用时作为调试 fallback。",
+    "default": "http://127.0.0.1:6185/api/plug/plana_core/bridge/proactive/poll"
+  },
+  "core_proactive_deliver_url": {
+    "description": "Core 主动任务交付确认 fallback URL",
+    "type": "string",
+    "hint": "仅同进程 proactive 队列不可用时作为调试 fallback。",
+    "default": "http://127.0.0.1:6185/api/plug/plana_core/bridge/proactive/deliver"
+  },
+  "timeout_seconds": {
+    "description": "HTTP 超时秒数",
+    "type": "int",
+    "hint": "用于 fallback HTTP、Nacho Sidecar 和 Codex Runner relay 的请求超时。",
+    "default": 30
+  },
+  "enable_nacho_forward": {
+    "description": "转发消息到 NachoBot",
+    "type": "bool",
+    "hint": "默认关闭。开启后 Gateway 会把 AstrBot 消息转发到 NachoBot Sidecar。",
+    "default": false
+  },
+  "nacho_sidecar_url": {
+    "description": "NachoBot Sidecar URL",
+    "type": "string",
+    "hint": "仅启用 NachoBot 转发时使用，建议保持本机或内网地址。",
+    "default": "http://127.0.0.1:8765"
+  },
+  "nacho_message_endpoint": {
+    "description": "NachoBot 消息入口",
+    "type": "string",
+    "hint": "Gateway 会把消息发送到 nacho_sidecar_url + 该路径。",
+    "default": "/api/astrbot/message"
+  },
+  "nacho_api_token": {
+    "description": "NachoBot Bearer Token",
+    "type": "string",
+    "hint": "仅 NachoBot Sidecar 自身要求鉴权时填写。",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "listen_group": {
+    "description": "转发群聊消息",
+    "type": "bool",
+    "hint": "允许 Gateway 监听并转发群聊消息。",
+    "default": true
+  },
+  "listen_private": {
+    "description": "转发私聊消息",
+    "type": "bool",
+    "hint": "允许 Gateway 监听并转发私聊消息。",
+    "default": true
+  },
+  "listen_other": {
+    "description": "转发其他消息",
+    "type": "bool",
+    "hint": "仅在需要覆盖非群聊/私聊事件时开启。",
+    "default": false
+  },
+  "send_replies": {
+    "description": "发送 Sidecar 回复",
+    "type": "bool",
+    "hint": "Sidecar 返回回复时由 Gateway 通过 AstrBot 发回当前会话。",
+    "default": true
+  },
+  "proactive_poll_interval_seconds": {
+    "description": "主动任务领取间隔",
+    "type": "int",
+    "hint": "内网模式下 Bridge 自动领取 Core proactive 队列并转发 Codex Runner/Sidecar。默认 10 秒。",
+    "default": 10
+  },
+  "stop_pipeline_mode": {
+    "description": "阻断 AstrBot 后续处理",
+    "type": "string",
+    "options": [
+      "always",
+      "handled",
+      "reply",
+      "never"
+    ],
+    "hint": "handled=Sidecar 明确处理后阻断；reply=有回复才阻断；always=总是阻断；never=不阻断。",
+    "default": "handled"
+  },
+  "enable_active_send_api": {
+    "description": "启用主动发送 API",
+    "type": "bool",
+    "hint": "默认关闭。该能力属于外部入口，开启时仍需要 active_send_token。",
+    "default": false
+  },
+  "active_send_token": {
+    "description": "主动发送 API Token",
+    "type": "string",
+    "hint": "启用主动发送 API 时必填。",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "enable_codex_runner": {
+    "description": "启用 Codex Runner Relay",
+    "type": "bool",
+    "hint": "开启后 Gateway 把 Core proactive 队列中的 codex_delegate 转发到内网 Runner；Gateway 只做转发。",
+    "default": false
+  },
+  "codex_runner_url": {
+    "description": "Codex Runner URL",
+    "type": "string",
+    "hint": "指向隔离 VM/容器内的 Runner 接收端点，例如 http://192.168.1.202:8766/plana/codex/delegate。",
+    "default": ""
+  },
+  "codex_runner_id": {
+    "description": "稳定 Runner 身份",
+    "type": "string",
+    "hint": "用于任务、回调和 artifact 审计；不能仅依赖 IP 作为执行身份。",
+    "default": ""
+  },
+  "codex_runner_lanes": {
+    "description": "Runner lane 声明",
+    "type": "list",
+    "default": []
+  },
+  "codex_runner_protocol_version": {
+    "description": "Runner 协议版本",
+    "type": "string",
+    "default": "plana.codex.runner.v1"
+  },
+  "runner_access_policy": {
+    "description": "Runner 访问策略",
+    "type": "string",
+    "options": [
+      "lan_allowlist"
+    ],
+    "hint": "默认 lan_allowlist。Bridge 只允许把任务转发到 loopback/private LAN 地址，实际来源限制由 Runner 主机防火墙执行。",
+    "default": "lan_allowlist"
+  },
+  "codex_runner_timeout_seconds": {
+    "description": "Codex Runner 转发超时",
+    "type": "int",
+    "hint": "保留兼容字段；内网模式实际提交超时使用 codex_runner_submit_timeout_seconds。",
+    "default": 60
+  },
+  "codex_runner_submit_timeout_seconds": {
+    "description": "Codex Runner 提交超时",
+    "type": "int",
+    "hint": "Bridge 向 Runner 提交入队请求的最长等待时间。默认 5 秒，避免单个 Runner 请求阻塞其它任务。",
+    "default": 5
+  },
+  "codex_runner_delivery_concurrency": {
+    "description": "Codex Runner 投递并发",
+    "type": "int",
+    "hint": "Bridge 每轮向 Runner 并发提交任务的最大数量。默认 4。",
+    "default": 4
+  },
+  "codex_result_callback_url": {
+    "description": "Codex 结果回调 URL",
+    "type": "string",
+    "hint": "可选。Bridge 投递 Runner 时自动写入 payload.callback，例如 http://192.168.1.201:6185/api/plug/plana_bridge_gateway/codex/result。",
+    "default": ""
+  }
+}

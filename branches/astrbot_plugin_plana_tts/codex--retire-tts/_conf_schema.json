@@ -1,0 +1,138 @@
+{
+  "enabled": {
+    "description": "启用 Plana TTS",
+    "type": "bool",
+    "hint": "总开关，默认关闭。开启后才处理 /plana_tts 命令和合成请求。",
+    "default": false
+  },
+  "enable_core_api": {
+    "description": "启用 Core 调用入口",
+    "type": "bool",
+    "hint": "默认关闭。开启后注册 /plana_tts/state 和 /plana_tts/synthesize，供 Plana Core 调用语音合成能力。",
+    "default": false
+  },
+  "core_service_http_enabled": {
+    "description": "启用 Core 专用回环 HTTP 后备",
+    "type": "bool",
+    "hint": "仅用于 Core 与 TTS 分进程部署；同一 AstrBot 进程优先直接调用 Service。",
+    "default": false
+  },
+  "core_service_port": {
+    "description": "Core 专用回环服务端口",
+    "type": "int",
+    "hint": "只绑定 127.0.0.1，默认 6191。",
+    "default": 6191
+  },
+  "core_service_key": {
+    "description": "Core 专用服务密钥",
+    "type": "string",
+    "hint": "必须与 Core 的 plana_core_service_key 一致，通过 X-Plana-Core-Key 验证。",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "engine": {
+    "description": "TTS 引擎",
+    "type": "string",
+    "options": ["astrbot_provider", "external_api", "sovits"],
+    "hint": "当前实现 astrbot_provider 和 external_api；external_api 还需要单独打开 external_api_enabled。",
+    "default": "astrbot_provider"
+  },
+  "max_text_chars": {
+    "description": "最大文本长度",
+    "type": "int",
+    "hint": "限制单次语音合成文本长度，避免长文本拖垮 TTS Provider。",
+    "default": 240
+  },
+  "allow_group": {
+    "description": "允许群聊使用",
+    "type": "bool",
+    "default": true
+  },
+  "allow_private": {
+    "description": "允许私聊使用",
+    "type": "bool",
+    "default": true
+  },
+  "external_api_url": {
+    "description": "外部 TTS API URL",
+    "type": "string",
+    "hint": "外部 TTS 服务 POST 地址。仅当 engine=external_api 且 external_api_enabled=true 时调用。",
+    "default": ""
+  },
+  "external_api_enabled": {
+    "description": "启用外部 TTS API",
+    "type": "bool",
+    "hint": "默认关闭。确认 external_api_url、token、payload 参数可用后再手动开启。",
+    "obvious_hint": true,
+    "default": false
+  },
+  "external_api_token": {
+    "description": "外部 TTS API Token",
+    "type": "string",
+    "hint": "外部 TTS API 的 Bearer Token，不会写入日志。",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "external_api_timeout_seconds": {
+    "description": "外部 API 超时秒数",
+    "type": "int",
+    "hint": "调用外部 TTS API 的超时时间，范围会限制在 1-120 秒。",
+    "default": 20
+  },
+  "external_api_text_key": {
+    "description": "文本字段名",
+    "type": "string",
+    "hint": "POST JSON 中承载待合成文本的字段名。常见值为 text、input、content。",
+    "default": "text"
+  },
+  "external_api_voice": {
+    "description": "外部 API 音色",
+    "type": "string",
+    "hint": "可选。填写后会作为 voice 字段发送给外部 API。",
+    "default": ""
+  },
+  "external_api_format": {
+    "description": "音频格式",
+    "type": "string",
+    "options": ["wav", "mp3", "ogg", "opus", "m4a", "flac"],
+    "hint": "请求外部 API 时发送的 format 字段，也是保存二进制响应时的默认扩展名。",
+    "default": "wav"
+  },
+  "external_api_extra_payload": {
+    "description": "额外 JSON 参数",
+    "type": "text",
+    "hint": "可选 JSON object，会合并到外部 API POST payload 中，例如 {\"speed\":1.0}。",
+    "default": ""
+  },
+  "sovits_base_url": {
+    "description": "SoVITS 服务地址",
+    "type": "string",
+    "hint": "预留给后续 sovits 引擎。",
+    "default": ""
+  },
+  "max_concurrency": {
+    "description": "最大并发合成数",
+    "type": "int",
+    "default": 2
+  },
+  "max_audio_file_bytes": {
+    "description": "单个音频最大字节数",
+    "type": "int",
+    "default": 20971520
+  },
+  "max_audio_total_bytes": {
+    "description": "音频目录总配额字节数",
+    "type": "int",
+    "default": 268435456
+  },
+  "audio_ttl_seconds": {
+    "description": "音频保留秒数",
+    "type": "int",
+    "default": 604800
+  },
+  "audio_cleanup_interval_seconds": {
+    "description": "运行期清理间隔秒数",
+    "type": "int",
+    "default": 900
+  }
+}

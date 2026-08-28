@@ -1,0 +1,18 @@
+name: "astrbot_plugin_plana_skill_center"
+author: "soulter"
+display_name: "Plana Skill Center"
+description: "Plana 技能治理中心：隔离、扫描、审批和导出可复用 SKILL.md"
+desc: "Plana Skill Center 负责生成或导入技能的隔离、静态扫描、人工审批、哈希审计和导出；它不安装、不执行技能，也不绕过 Core 的运行确认边界。"
+short_desc: "Plana 技能隔离与治理中心"
+version: "0.1.0-beta.1"
+license: "AGPL-3.0-or-later"
+repo: "https://github.com/memoriass/astrbot_plugin_plana_skill_center"
+astrbot_version: ">=4.25.0,<5.0.0"
+tags:
+  - skill
+  - governance
+  - scanner
+  - hermes-inspired
+support_platforms:
+  - aiocqhttp
+  - webchat

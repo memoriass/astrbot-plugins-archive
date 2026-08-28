@@ -1,0 +1,133 @@
+{
+  "enabled": {
+    "description": "启用 Plana Gallery",
+    "type": "bool",
+    "default": true
+  },
+  "api_token": {
+    "description": "Gallery API Token",
+    "type": "string",
+    "hint": "写入、修改标签和外部调用时使用 X-Plana-Gallery-Token 或 Bearer Token。生产环境建议设置。",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "core_service_http_enabled": {
+    "description": "启用 Core 专用回环 HTTP 后备",
+    "type": "bool",
+    "hint": "仅绑定 127.0.0.1，用于 Gallery 与 Core 分进程部署；同进程默认使用直接服务调用。",
+    "default": false
+  },
+  "core_service_port": {
+    "description": "Core 专用回环服务端口",
+    "type": "int",
+    "hint": "只监听 127.0.0.1，默认 6193。",
+    "default": 6193
+  },
+  "core_service_key": {
+    "description": "Core 专用服务密钥",
+    "type": "string",
+    "hint": "仅供 Plana Core 通过 X-Plana-Core-Key 访问回环聊天接口，不复用 Dashboard JWT 或 Gallery 管理 Token。",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "max_import_bytes": {
+    "description": "单张图片导入上限",
+    "type": "int",
+    "hint": "单位 byte，默认 50MB。",
+    "default": 52428800
+  },
+  "allow_original_path": {
+    "description": "保留原始路径",
+    "type": "bool",
+    "hint": "默认导入时复制到插件数据目录；开启后仍记录原始路径用于溯源。",
+    "default": true
+  },
+  "enable_commands": {
+    "description": "启用图库聊天命令",
+    "type": "bool",
+    "hint": "启用 /图库 命令组，支持查看、搜索、随机发送、导入、收图和删除。",
+    "default": true
+  },
+  "allow_chat_image_import": {
+    "description": "允许聊天收图",
+    "type": "bool",
+    "hint": "启用后管理员可用 /图库 收图 在会话中收录用户随后发送的图片。",
+    "default": true
+  },
+  "upload_wait_seconds": {
+    "description": "聊天收图等待秒数",
+    "type": "int",
+    "hint": "管理员发送 /图库 收图 后，等待图片消息的时间窗口。",
+    "default": 60
+  },
+  "chat_download_timeout_seconds": {
+    "description": "聊天图片下载超时",
+    "type": "int",
+    "hint": "从聊天平台图片 URL 下载原图的超时时间，单位秒。",
+    "default": 20
+  },
+  "enable_silent_chat_image_collection": {
+    "description": "\u9759\u9ed8\u91c7\u96c6\u7fa4\u804a\u56fe\u7247",
+    "type": "bool",
+    "hint": "\u9ed8\u8ba4\u5173\u95ed\u3002\u5f00\u542f\u540e\u9759\u9ed8\u91c7\u96c6\u5141\u8bb8\u8303\u56f4\u5185\u7684\u7fa4\u804a\u56fe\u7247\uff0c\u4e0d\u56de\u590d\u3001\u4e0d\u62e6\u622a\u539f\u6d88\u606f\uff1b\u65b0\u56fe\u7247\u53ea\u8fdb\u5165\u5f85\u5ba1\u6838\u3002",
+    "default": false
+  },
+  "silent_collection_scope_allowlist": {
+    "description": "\u9759\u9ed8\u91c7\u96c6\u4f1a\u8bdd\u767d\u540d\u5355",
+    "type": "string",
+    "hint": "\u9017\u53f7\u5206\u9694\u7fa4\u53f7\u6216 unified message origin \u7247\u6bb5\uff1b\u7559\u7a7a\u8868\u793a\u6240\u6709\u7fa4\u804a\u3002",
+    "default": ""
+  },
+  "silent_collection_daily_limit_per_scope": {
+    "description": "\u5355\u7fa4\u6bcf\u65e5\u65b0\u589e\u4e0a\u9650",
+    "type": "int",
+    "hint": "\u6eda\u52a8 24 \u5c0f\u65f6\u5185\u5355\u7fa4\u6700\u591a\u65b0\u589e\u7684\u975e\u91cd\u590d\u56fe\u7247\u6570\u91cf\u3002",
+    "default": 20
+  },
+  "silent_collection_global_daily_limit": {
+    "description": "\u5168\u5c40\u6bcf\u65e5\u65b0\u589e\u4e0a\u9650",
+    "type": "int",
+    "hint": "\u6eda\u52a8 24 \u5c0f\u65f6\u5185\u5168\u90e8\u7fa4\u804a\u6700\u591a\u65b0\u589e\u7684\u975e\u91cd\u590d\u56fe\u7247\u6570\u91cf\u3002",
+    "default": 100
+  },
+  "silent_collection_max_images_per_message": {
+    "description": "\u5355\u6d88\u606f\u91c7\u96c6\u56fe\u7247\u4e0a\u9650",
+    "type": "int",
+    "default": 3
+  },
+  "silent_collection_max_bytes": {
+    "description": "\u9759\u9ed8\u91c7\u96c6\u5355\u56fe\u5b57\u8282\u4e0a\u9650",
+    "type": "int",
+    "hint": "\u9ed8\u8ba4 8MB\uff0c\u4e0d\u5f71\u54cd Web \u548c\u7ba1\u7406\u5458\u663e\u5f0f\u5bfc\u5165\u7684\u4e0a\u9650\u3002",
+    "default": 8388608
+  },
+  "silent_collection_max_pixels": {
+    "description": "\u9759\u9ed8\u91c7\u96c6\u5355\u56fe\u50cf\u7d20\u4e0a\u9650",
+    "type": "int",
+    "hint": "\u5bbd\u4e58\u9ad8\u7684\u6700\u5927\u503c\uff0c\u7528\u4e8e\u963b\u6b62\u8d85\u5927\u89e3\u7801\u56fe\u7247\u3002",
+    "default": 16000000
+  },
+  "silent_collection_max_gif_frames": {
+    "description": "\u9759\u9ed8\u91c7\u96c6 GIF \u5e27\u6570\u4e0a\u9650",
+    "type": "int",
+    "default": 200
+  },
+  "tagging_ai_enabled": {
+    "description": "AI 打标分析",
+    "type": "bool",
+    "hint": "开启后 Web 打标工作台允许接入 AI/VLM 建议；当前仅使用本地规则生成候选，所有建议都必须人工确认。",
+    "default": false
+  },
+  "tagging_ai_provider": {
+    "description": "打标分析 Provider",
+    "type": "string",
+    "hint": "预留给后续 VLM/OCR/LLM 标签分析管线，例如 local、vlm、openai-compatible。",
+    "default": "local"
+  },
+  "tagging_confidence_threshold": {
+    "description": "默认打标置信度阈值",
+    "type": "int",
+    "hint": "参考 YOLO 的 confidence threshold，用于 Web 打标工作台默认筛选候选。",
+    "default": 60
+  }
+}

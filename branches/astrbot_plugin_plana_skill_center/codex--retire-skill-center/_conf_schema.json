@@ -1,0 +1,34 @@
+{
+  "enabled": {
+    "description": "启用 Skill Center",
+    "type": "bool",
+    "hint": "默认开启。注册本机回环 Skill 治理与只读查询 API；Core 只读取治理后的 recipe 候选。",
+    "default": true
+  },
+  "register_llm_tool": {
+    "description": "注册提案型 LLM 工具",
+    "type": "bool",
+    "hint": "默认关闭。该工具只提交候选 Skill 草案，但会写入 quarantine；beta 阶段建议只让 Core 消费治理结果。",
+    "obvious_hint": true,
+    "default": false
+  },
+  "enable_write_commands": {
+    "description": "启用写入命令",
+    "type": "bool",
+    "hint": "默认关闭。开启 /plana-skill 写入类命令；写入仍需要显式确认。",
+    "default": false
+  },
+  "allow_dangerous_approval": {
+    "description": "允许批准危险扫描结果",
+    "type": "bool",
+    "hint": "默认关闭。保持关闭时，扫描结果判定为危险的 Skill 不能被批准进入可用 recipe。",
+    "obvious_hint": true,
+    "default": false
+  },
+  "max_skill_body_chars": {
+    "description": "SKILL.md 最大正文字符数",
+    "type": "int",
+    "hint": "默认 30000。限制提交或导入的 SKILL.md 正文大小，运行时会进一步夹在安全范围内。",
+    "default": 30000
+  }
+}

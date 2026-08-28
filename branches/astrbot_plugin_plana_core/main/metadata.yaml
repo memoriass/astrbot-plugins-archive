@@ -1,0 +1,8 @@
+name: "astrbot_plugin_plana_core"
+author: "soulter"
+description: "Plana core runtime for persona, memory, state, and tool-oriented prompt injection"
+display_name: "Plana Core"
+version: "0.2.0"
+license: "AGPL-3.0-or-later"
+repo: ""
+

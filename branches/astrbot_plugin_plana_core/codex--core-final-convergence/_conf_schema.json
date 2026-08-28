@@ -1,0 +1,758 @@
+{
+  "core": {
+    "description": "核心运行",
+    "type": "object",
+    "hint": "控制 Plana Core 的总开关、默认工作模式，以及是否把 Core 记忆和状态注入 AstrBot 默认 LLM 对话。",
+    "items": {
+      "enabled": {
+        "description": "启用 Plana Core",
+        "type": "bool",
+        "hint": "默认开启。关闭后不再记录记忆、不注入 Prompt，也不执行 Core 后台维护。",
+        "default": true
+      },
+      "mode": {
+        "description": "默认工作模式",
+        "type": "string",
+        "options": [
+          "standby",
+          "observing",
+          "tasking",
+          "checking",
+          "risk_review",
+          "waiting_confirm",
+          "reporting",
+          "handoff_to_bridge",
+          "silent"
+        ],
+        "hint": "默认 standby。standby=待命；observing=观察；tasking=任务；checking/risk_review=检查和风险复核；silent=免打扰。",
+        "default": "standby"
+      },
+      "inject_prompt": {
+        "description": "注入 Plana 上下文",
+        "type": "bool",
+        "hint": "默认开启。只处理 AstrBot 默认用户对话请求；插件自行创建的 ProviderRequest 不会被 Core 注入。",
+        "default": true
+      },
+      "plana_core_service_key": {
+        "description": "Core 专用服务密钥",
+        "type": "string",
+        "hint": "供 Core 与附属插件的受控治理通道共享。Webhook Companion 同进程调用也必须验证；分进程回环 HTTP 通过 X-Plana-Core-Key 发送。",
+        "obvious_hint": true,
+        "default": ""
+      }
+    }
+  },
+  "memory": {
+    "description": "记忆记录与召回",
+    "type": "object",
+    "hint": "控制消息写入、回复摘要写入、Prompt 记忆注入数量和记忆激活策略。",
+    "items": {
+      "record_messages": {
+        "description": "记录命中消息",
+        "type": "bool",
+        "hint": "默认开启。记录明确进入 Plana 对话中枢的用户消息，作为后续召回、画像和结构化抽取的证据。",
+        "default": true
+      },
+      "record_llm_response": {
+        "description": "记录模型回复摘要",
+        "type": "bool",
+        "hint": "默认开启。把 Plana 回复写入 llm_response 记忆，便于复盘和长期维护。",
+        "default": true
+      },
+      "max_active_memories": {
+        "description": "注入事件记忆条数",
+        "type": "int",
+        "hint": "默认 6。每次 Prompt 最多注入的 episodic memory 条数。",
+        "default": 6
+      },
+      "max_active_semantics": {
+        "description": "注入语义记忆条数",
+        "type": "int",
+        "hint": "默认 4。每次 Prompt 最多注入的 semantic memory 条数。",
+        "default": 4
+      },
+      "max_active_relations": {
+        "description": "注入关系边条数",
+        "type": "int",
+        "hint": "默认 4。限制关系图注入，避免 Prompt 被关系边淹没。",
+        "default": 4
+      },
+      "graph_detail_limit": {
+        "description": "关系详情输出上限",
+        "type": "int",
+        "hint": "默认 8。控制关系图详情命令和调试输出的最大边数。",
+        "default": 8
+      },
+      "max_prompt_chars": {
+        "description": "Prompt 注入总预算",
+        "type": "int",
+        "hint": "默认 4000。限制 Plana 注入块最大字符数，避免上下文过长。",
+        "default": 4000
+      },
+      "memory_inject_max_chars": {
+        "description": "记忆注入文本预算",
+        "type": "int",
+        "hint": "默认 1800。限制单次记忆候选文本总长度，应小于或等于 Prompt 注入总预算。",
+        "default": 1800
+      },
+      "memory_inject_cooldown_seconds": {
+        "description": "记忆注入冷却秒数",
+        "type": "int",
+        "hint": "默认 60。同一用户和 scope 在相似 query 下短时间重复构造 Prompt 时跳过检索；设置 0 可关闭冷却。",
+        "default": 60
+      },
+      "memory_inject_min_query_chars": {
+        "description": "记忆检索最短文本",
+        "type": "int",
+        "hint": "默认 2。当前消息短于该长度时不主动检索长期记忆，减少无意义短消息召回。",
+        "default": 2
+      },
+      "enable_memory_activation": {
+        "description": "启用记忆激活",
+        "type": "bool",
+        "hint": "默认开启。根据当前消息检索相关长期记忆并注入 Prompt。",
+        "default": true
+      },
+      "astrbot_kb_retrieval_enabled": {
+        "description": "按需检索 AstrBot 知识库",
+        "type": "bool",
+        "hint": "默认关闭。开启后仅在文档、接口、插件、工作流等知识意图下调用 AstrBot 原生知识库，不接管用户记忆和权限。",
+        "default": false
+      },
+      "astrbot_kb_names": {
+        "description": "允许检索的知识库",
+        "type": "string",
+        "hint": "使用英文逗号分隔知识库名称。留空时不检索，避免全局自动注入所有知识库。",
+        "default": ""
+      },
+      "astrbot_kb_trigger_terms": {
+        "description": "知识库按需触发词",
+        "type": "string",
+        "hint": "英文逗号分隔。留空使用内置的文档、接口、协议、插件、Skill、工作流、部署、源码和架构等触发词。",
+        "default": ""
+      },
+      "astrbot_kb_fusion_top_k": {
+        "description": "知识库融合候选数",
+        "type": "int",
+        "hint": "默认 20。AstrBot 稠密与稀疏检索经过 RRF 后保留的候选数量。",
+        "default": 20
+      },
+      "astrbot_kb_final_top_k": {
+        "description": "知识库最终片段数",
+        "type": "int",
+        "hint": "默认 4。经 AstrBot reranker 后最多注入的文档片段数量。",
+        "default": 4
+      },
+      "astrbot_kb_prompt_max_chars": {
+        "description": "知识库注入字符预算",
+        "type": "int",
+        "hint": "默认 2200。只限制按需文档参考，不影响 Core 个人记忆预算。",
+        "default": 2200
+      },
+      "unified_recall_enabled": {
+        "description": "启用统一召回候选层",
+        "type": "bool",
+        "hint": "默认关闭。开启后 Core Memory、Warehouse evidence 与 AstrBot KB 进入同一评分和去重流程；权限与正式事实仍由 Core 裁决。",
+        "default": false
+      },
+      "unified_recall_final_top_k": {
+        "description": "统一召回最终候选数",
+        "type": "int",
+        "hint": "默认 6。限制三路召回融合后的总候选数量。",
+        "default": 6
+      },
+      "unified_recall_prompt_max_chars": {
+        "description": "统一补充召回预算",
+        "type": "int",
+        "hint": "默认 2200。仅用于 Warehouse 和知识库补充材料，Core 当前记忆继续使用原有预算。",
+        "default": 2200
+      },
+      "unified_recall_warehouse_limit": {
+        "description": "Warehouse 候选上限",
+        "type": "int",
+        "hint": "默认 6。普通聊天仅在明确提到之前、上次、记得或历史时访问 Warehouse。",
+        "default": 6
+      },
+      "unified_recall_core_limit": {
+        "description": "Core 排序候选上限",
+        "type": "int",
+        "hint": "默认 8。Core 候选参与统一评分，但仍由现有 PromptBuilder 展示，避免重复注入。",
+        "default": 8
+      }
+    }
+  },
+  "maintenance": {
+    "description": "沉淀、衰减与后台维护",
+    "type": "object",
+    "hint": "控制记忆沉淀、低重要度事件衰减、索引维护和自动维护周期。",
+    "items": {
+      "enable_memory_consolidation": {
+        "description": "启用记忆沉淀",
+        "type": "bool",
+        "hint": "默认开启。把事件记忆压缩为更适合长期保存的语义记忆。",
+        "default": true
+      },
+      "enable_memory_decay": {
+        "description": "启用事件记忆衰减",
+        "type": "bool",
+        "hint": "默认开启。降低旧事件记忆重要度，减少无效召回。",
+        "default": true
+      },
+      "consolidation_batch_size": {
+        "description": "沉淀批量大小",
+        "type": "int",
+        "hint": "默认 12。每次维护最多处理的事件记忆条数。",
+        "default": 12
+      },
+      "decay_batch_size": {
+        "description": "衰减批量大小",
+        "type": "int",
+        "hint": "默认 16。每次维护最多衰减的事件记忆条数。",
+        "default": 16
+      },
+      "decay_min_importance": {
+        "description": "衰减下限",
+        "type": "float",
+        "hint": "默认 0.08。事件记忆重要度低于该值后不再继续降低。",
+        "default": 0.08
+      },
+      "enable_auto_maintenance": {
+        "description": "启用后台自动维护",
+        "type": "bool",
+        "hint": "默认关闭。开启后定时执行沉淀、衰减、概念积累、仓库推送和队列清理；可能增加 LLM 与数据库负载。201 beta 私人助理场景建议显式开启，并在 Dashboard 工作台查看最近维护时间、Warehouse 推送数和错误原因。",
+        "obvious_hint": true,
+        "default": false
+      },
+      "auto_maintenance_interval_hours": {
+        "description": "自动维护间隔小时",
+        "type": "int",
+        "hint": "默认 6。建议 4-12 小时；过小会增加数据库和模型调用压力。",
+        "default": 6
+      }
+    }
+  },
+  "task_relation": {
+    "description": "任务队列与关系图",
+    "type": "object",
+    "hint": "控制 Plana 的任务列表、任务记忆和用户/实体关系图。",
+    "items": {
+      "enable_relation_graph": {
+        "description": "启用关系图",
+        "type": "bool",
+        "hint": "默认开启。从结构化记忆派生用户画像和关系边；关系边按 scope 隔离。",
+        "default": true
+      }
+    }
+  },
+  "life_memory": {
+    "description": "LLM 结构化记忆与概念图",
+    "type": "object",
+    "hint": "这些能力可能额外调用 LLM，用于把对话转成事实、偏好、承诺、风险和概念节点。",
+    "obvious_hint": true,
+    "items": {
+      "enable_concept_extraction": {
+        "description": "启用概念提取",
+        "type": "bool",
+        "hint": "默认关闭。回复后提取概念关键词并更新概念图，会额外消耗 LLM 调用。",
+        "obvious_hint": true,
+        "default": false
+      },
+      "max_concept_keywords": {
+        "description": "概念关键词上限",
+        "type": "int",
+        "hint": "默认 4。每次概念提取最多保留 1-5 个关键词。",
+        "default": 4
+      },
+      "enable_structured_memory_extraction": {
+        "description": "启用结构化长期记忆抽取",
+        "type": "bool",
+        "hint": "默认开启。从用户消息和 Plana 回复中抽取 user_fact、user_preference、promise、task_fact、risk_event、relationship_note；会额外调用 LLM。",
+        "obvious_hint": true,
+        "default": true
+      },
+      "structured_memory_max_items": {
+        "description": "结构化记忆条数上限",
+        "type": "int",
+        "hint": "默认 5。单次响应最多写入的结构化记忆条数。",
+        "default": 5
+      },
+      "enable_memory_query_planner": {
+        "description": "启用记忆检索规划",
+        "type": "bool",
+        "hint": "默认关闭。开启后只在命中记忆/回忆提示词时，用短超时模型把“上次、之前、那个”等指代转换为可检索 query；普通聊天不应额外调用 LLM。",
+        "obvious_hint": true,
+        "default": false
+      },
+      "accumulate_batch_size": {
+        "description": "概念积累批量大小",
+        "type": "int",
+        "hint": "默认 8。手动或自动概念积累每次处理的最大记忆条数。",
+        "default": 8
+      },
+      "enable_recall_tool": {
+        "description": "启用主动回忆工具",
+        "type": "bool",
+        "hint": "默认开启。注册 plana_recall_memory LLM 工具，允许模型按需检索长期记忆；只读，不写入。",
+        "obvious_hint": true,
+        "default": true
+      },
+      "recall_default_k": {
+        "description": "主动回忆默认条数",
+        "type": "int",
+        "hint": "默认 5。LLM 工具未指定 k 时返回的最大融合结果数。",
+        "default": 5
+      },
+      "recall_max_k": {
+        "description": "主动回忆最大条数",
+        "type": "int",
+        "hint": "默认 10。限制 LLM 工具和 Web 检索实验单次返回数量。",
+        "default": 10
+      },
+      "recall_rrf_k": {
+        "description": "RRF 融合平滑常数",
+        "type": "int",
+        "hint": "默认 60。Reciprocal Rank Fusion 的 k 值；数值越大，排名差异影响越平滑。",
+        "default": 60
+      },
+      "recall_include_semantic": {
+        "description": "融合语义记忆路由",
+        "type": "bool",
+        "hint": "默认开启。主动回忆时纳入 semantic memory 路由。",
+        "default": true
+      },
+      "recall_include_concept": {
+        "description": "融合概念图路由",
+        "type": "bool",
+        "hint": "默认开启。主动回忆时纳入 concept graph 扩散激活路由。",
+        "default": true
+      }
+    }
+  },
+  "memory_warehouse": {
+    "description": "Memory Warehouse 长期证据仓库",
+    "type": "object",
+    "hint": "可选附属插件。Core 负责筛选、画像、关系和 Prompt 策略；Warehouse 只保存证据并返回有界片段。",
+    "items": {
+      "enable_memory_warehouse": {
+        "description": "启用 Memory Warehouse 客户端",
+        "type": "bool",
+        "hint": "默认开启。关闭后 Core 不访问 Warehouse；同进程优先直接调用受控 Service，分进程才使用专用 loopback HTTP，Core 仍负责筛选和推送策略。",
+        "default": true
+      },
+      "memory_warehouse_url": {
+        "description": "Memory Warehouse 基础 URL",
+        "type": "string",
+        "hint": "同进程优先直接调用 Warehouse Service；分进程后备默认使用 http://127.0.0.1:6192/plana_warehouse。",
+        "default": "http://127.0.0.1:6192/plana_warehouse"
+      },
+      "memory_warehouse_timeout_seconds": {
+        "description": "Memory Warehouse 超时秒数",
+        "type": "int",
+        "hint": "默认 5。仓库调用失败会返回不可用原因，不会伪装为空记忆。",
+        "default": 5
+      },
+      "memory_warehouse_push_messages": {
+        "description": "推送筛选后的用户消息",
+        "type": "bool",
+        "hint": "默认开启。仅在启用 Warehouse 时生效；由 Core 决定哪些消息可作为 raw evidence 推送。",
+        "default": true
+      },
+      "memory_warehouse_push_llm_responses": {
+        "description": "推送模型回复证据",
+        "type": "bool",
+        "hint": "默认开启。把 Core 已记录的助手回复作为长期证据推送到仓库。",
+        "default": true
+      },
+      "memory_warehouse_push_maintenance": {
+        "description": "推送每日维护摘要",
+        "type": "bool",
+        "hint": "默认开启。Core 每个 scope 每天写入一条幂等维护摘要，类似海马体长期整理记录。",
+        "default": true
+      },
+      "memory_warehouse_push_structured_memories": {
+        "description": "推送结构化记忆证据",
+        "type": "bool",
+        "hint": "默认开启。仓库只保存结构化抽取结果作为证据，不负责提升为画像事实。",
+        "default": true
+      },
+      "memory_warehouse_push_profile_snapshots": {
+        "description": "推送画像快照",
+        "type": "bool",
+        "hint": "默认开启。Core 把自己维护的画像快照推送为长期审计证据。",
+        "default": true
+      }
+    }
+  },
+  "ops_bridge": {
+    "description": "Web 与受控 Bridge 入口",
+    "type": "object",
+    "hint": "控制 AstrBot 内嵌 Dashboard 和供 Bridge Gateway 调用的受控入口。",
+    "items": {
+      "enable_web_dashboard": {
+        "description": "启用 AstrBot 内嵌管理面板",
+        "type": "bool",
+        "hint": "默认开启。生产请从 AstrBot Dashboard 插件页进入；本机回环地址可用于调试，非回环直连不提供 Plana 二次登录。",
+        "default": true
+      },
+      "debug_log": {
+        "description": "输出调试摘要日志",
+        "type": "bool",
+        "hint": "默认关闭。只输出关键摘要，避免高频消息路径刷屏。",
+        "default": false
+      },
+      "enable_bridge_api": {
+        "description": "启用本机 Bridge 调试 API",
+        "type": "bool",
+        "hint": "默认关闭。仅注册 /plana_core/bridge/* 本机回环调试 fallback；生产主路径由 Bridge 同进程调用 Core。",
+        "default": false
+      }
+    }
+  },
+  "gallery_media": {
+    "description": "本地语境图库",
+    "type": "object",
+    "hint": "控制 Core 是否通过同机回环 Gallery 检索已审核反应图。失败时始终退化为纯文字。",
+    "items": {
+      "enable_gallery_chat_images": {
+        "description": "启用聊天语境图片",
+        "type": "bool",
+        "hint": "新安装默认关闭真实发送。建议先开启 shadow 并通过会话白名单灰度；技术、任务、敏感和事实型查询始终保持文字。",
+        "default": false
+      },
+      "gallery_service_url": {
+        "description": "Gallery 服务 URL",
+        "type": "string",
+        "hint": "同进程优先直接调用 Gallery Chat Service；分进程后备默认使用 http://127.0.0.1:6193/plana_gallery。",
+        "default": "http://127.0.0.1:6193/plana_gallery"
+      },
+      "gallery_timeout_seconds": {
+        "description": "Gallery 超时秒数",
+        "type": "int",
+        "hint": "默认 2。包含候选检索、路径解析和轻量模型选择的单步超时。",
+        "default": 2
+      },
+      "gallery_candidate_limit": {
+        "description": "候选图片上限",
+        "type": "int",
+        "hint": "默认 6，最大 12。模型只能从这些候选 asset_ref 中选择。",
+        "default": 6
+      },
+      "gallery_selector_threshold": {
+        "description": "模型选图置信阈值",
+        "type": "float",
+        "hint": "默认 0.75。低于阈值或返回非法 asset_ref 时不发送图片。",
+        "default": 0.75
+      },
+      "gallery_selector_mode": {
+        "description": "候选选择模式",
+        "type": "string",
+        "hint": "默认 hybrid。强规则候选直接选择，其余候选交给轻量模型；模型只能返回候选 asset_ref 或 none。",
+        "default": "hybrid",
+        "options": [
+          "hybrid",
+          "model",
+          "rule"
+        ]
+      },
+      "gallery_reaction_frequency_mode": {
+        "description": "反应图介入频率",
+        "type": "string",
+        "hint": "默认 natural。明确要图始终进入候选；高置信情绪 70%，中等情绪 45%，只有语气或场景信号时 20%。",
+        "default": "natural",
+        "options": [
+          "conservative",
+          "natural",
+          "active"
+        ]
+      },
+      "gallery_reaction_window_size": {
+        "description": "反应图密度窗口",
+        "type": "int",
+        "hint": "默认 20。按每个会话记录最近多少次合格采样决策。",
+        "default": 20
+      },
+      "gallery_reaction_window_max": {
+        "description": "窗口内最多候选次数",
+        "type": "int",
+        "hint": "默认 6。最近 20 次合格采样最多 6 次进入候选，明确索图不受限制。",
+        "default": 6
+      },
+      "gallery_direct_select_score": {
+        "description": "规则直选最低分",
+        "type": "float",
+        "hint": "默认 50。最高候选还必须命中至少一个请求分面。",
+        "default": 50
+      },
+      "gallery_direct_select_margin": {
+        "description": "规则直选领先分差",
+        "type": "float",
+        "hint": "默认 12。最高候选领先第二名达到该值时才允许规则直选。",
+        "default": 12
+      },
+      "gallery_delivery_delay_ms": {
+        "description": "独立图片延迟毫秒",
+        "type": "int",
+        "hint": "默认 350。正常文字发送完成后等待短暂节奏，再发送 image-only 反应图。",
+        "default": 350
+      },
+      "gallery_inflight_lease_seconds": {
+        "description": "Reaction reservation lease seconds",
+        "type": "int",
+        "hint": "Default 30. Automatically releases abandoned reaction reservations.",
+        "default": 30
+      },
+      "gallery_reaction_scope_allowlist": {
+        "description": "真实发送会话白名单",
+        "type": "string",
+        "hint": "逗号分隔 unified_msg_origin；留空允许所有会话。可用于先在测试群灰度。",
+        "default": ""
+      },
+      "gallery_group_cooldown_seconds": {
+        "description": "群聊附图冷却秒数",
+        "type": "int",
+        "hint": "默认 300。按群限制自动附图，避免刷屏。",
+        "default": 300
+      },
+      "gallery_private_cooldown_seconds": {
+        "description": "私聊附图冷却秒数",
+        "type": "int",
+        "hint": "默认 180。按会话和用户限制自动附图。",
+        "default": 180
+      }
+    }
+  },
+  "persona_behavior": {
+    "description": "人格与对话行为",
+    "type": "object",
+    "hint": "控制 Plana 人设覆盖、全量消息记录、唤醒状态机、前置意图判定、短期账本、免打扰和 mood 刷新。",
+    "items": {
+      "persona_style": {
+        "description": "Plana 人格风格覆盖",
+        "type": "text",
+        "hint": "默认空。留空沿用 AstrBot 当前会话人格与 system prompt；填写后替换 PLANA_IDENTITY 块，仅用于显式覆盖 Plana 运行身份。",
+        "default": ""
+      },
+      "record_all_messages": {
+        "description": "记录所有用户消息",
+        "type": "bool",
+        "hint": "默认关闭。公开群聊建议保持关闭，避免滥采；201 beta 私人助理场景可显式开启以获得更完整的日常记忆。默认只记录明确进入 Plana 中枢的消息。",
+        "obvious_hint": true,
+        "default": false
+      },
+      "enable_dialogue_wake_state": {
+        "description": "启用对话唤醒状态机",
+        "type": "bool",
+        "hint": "默认开启。识别 AstrBot wake/@、戳一戳、Plana 名称提及、私聊和短期熟悉状态；只决定是否接管对话，不增加执行权限。",
+        "default": true
+      },
+      "dialogue_wake_words": {
+        "description": "对话唤醒词",
+        "type": "string",
+        "hint": "默认 plana,普拉娜,普拉纳。逗号分隔；命中后由 Core 本地规则接管，前置模型仅在显式配置时参与。",
+        "default": "plana,普拉娜,普拉纳"
+      },
+      "dialogue_familiar_window_seconds": {
+        "description": "短期熟悉窗口秒数",
+        "type": "int",
+        "hint": "默认 180。被 @/wake 后允许自然追问；群聊按同一群成员隔离，其他成员不会继承任务状态。",
+        "default": 180
+      },
+      "dialogue_observation_window_seconds": {
+        "description": "回应后观察窗口秒数",
+        "type": "int",
+        "hint": "默认 90。Plana 回应后允许同一群成员按续接信号或 Reply 锚点继续；其他成员只可开启公开只读分支，不改变 workflow 确认边界。",
+        "default": 90
+      },
+      "assistant_behavior_orchestrator": {
+        "description": "启用统一助理行为编排",
+        "type": "bool",
+        "hint": "默认开启。每个 turn 只进行一次参与、工具、委派、取消或静默裁定，不改变权限策略。",
+        "default": true
+      },
+      "assistant_group_proactive_mode": {
+        "description": "群聊主动参与模式",
+        "type": "string",
+        "hint": "默认 conservative。仅对明确求助、任务追问、纠正和高价值时效提醒进行保守参与。",
+        "default": "conservative"
+      },
+      "assistant_group_proactive_cooldown_seconds": {
+        "description": "群聊主动参与冷却秒数",
+        "type": "int",
+        "hint": "默认 300。按群与用户限制连续主动插话。",
+        "default": 300
+      },
+      "assistant_group_proactive_daily_limit": {
+        "description": "群聊每日主动参与上限",
+        "type": "int",
+        "hint": "默认 8。直接 @、回复和私聊不计入。",
+        "default": 8
+      },
+      "assistant_tool_progress_threshold_seconds": {
+        "description": "工具进度提示阈值秒数",
+        "type": "int",
+        "hint": "默认 8。短于阈值的只读工具只发送最终结果。",
+        "default": 8
+      },
+      "assistant_xiaowei_replay_shadow": {
+        "description": "启用小维场景影子评测记录",
+        "type": "bool",
+        "hint": "默认开启。记录新行为决策但不执行额外副作用。",
+        "default": true
+      },
+      "dialogue_poke_response": {
+        "description": "戳一戳回应",
+        "type": "string",
+        "hint": "默认轻量回应。收到戳一戳/拍一拍且没有文本任务时返回。",
+        "default": "我在，需要我处理什么？"
+      },
+      "dialogue_response_preflight_enabled": {
+        "description": "启用回应/意图前置判定",
+        "type": "bool",
+        "hint": "默认关闭。启用后也只使用 当前请求可用的轻量预判模型；未配置专用模型时 Core 直接按本地规则接管。",
+        "default": false
+      },
+      "dialogue_response_preflight_timeout_seconds": {
+        "description": "前置判定超时秒数",
+        "type": "float",
+        "hint": "默认 1.2。前置模型最长等待时间；超时或不可用时使用保守本地规则。",
+        "default": 1.2
+      },
+      "dialogue_preflight_classify_chat_turns": {
+        "description": "用前置模型分析普通聊天",
+        "type": "bool",
+        "hint": "默认关闭。只有同时启用前置判定并存在可用的轻量预判 provider 时才会分析普通聊天 turn；模型不能发明 未注册执行能力或副作用。",
+        "obvious_hint": true,
+        "default": false
+      },
+      "dialogue_allowed_chat_tools": {
+        "description": "普通聊天允许的 LLM 工具",
+        "type": "string",
+        "hint": "默认 plana_recall_memory。逗号分隔；普通聊天只保留这些工具，shell、Skill、workflow 等工具必须先由 Core 识别明确意图并走受控入口。",
+        "default": "plana_recall_memory"
+      },
+      "enable_dialogue_ledger": {
+        "description": "启用短期对话账本",
+        "type": "bool",
+        "hint": "默认开启。按 unified_msg_origin 保留运行时内存会话窗口，用于追问理解、Prompt 注入和只读聊天记录查询；不持久化。",
+        "default": true
+      },
+      "dialogue_ledger_capacity": {
+        "description": "短期对话账本容量",
+        "type": "int",
+        "hint": "默认 80。每个会话在内存中保留的最近消息数量上限。",
+        "default": 80
+      },
+      "dialogue_ledger_max_message_chars": {
+        "description": "单条短期消息字符预算",
+        "type": "int",
+        "hint": "默认 500。每条短期消息最多保留字符数，避免群聊上下文过长。",
+        "default": 500
+      },
+      "dialogue_ledger_prompt_limit": {
+        "description": "短期对话 Prompt 条数",
+        "type": "int",
+        "hint": "默认 8。普通聊天 Prompt 中最多追加的最近消息条数；设为 0 可关闭 Prompt 注入但保留只读查询。",
+        "default": 8
+      },
+      "quiet_hours": {
+        "description": "免打扰时段",
+        "type": "string",
+        "hint": "默认空。格式如 23-7 或 23-6；命中时自动进入 silent。",
+        "default": ""
+      },
+      "mood_update_probability": {
+        "description": "情绪状态刷新概率",
+        "type": "float",
+        "hint": "默认 0.05。每次 LLM 响应后触发 mood_state 更新的概率；0 表示关闭，建议 0.03-0.08。",
+        "default": 0.05
+      }
+    }
+  },
+  "execution": {
+    "description": "领域插件与 Codex 执行",
+    "type": "object",
+    "hint": "每次请求最多挂载一个领域插件入口；复杂任务只生成受控 Codex 授权提案。",
+    "items": {
+      "assistant_task_enabled": {
+        "description": "启用助理任务会话",
+        "type": "bool",
+        "hint": "默认开启。普通聊天仍走 AstrBot 默认对话；明确的搜索、诊断、文件查看、插件调用和工具任务先进入 Plana 任务会话。",
+        "default": true
+      },
+      "assistant_native_tool_mode": {
+        "description": "优先使用 AstrBot 原生工具循环",
+        "type": "bool",
+        "hint": "默认开启。Core 每次只挂载一个已选领域入口；Web 搜索按请求临时启用，复杂任务进入 Codex 授权链。",
+        "obvious_hint": true,
+        "default": true
+      },
+      "assistant_low_risk_autorun": {
+        "description": "低风险原生工具自动执行",
+        "type": "bool",
+        "hint": "默认开启。仅开放请求级只读/单产物工具视图；通用 shell、编辑、宿主写入和账号变更仍走确认。",
+        "default": true
+      },
+      "assistant_long_task_threshold_seconds": {
+        "description": "长任务委派阈值（秒）",
+        "type": "int",
+        "hint": "默认 120。明确预计超过该时长、批量、多产物、安装构建或后台任务优先委派 Codex Runner。",
+        "default": 120
+      },
+      "assistant_service_gateway_enabled": {
+        "description": "启用独立服务适配网关",
+        "type": "bool",
+        "hint": "默认开启。领域插件可通过受控 service_ref 和 capability 访问 202 Adapter Gateway；Core 不注册全局服务查询工具。",
+        "default": true
+      },
+      "assistant_service_gateway_url": {
+        "description": "服务适配网关 URL",
+        "type": "string",
+        "hint": "仅配置受信内网 Adapter Gateway，不向模型暴露。",
+        "default": "http://192.168.1.202:8780"
+      },
+      "assistant_service_gateway_token": {
+        "description": "服务适配网关共享密钥",
+        "type": "string",
+        "hint": "用于 201 到 202 的 HMAC 请求认证，不写入日志或模型上下文。",
+        "default": ""
+      },
+      "assistant_service_gateway_timeout_seconds": {
+        "description": "服务适配网关超时秒数",
+        "type": "int",
+        "hint": "默认 20 秒，仅用于同步低风险查询。",
+        "default": 20
+      },
+      "assistant_conversation_frame_ttl_seconds": {
+        "description": "短期会话续接窗口（秒）",
+        "type": "int",
+        "hint": "默认 180。用于在 Core 重启后续接‘现在状态呢’、‘再看一下’和‘取消刚才任务’等短句；不会写入长期记忆。",
+        "default": 180
+      },
+      "assistant_task_max_recovery_steps": {
+        "description": "任务失败恢复轮数",
+        "type": "int",
+        "hint": "默认 2。工具失败时给出重试、替代路径或配置修复建议；当前 beta 只做轻量恢复提示，不做无限自动循环。",
+        "default": 2
+      },
+      "assistant_task_progress_enabled": {
+        "description": "任务进度提示",
+        "type": "bool",
+        "hint": "默认开启。任务会话记录最近路由、能力、sandbox、待确认编号和恢复建议，供 Dashboard 与日志诊断。",
+        "default": true
+      },
+      "assistant_task_natural_confirm": {
+        "description": "自然语言确认任务",
+        "type": "bool",
+        "hint": "默认开启。用户回复“确认/继续/取消/重试/yes/cancel”时，会映射到当前会话最近的领域 proposal 或 Codex 授权提案。",
+        "default": true
+      },
+      "assistant_remote_runner_enabled": {
+        "description": "启用 Codex Runner 委派",
+        "type": "bool",
+        "hint": "默认关闭。开启后，Core 只把高危、长任务或本地失败后的任务写入 Bridge relay 队列；远程 URL 和 token 只配置在 Bridge Gateway，不配置在 Core。",
+        "obvious_hint": true,
+        "default": false
+      }
+    }
+  }
+}

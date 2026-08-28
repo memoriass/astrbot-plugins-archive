@@ -1,0 +1,18 @@
+name: "astrbot_plugin_plana_tts"
+author: "soulter"
+display_name: "Plana TTS Experimental"
+description: "Plana TTS 独立实验轨：有界语音合成与 Voice Runtime 研究，不进入当前 Plana 发布套件。"
+desc: "Plana TTS 是独立实验仓库，支持默认关闭的 AstrBot Provider 与外部 HTTP API；不并入 Core 或 Bridge，也不属于当前 release readiness。"
+short_desc: "Plana 独立 TTS 实验轨"
+version: "0.1.0-beta.1"
+license: "AGPL-3.0-or-later"
+repo: "https://github.com/memoriass/astrbot_plugin_plana_tts"
+astrbot_version: ">=4.25.0,<5.0.0"
+tags:
+  - tts
+  - voice
+  - plana
+  - experimental
+support_platforms:
+  - aiocqhttp
+  - webchat

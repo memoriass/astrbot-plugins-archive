@@ -1,0 +1,52 @@
+# ── Python cache ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ── Runtime database (contains user memory / identity — never commit) ──────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Log files ─────────────────────────────────────────────────────────────────
+*.log
+*.log.*
+
+# ── Instance config (written by AstrBot, may contain tokens / passwords) ──────
+# e.g. data/config/astrbot_plugin_plana_core_config.json
+*_config.json
+
+# ── Environment / secret files ────────────────────────────────────────────────
+.env
+.env.*
+*.env
+*.secret
+*.key
+*.pem
+
+# ── AI-generated working documents (plan / task logs — not part of source) ────
+docs/current/
+# Individual doc files at any depth, in case directory is restructured
+**/plan.md
+**/task.md
+**/overview.md
+
+# ── Temporary / generated output files ───────────────────────────────────────
+*.tmp
+*.temp
+*.bak
+*.orig
+*_SUMMARY.md
+*_REPORT.md
+*_OUTPUT.md
+
+# ── IDE / OS artifacts ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+

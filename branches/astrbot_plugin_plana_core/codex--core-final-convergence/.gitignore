@@ -1,0 +1,88 @@
+# ── Python cache ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ── Runtime database (contains user memory / identity — never commit) ──────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Log files ─────────────────────────────────────────────────────────────────
+*.log
+*.log.*
+
+# ── Instance config (written by AstrBot, may contain tokens / passwords) ──────
+# e.g. data/config/astrbot_plugin_plana_core_config.json
+*_config.json
+
+# ── Environment / secret files ────────────────────────────────────────────────
+.env
+.env.*
+*.env
+*.secret
+*.key
+*.pem
+
+# ── AI-generated working documents (plan / task logs — not part of source) ────
+docs/current/
+# Individual doc files at any depth, in case directory is restructured
+**/plan.md
+**/task.md
+**/overview.md
+
+# ── Temporary / generated output files ───────────────────────────────────────
+*.tmp
+*.temp
+*.bak
+*.orig
+*_SUMMARY.md
+*_REPORT.md
+*_OUTPUT.md
+
+# ── IDE / OS artifacts ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Test and tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Frontend/build outputs
+node_modules/
+dist/
+build/
+coverage/
+test-results/
+playwright-report/
+reports/
+
+# Local runtime data and generated artifacts
+data/
+plugin_data/
+backups/
+tmp/
+temp/
+output/
+generated_images/
+exports/
+artifacts/
+benchmarks/latest_results.json
+*.sqlite3-*
+*.sqlite3-shm
+*.sqlite3-wal
+
+# Local release packaging
+*.zip
+*.tar
+*.tar.gz
+

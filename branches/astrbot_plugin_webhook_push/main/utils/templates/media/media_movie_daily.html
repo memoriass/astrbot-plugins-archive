@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Card Style</title>
+    <style>
+        /* Localized Fonts */
+        @font-face {
+            font-family: 'Noto Sans SC';
+            font-style: normal;
+            font-weight: 400;
+            src: url({% if font_base64_regular %}"data:font/opentype;base64,{{ font_base64_regular }}"{% else %}"{{ resource_path }}/fonts/SourceHanSansCN-Regular.otf"{% endif %}) format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Noto Sans SC';
+            font-style: normal;
+            font-weight: 700;
+            src: url({% if font_base64_bold %}"data:font/opentype;base64,{{ font_base64_bold }}"{% else %}"{{ resource_path }}/fonts/SourceHanSansCN-Bold.otf"{% endif %}) format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            src: url('{{ resource_path }}/fonts/Montserrat-Regular.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            src: url('{{ resource_path }}/fonts/Montserrat-Bold.ttf') format('truetype');
+        }
+
+        /* Based on George Miro's Daily UI Movie Card */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: transparent;
+            font-family: 'Open Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 400px;
+            background-color: #ffffff;
+            /* 切换为白色背景 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            /* 更柔和的投影 */
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            /* 高度自适应 */
+        }
+
+        .movie-header {
+            width: 100%;
+            height: auto;
+            /* 高度由图片决定 */
+            background: #ffffff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .movie-header .poster-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            /* 设为块级元素，撑开父容器 */
+            object-fit: contain;
+            z-index: 1;
+            /* 渐变蒙版，底部完全透明 */
+            mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
+        }
+
+        .text-movie-cont {
+            padding: 20px 25px 30px;
+            position: relative;
+            z-index: 10;
+            margin-top: -60px;
+            /* 调整负边距使过渡更自然 */
+            /* 向上方透明白色的渐变，承接海报底部 */
+            background: linear-gradient(to top, #ffffff 0%, #ffffff 80%, rgba(255, 255, 255, 0) 100%);
+            color: #333333;
+            /* 主文字颜色 */
+        }
+
+        .movie-header .menu {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            z-index: 100;
+        }
+
+        .menu svg {
+            width: 36px;
+            height: 36px;
+            color: #fe4141;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+            fill: currentColor;
+        }
+
+        h1 {
+            font-family: "Montserrat", "Noto Sans SC", "WenQuanYi Micro Hei", "Droid Sans Fallback", sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            /* 深色标题 */
+            line-height: 1.1;
+        }
+
+        .movie-gen {
+            margin: 0 0 20px 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .movie-gen li {
+            font-size: 13px;
+            color: #818181;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        h5 {
+            font-family: "Montserrat", "Noto Sans SC", "WenQuanYi Micro Hei", "Droid Sans Fallback", sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #e74c3c;
+            /* 红色摘要标签，更醒目 */
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .movie-description {
+            font-size: 14px;
+            font-weight: 400;
+            color: #555555;
+            /* 灰色正文 */
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+            text-align: justify;
+        }
+
+        .kv-container {
+            margin-bottom: 25px;
+        }
+
+        .kv-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .label {
+            color: #818181;
+            font-weight: bold;
+            width: 90px;
+            flex-shrink: 0;
+        }
+
+        .value {
+            color: #333333;
+            /* 深色键值对内容 */
+            word-break: break-all;
+        }
+
+        .action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .watch-btn {
+            display: flex;
+            align-items: center;
+            border: 1px solid #fe4141;
+            border-radius: 5px;
+            padding: 8px 15px;
+            color: #fe4141;
+            font-family: "Montserrat", "Noto Sans SC", "WenQuanYi Micro Hei", "Droid Sans Fallback", sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .watch-btn svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: currentColor;
+        }
+
+        .action-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .action-icons svg {
+            color: #fe4141;
+            width: 22px;
+            height: 22px;
+            margin-left: 15px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container card">
+        <div class="movie-header">
+            <!-- info_outline icon -->
+
+            {% if poster_url %}
+            <img src="{{ poster_url }}" class="poster-image" alt="Poster">
+            {% endif %}
+        </div>
+        <div class="text-movie-cont">
+            <h1>{{ title }}</h1>
+
+            <ul class="movie-gen">
+                <li>MEDIA WEBHOOK PUSH</li>
+            </ul>
+
+            <div class="movie-description">
+                {% for item in items %}
+                {% if item.type == 'text' %}
+                {{ item.text }}
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="kv-container">
+                {% for item in items %}
+                {% if item.type == 'kv' %}
+                <div class="kv-row">
+                    <span class="label">{{ item.label }}</span>
+                    <span class="value">{{ item.value }}</span>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>

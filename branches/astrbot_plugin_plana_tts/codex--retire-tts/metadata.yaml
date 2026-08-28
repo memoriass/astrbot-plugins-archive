@@ -1,0 +1,20 @@
+name: "astrbot_plugin_plana_tts"
+author: "soulter"
+display_name: "Plana TTS (Retired)"
+description: "RETIRED: inert archive of the former Plana TTS experimental plugin"
+desc: "已退役。AstrBot 入口不注册命令、Service、Web API 或 loopback server，不创建或清理音频目录；历史实现原地保留。"
+short_desc: "已退役的 Plana TTS 归档"
+version: "0.1.0-beta.1"
+license: "AGPL-3.0-or-later"
+repo: "https://github.com/memoriass/astrbot_plugin_plana_tts"
+astrbot_version: ">=4.25.0,<5.0.0"
+tags:
+  - tts
+  - voice
+  - plana
+  - experimental
+  - deprecated
+  - retired
+support_platforms:
+  - aiocqhttp
+  - webchat

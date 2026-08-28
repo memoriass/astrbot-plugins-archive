@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Plana Core</title>
+  <style>{{STYLES}}</style>
+</head>
+<body data-theme="light">
+  <div class="app-shell" data-react-shell="plana-web-shell">
+    <aside class="sidebar" aria-label="Plana Core 主导航">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">P</span><div><strong>PLANA CORE</strong><span data-i18n="brand.tagline">陪伴与治理中枢</span></div></div>
+      <button id="mobile-nav-toggle" class="mobile-nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"><span id="mobile-nav-label">工作台</span><span aria-hidden="true">⌄</span></button>
+      <nav id="primary-nav" class="primary-nav" aria-label="主要页面">
+        <button class="nav-item active" type="button" data-section="overview" aria-current="page"><span data-i18n="nav.overview">工作台</span></button>
+        <button class="nav-item" type="button" data-section="memory"><span data-i18n="nav.memory">记忆</span></button>
+        <button class="nav-item" type="button" data-section="tasks"><span data-i18n="nav.tasks">审批与任务</span></button>
+        <button class="nav-item" type="button" data-section="capabilities"><span data-i18n="nav.capabilities">领域集成</span></button>
+        <button class="nav-item" type="button" data-section="resources"><span data-i18n="nav.resources">集成与运行</span></button>
+        <button class="nav-item" type="button" data-section="settings"><span data-i18n="nav.settings">诊断与维护</span></button>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="locale-toggle" class="icon-button" type="button" data-i18n-aria-label="locale.toggle" aria-label="切换语言">文</button>
+        <button id="theme-toggle" class="icon-button" type="button" data-i18n-aria-label="theme.toggle" aria-label="切换主题" aria-pressed="false">◐</button>
+      </div>
+    </aside>
+    <main class="main-shell">
+      <div class="plana-scene" aria-hidden="true"><img src="{{PLANA_ART}}" alt="" decoding="async"></div>
+      <div class="content-shell">
+        <header class="page-header">
+          <div><h1 id="page-title" tabindex="-1">工作台</h1><p id="page-caption">快速了解 Plana 当前需要你关注的事项。</p></div>
+          <span class="host-badge" data-i18n="shell.embedded">AstrBot 内置页面</span>
+        </header>
+        <div id="page-status" class="page-status" role="status" aria-live="polite"></div>
+        <div id="subnav" class="subnav" aria-label="页面内导航" hidden></div>
+        <section id="view-root" class="view-root" aria-live="polite"></section>
+      </div>
+    </main>
+  </div>
+  <script>window.__PLANA_SHELL_CONFIG__={apiBase:'{{API_BASE}}',bridgeMode:{{BRIDGE_MODE}}};</script>
+  <script>{{SCRIPTS}}</script>
+</body>
+</html>

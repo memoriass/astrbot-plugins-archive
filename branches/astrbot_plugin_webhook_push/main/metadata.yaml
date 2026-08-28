@@ -1,0 +1,6 @@
+name: "Webhook Push"
+author: "memoriass"
+description: "通用 Webhook 推送插件，支持媒体、游戏及自定义消息推送"
+display_name: "通知推送插件"
+version: "2.0.0"
+repo: "https://github.com/memoriass/astrbot_plugin_webhook_push"

@@ -1,0 +1,18 @@
+name: "astrbot_plugin_plana_gallery"
+author: "soulter"
+display_name: "Plana Gallery"
+description: "Plana 本地语境图库：管理反应图、审核标签、SQLite 检索与聊天候选"
+desc: "Plana Gallery 独立维护本地图片、情绪与语境标签、FTS 候选和审核 Web，供 Core 通过同机回环契约安全选图。"
+short_desc: "Plana 本地反应图与语境检索中心"
+version: "0.3.0"
+license: "AGPL-3.0-or-later"
+repo: "https://github.com/memoriass/astrbot_plugin_plana_gallery"
+astrbot_version: ">=4.25.0,<5.0.0"
+tags:
+  - gallery
+  - image
+  - memory
+  - web
+support_platforms:
+  - aiocqhttp
+  - webchat

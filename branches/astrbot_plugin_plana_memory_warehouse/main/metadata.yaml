@@ -1,0 +1,17 @@
+name: "astrbot_plugin_plana_memory_warehouse"
+author: "soulter"
+display_name: "Plana Memory Warehouse"
+description: "Plana Memory Warehouse 附属插件：独立承载全量情景记忆仓库、证据检索和备份边界。"
+desc: "Plana Memory Warehouse 是 Plana 插件族的可选长期情景仓库。Core 保留工作记忆、关系图谱、召回策略和确认边界；Warehouse 负责全量事件存储、证据 ID、检索与后续大索引扩展。"
+short_desc: "Plana 可选长期记忆仓库附属插件"
+version: "0.1.0-beta.1"
+license: "AGPL-3.0-or-later"
+repo: "https://github.com/memoriass/astrbot_plugin_plana_memory_warehouse"
+astrbot_version: ">=4.25.0,<5.0.0"
+tags:
+  - memory
+  - warehouse
+  - plana
+support_platforms:
+  - aiocqhttp
+  - webchat

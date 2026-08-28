@@ -1,0 +1,17 @@
+name: "astrbot_plugin_plana_bridge_gateway"
+author: "soulter"
+display_name: "Plana Bridge Gateway"
+description: "Plana 传输网关：连接 Core、外部消息节点与原生 Codex Runner"
+desc: "Plana Bridge Gateway 只负责消息转发、主动投递、Codex 任务生命周期和 artifact 传输，不注册领域工具或执行本地能力。"
+short_desc: "Plana 消息与 Codex 传输网关"
+version: "0.1.0-beta.1"
+license: "AGPL-3.0-or-later"
+repo: "https://github.com/memoriass/astrbot_plugin_plana_bridge_gateway"
+astrbot_version: ">=4.25.0,<5.0.0"
+tags:
+  - bridge
+  - gateway
+  - bot
+support_platforms:
+  - aiocqhttp
+  - webchat

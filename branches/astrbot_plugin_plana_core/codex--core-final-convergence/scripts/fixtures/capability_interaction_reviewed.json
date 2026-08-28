@@ -1,0 +1,105 @@
+{
+  "fixture_kind": "capability_interaction_reviewed",
+  "schema_version": 1,
+  "cases": [
+    {
+      "case_id": "qq-ani-tech-negative-001",
+      "origin": "qq_history_reviewed",
+      "source_hash": "2fdd0be8540b5fb801a865f7fa142b8e949fe8b67d4a814d2073135fa2386a54",
+      "text": "mp怎么添加mikan啊？",
+      "context_messages": [],
+      "message_type": "type_1",
+      "wake": false,
+      "reply_anchor": false,
+      "expected_profile": "",
+      "expected_capability": null,
+      "expected_arguments": {},
+      "argument_match": "exact",
+      "expected_confirmation": false,
+      "allowed_capabilities": [],
+      "forbidden_capabilities": [
+        "ani_rss.search_mikan",
+        "ani_rss.list_mikan_groups",
+        "ani_rss.list_subscriptions"
+      ],
+      "expected_final_action": "direct_answer",
+      "live_policy": "shadow",
+      "review_status": "human_reviewed"
+    },
+    {
+      "case_id": "qq-qb-queued-negative-001",
+      "origin": "qq_history_reviewed",
+      "source_hash": "4761cb76a799cb820785bc6045c9a5212a8cb225052e63bc990f11a9afef8a5f",
+      "text": "qb有些任务显示是排队，是代表什么意思？",
+      "context_messages": [],
+      "message_type": "type_1",
+      "wake": false,
+      "reply_anchor": false,
+      "expected_profile": "",
+      "expected_capability": null,
+      "expected_arguments": {},
+      "argument_match": "exact",
+      "expected_confirmation": false,
+      "allowed_capabilities": [],
+      "forbidden_capabilities": [
+        "qbittorrent.list_torrents",
+        "qbittorrent.transfer_status"
+      ],
+      "expected_final_action": "direct_answer",
+      "live_policy": "shadow",
+      "review_status": "human_reviewed"
+    },
+    {
+      "case_id": "qq-ncqq-drop-negative-001",
+      "origin": "qq_history_reviewed",
+      "source_hash": "ebcafd557c13105f15fc8948cd46fcc6278c4b412574d9522d29262f1dec8a5d",
+      "text": "现在用ncqq频繁掉线有没有解决办法",
+      "context_messages": [],
+      "message_type": "type_1",
+      "wake": false,
+      "reply_anchor": false,
+      "expected_profile": "",
+      "expected_capability": null,
+      "expected_arguments": {},
+      "argument_match": "exact",
+      "expected_confirmation": false,
+      "allowed_capabilities": [],
+      "forbidden_capabilities": [
+        "ncqq.get_activation_status",
+        "ncqq.get_login_status",
+        "ncqq.get_manager_health",
+        "ncqq.get_recent_logs",
+        "ncqq.get_stats",
+        "ncqq.list_bot_heartbeats",
+        "ncqq.list_bots"
+      ],
+      "expected_final_action": "direct_answer",
+      "live_policy": "shadow",
+      "review_status": "human_reviewed"
+    },
+    {
+      "case_id": "qq-komga-alt-negative-001",
+      "origin": "qq_history_reviewed",
+      "source_hash": "6254d6c08316279ac3c9697cb48bf27a9a0aad036c362e405dc4231aa86c5464",
+      "text": "大佬们 docker管理漫画除了komga 还有啥吗",
+      "context_messages": [],
+      "message_type": "type_1",
+      "wake": false,
+      "reply_anchor": false,
+      "expected_profile": "",
+      "expected_capability": null,
+      "expected_arguments": {},
+      "argument_match": "exact",
+      "expected_confirmation": false,
+      "allowed_capabilities": [],
+      "forbidden_capabilities": [
+        "komga.list_libraries",
+        "komga.list_recent",
+        "komga.search_series"
+      ],
+      "expected_final_action": "direct_answer",
+      "live_policy": "shadow",
+      "review_status": "human_reviewed"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "path_category_pending",
+    "asset": {"asset_ref": "gallery:test1", "tags": ["needs-review"], "original_path": "C:/images/cats/a.png"},
+    "known_tags": ["cats"],
+    "expected_tags": ["cats"],
+    "review_status": "needs-review"
+  },
+  {
+    "id": "reviewed_existing",
+    "asset": {"asset_ref": "gallery:test2", "tags": ["landscape"], "title": "landscape lake"},
+    "known_tags": ["landscape"],
+    "expected_tags": [],
+    "review_status": "reviewed"
+  }
+]

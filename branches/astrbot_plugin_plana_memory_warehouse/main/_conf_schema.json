@@ -1,0 +1,80 @@
+{
+  "enabled": {
+    "description": "启用 Memory Warehouse",
+    "type": "bool",
+    "hint": "默认开启。关闭后不处理命令，也不注册 Core 调用 API。",
+    "default": true
+  },
+  "enable_core_api": {
+    "description": "启用 Core 调用入口",
+    "type": "bool",
+    "hint": "默认开启。注册本机回环 /plana_warehouse/state、/plana_warehouse/evidence/ingest、/plana_warehouse/evidence/search 和 /plana_warehouse/evidence/get。",
+    "default": true
+  },
+  "max_content_chars": {
+    "description": "单条证据最大字符数",
+    "type": "int",
+    "hint": "默认 4000。限制单次写入仓库的正文长度，超出会截断。",
+    "default": 4000
+  },
+  "max_search_limit": {
+    "description": "最大检索条数",
+    "type": "int",
+    "hint": "默认 50。限制单次 search API 返回数量。",
+    "default": 50
+  },
+  "max_bulk_items": {
+    "description": "批量导入最大条数",
+    "type": "int",
+    "hint": "默认 1000。限制单次 bulk-ingest API 接收的 evidence 数量，避免一次请求拖垮事件循环。",
+    "default": 1000
+  },
+  "allow_commands": {
+    "description": "启用调试命令",
+    "type": "bool",
+    "hint": "默认关闭。启用 /plana_warehouse_status、/plana_warehouse_search、/plana_warehouse_recent、/plana_warehouse_rebuild_index 和 /plana_warehouse_prune；检索命令只查询当前会话 origin。",
+    "default": false
+  },
+  "capture_messages": {
+    "description": "自动采集用户消息",
+    "type": "bool",
+    "hint": "默认关闭。Warehouse 可被动承接原始证据，但推荐由 Plana Core 统一筛选、裁剪和推送，避免重复记忆。",
+    "default": false
+  },
+  "capture_llm_responses": {
+    "description": "自动采集模型回复",
+    "type": "bool",
+    "hint": "默认关闭。推荐由 Plana Core 统一推送已筛选的助手回复证据。",
+    "default": false
+  },
+  "capture_commands": {
+    "description": "采集斜杠命令",
+    "type": "bool",
+    "hint": "默认关闭。避免把 token、管理命令或调试内容写入仓库；确有审计需求时再开启。",
+    "default": false
+  },
+  "excluded_prefixes": {
+    "description": "采集排除前缀",
+    "type": "string",
+    "hint": "默认空。逗号分隔；消息以这些前缀开头时不写入仓库，例如 /token,/login。",
+    "default": ""
+  },
+  "min_content_chars": {
+    "description": "最短采集字符数",
+    "type": "int",
+    "hint": "默认 1。短于该长度的消息不会写入仓库。",
+    "default": 1
+  },
+  "retention_days": {
+    "description": "保留天数",
+    "type": "int",
+    "hint": "默认 0，表示不自动清理。maintenance_on_start 或 prune API 会删除早于该窗口的 evidence。",
+    "default": 0
+  },
+  "maintenance_on_start": {
+    "description": "启动时维护索引",
+    "type": "bool",
+    "hint": "默认关闭。启动时重建 FTS 索引；如果 retention_days > 0，也会按保留窗口清理旧 evidence。",
+    "default": false
+  }
+}

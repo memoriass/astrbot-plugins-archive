@@ -1,0 +1,129 @@
+{
+  "core": {
+    "description": "基础运行",
+    "type": "object",
+    "hint": "控制 PlanaCore 是否启用、默认工作模式，以及是否把 Plana 记忆/状态注入 LLM Prompt。",
+    "items": {
+      "enabled": {"description": "启用 Plana Core", "type": "bool", "hint": "关闭后不再记录记忆、不注入 Prompt、不执行后台维护。", "default": true},
+      "mode": {"description": "默认工作模式", "type": "string", "options": ["standby", "observing", "tasking", "checking", "risk_review", "waiting_confirm", "reporting", "handoff_to_arona", "silent"], "hint": "standby=待命；observing=观察；tasking=任务；risk_review/checking=风险与校验；silent=免打扰。", "default": "standby"},
+      "inject_prompt": {"description": "注入 Plana Prompt", "type": "bool", "hint": "开启后在 LLM 请求前加入 Plana 身份、活跃记忆、关系、任务和风险上下文。", "default": true}
+    }
+  },
+  "memory": {
+    "description": "记忆记录与召回",
+    "type": "object",
+    "hint": "控制消息写入、LLM 回复摘要写入、Prompt 中最多注入多少记忆/语义/关系。",
+    "items": {
+      "record_messages": {"description": "记录消息流", "type": "bool", "hint": "记录命中 Plana 的用户消息，用于后续召回和结构化抽取。", "default": true},
+      "record_llm_response": {"description": "记录 LLM 回复摘要", "type": "bool", "hint": "把 Plana 回复写入 llm_response 记忆，便于后续复盘。", "default": true},
+      "max_active_memories": {"description": "注入事件记忆数", "type": "int", "hint": "每次 Prompt 最多注入的 episodic memory 数量。", "default": 6},
+      "max_active_semantics": {"description": "注入语义记忆数", "type": "int", "hint": "每次 Prompt 最多注入的 semantic memory 数量。", "default": 4},
+      "max_active_relations": {"description": "注入关系边数", "type": "int", "hint": "每次 Prompt 最多注入的关系图边数量。", "default": 4},
+      "graph_detail_limit": {"description": "关系详情输出上限", "type": "int", "hint": "控制 /plana graph 详情输出的最大关系边数。", "default": 8},
+      "max_prompt_chars": {"description": "Prompt 字符预算", "type": "int", "hint": "限制 Plana 注入块最大字符数，防止上下文过长。", "default": 4000},
+      "enable_memory_activation": {"description": "启用记忆激活", "type": "bool", "hint": "根据当前消息检索相关长期记忆并注入 Prompt。", "default": true}
+    }
+  },
+  "maintenance": {
+    "description": "沉淀、衰减与后台维护",
+    "type": "object",
+    "hint": "控制记忆压缩沉淀、低重要度事件衰减、定时维护任务。",
+    "items": {
+      "enable_memory_consolidation": {"description": "启用记忆沉淀", "type": "bool", "hint": "把事件记忆压缩为可长期保存的语义记忆。", "default": true},
+      "enable_memory_decay": {"description": "启用事件记忆衰减", "type": "bool", "hint": "降低旧事件记忆重要度，减少无效召回。", "default": true},
+      "consolidation_batch_size": {"description": "沉淀批量大小", "type": "int", "hint": "每次维护最多处理的事件记忆数。", "default": 12},
+      "decay_batch_size": {"description": "衰减批量大小", "type": "int", "hint": "每次维护最多衰减的事件记忆数。", "default": 16},
+      "decay_min_importance": {"description": "衰减下限", "type": "float", "hint": "事件记忆重要度低于该值后不再继续降低。", "default": 0.08},
+      "enable_auto_maintenance": {"description": "启用后台自动维护", "type": "bool", "hint": "按间隔自动执行沉淀、衰减、概念积累；开启概念积累时可能额外调用 LLM。", "obvious_hint": true, "default": false},
+      "auto_maintenance_interval_hours": {"description": "自动维护间隔（小时）", "type": "int", "hint": "建议 4-12 小时；过小会增加 LLM 和数据库压力。", "default": 6}
+    }
+  },
+  "task_relation": {
+    "description": "任务队列与关系图",
+    "type": "object",
+    "hint": "控制 Plana 的任务列表、任务结果记忆、用户/实体关系图。",
+    "items": {
+      "enable_task_queue": {"description": "启用任务队列", "type": "bool", "hint": "允许 /plana task 和 bridge task_delegate 写入任务。", "default": true},
+      "task_list_limit": {"description": "任务列表输出上限", "type": "int", "hint": "控制任务列表命令和 Dashboard 默认展示数量。", "default": 8},
+      "enable_relation_graph": {"description": "启用关系图谱", "type": "bool", "hint": "从结构化记忆中派生用户画像和关系边。", "default": true}
+    }
+  },
+  "life_memory": {
+    "description": "LLM 结构化记忆与概念图",
+    "type": "object",
+    "hint": "这些功能会额外调用 LLM，用于把对话转成事实、偏好、承诺、风险和概念节点。",
+    "obvious_hint": true,
+    "items": {
+      "enable_concept_extraction": {"description": "启用概念提取", "type": "bool", "hint": "LLM 回复后提取概念关键词并更新概念图；开启会额外消耗 LLM 调用。", "obvious_hint": true, "default": false},
+      "max_concept_keywords": {"description": "概念关键词上限", "type": "int", "hint": "每次概念提取最多保留 1-5 个关键词。", "default": 4},
+      "enable_structured_memory_extraction": {"description": "启用结构化长期记忆抽取", "type": "bool", "hint": "从用户消息和 Plana 回复中抽取 user_fact/user_preference/promise/task_fact/risk_event/relationship_note；会额外调用 LLM。", "obvious_hint": true, "default": true},
+      "structured_memory_max_items": {"description": "结构化记忆条数上限", "type": "int", "hint": "单次响应最多写入的结构化记忆条数。", "default": 5},
+      "enable_memory_query_planner": {"description": "启用记忆检索规划", "type": "bool", "hint": "在 LLM 请求前用 LLM 将“上次/之前/那个”等指代转换为可检索 query；会额外调用 LLM。", "obvious_hint": true, "default": true},
+      "accumulate_batch_size": {"description": "概念积累批量大小", "type": "int", "hint": "手动/自动概念积累每次处理的最大记忆条数。", "default": 8},
+      "enable_recall_tool": {"description": "启用主动回忆工具", "type": "bool", "hint": "注册 plana_recall_memory LLM 工具，允许模型按需检索长期记忆；输出会包含 RRF 融合解释。", "obvious_hint": true, "default": true},
+      "recall_default_k": {"description": "主动回忆默认条数", "type": "int", "hint": "LLM 工具未指定 k 时返回的最大融合结果数。", "default": 5},
+      "recall_max_k": {"description": "主动回忆最大条数", "type": "int", "hint": "限制 LLM 工具和 Web 检索实验室单次返回数量，避免 prompt 过长。", "default": 10},
+      "recall_rrf_k": {"description": "RRF 融合平滑常数", "type": "int", "hint": "Reciprocal Rank Fusion 的 k 值；数值越大，排名差异影响越平滑。", "default": 60},
+      "recall_include_semantic": {"description": "融合语义画像路由", "type": "bool", "hint": "主动回忆时纳入 semantic memory 路由。", "default": true},
+      "recall_include_concept": {"description": "融合概念图路由", "type": "bool", "hint": "主动回忆时纳入 concept graph 扩散激活路由。", "default": true}
+    }
+  },
+  "ops_bridge": {
+    "description": "Web、调试与 Arona/Nacho bridge",
+    "type": "object",
+    "hint": "控制 AstrBot 内嵌 Dashboard、只读调试 API、阿罗娜 bridge API。",
+    "items": {
+      "enable_web_dashboard": {"description": "启用 AstrBot 内嵌管理面板", "type": "bool", "hint": "访问 /api/plug/plana/dashboard；使用 debug_api_token 认证。", "default": true},
+      "enable_debug_api": {"description": "启用只读调试 API", "type": "bool", "hint": "注册 /plana_core/debug/status；仅返回状态与表计数。", "default": false},
+      "debug_api_token": {"description": "调试 API Token", "type": "string", "hint": "用于 Dashboard 与只读调试 API；可通过 ?token= 或 Bearer Token 传入。生产环境建议设置。", "obvious_hint": true, "default": ""},
+      "debug_log": {"description": "输出调试摘要日志", "type": "bool", "hint": "仅输出关键摘要，避免在高频消息路径写冗余日志。", "default": false},
+      "enable_arona_api": {"description": "启用 Arona bridge API", "type": "bool", "hint": "注册 /plana_core/arona/bridge 等接口，供 NachoBridge/Sidecar 调用。", "default": false},
+      "arona_api_token": {"description": "Arona bridge Token", "type": "string", "hint": "NachoBridge 调用 PlanaCore bridge 时应使用相同 Bearer Token。生产环境建议设置。", "obvious_hint": true, "default": ""}
+    }
+  },
+  "persona_behavior": {
+    "description": "人格与行为策略",
+    "type": "object",
+    "hint": "控制 Plana 人设覆盖、全量消息记录、免打扰、情绪刷新和实验性语音开关。",
+    "items": {
+      "persona_style": {"description": "Plana 人格风格覆盖", "type": "text", "hint": "留空使用默认备份 OS 人设；填写后完整替换 PLANA_IDENTITY 块。", "default": ""},
+      "record_all_messages": {"description": "记录所有用户消息", "type": "bool", "hint": "开启后记忆更完整，但会增加存储量；默认只记录明确提及 Plana 的消息。", "obvious_hint": true, "default": false},
+      "quiet_hours": {"description": "免打扰时段", "type": "string", "hint": "格式：1-7 或 23-6；留空禁用，命中时自动进入 silent。", "default": ""},
+      "mood_update_probability": {"description": "情绪状态刷新概率", "type": "float", "hint": "每次 LLM 响应后触发 mood_state 更新的概率；0 禁用，建议 0.03-0.08。", "default": 0.05},
+      "enable_tts_response": {"description": "实验性 TTS 响应", "type": "bool", "hint": "当前仅保留扩展开关；平台 TTS 不属于 PlanaCore 核心目标。", "default": false}
+    }
+  },
+  "nacho_bridge": {
+    "description": "NachoBot Sidecar 通讯桥（内置）",
+    "type": "object",
+    "hint": "将消息转发到 NachoBot Sidecar 并接收回复；启用后不再需要独立的 astrbot_plugin_nacho_bridge 插件。",
+    "items": {
+      "enable_nacho_bridge": {"description": "启用 NachoBot 通讯桥", "type": "bool", "hint": "开启后 PlanaCore 会将消息转发到 NachoBot Sidecar，并处理其回复。", "default": false},
+      "nacho_sidecar_url": {"description": "Sidecar 基础 URL", "type": "string", "hint": "NachoBot Sidecar 的 HTTP 地址。", "default": "http://127.0.0.1:8765"},
+      "nacho_message_endpoint": {"description": "消息接收路径", "type": "string", "hint": "Sidecar 接收 AstrBot 消息的 API 路径。", "default": "/api/astrbot/message"},
+      "nacho_api_token": {"description": "Sidecar Bearer Token", "type": "string", "hint": "发送给 Sidecar 的认证 Token，可留空。", "obvious_hint": true, "default": ""},
+      "nacho_timeout_seconds": {"description": "请求超时（秒）", "type": "int", "hint": "请求 Sidecar 的 HTTP 超时时间。", "default": 30},
+      "nacho_listen_group": {"description": "转发群聊消息", "type": "bool", "hint": "是否将群聊消息转发到 Sidecar。", "default": true},
+      "nacho_listen_private": {"description": "转发私聊消息", "type": "bool", "hint": "是否将私聊消息转发到 Sidecar。", "default": true},
+      "nacho_listen_other": {"description": "转发其他类型消息", "type": "bool", "hint": "是否转发非群聊/私聊的消息。", "default": false},
+      "nacho_send_replies": {"description": "发送 Sidecar 回复", "type": "bool", "hint": "是否由 AstrBot 发送 NachoBot 返回的回复消息。", "default": true},
+      "nacho_stop_pipeline_mode": {"description": "阻止后续处理模式", "type": "string", "options": ["always", "handled", "reply", "never"], "hint": "always=总是阻止；handled=Sidecar 标记已处理时阻止；reply=有回复时阻止；never=从不阻止。", "default": "handled"},
+      "nacho_debug_log_payload": {"description": "打印桥接调试日志", "type": "bool", "hint": "输出请求和响应摘要到日志。", "default": false},
+      "nacho_enable_active_send_api": {"description": "启用主动发送 API", "type": "bool", "hint": "注册 /plana_core/nacho/send 供 NachoBot 主动发消息。", "default": true},
+      "nacho_active_send_token": {"description": "主动发送 API Token", "type": "string", "hint": "NachoBot 调用主动发送 API 时的 Bearer Token，可留空。", "obvious_hint": true, "default": ""},
+      "nacho_enable_plana_relay": {"description": "启用 Sidecar→PlanaCore 中继", "type": "bool", "hint": "允许 Sidecar 通过 plana_requests 字段调用 PlanaCore bridge 处理器。", "default": true},
+      "nacho_plana_result_endpoint": {"description": "结果回传 Endpoint", "type": "string", "hint": "PlanaCore 处理结果回传给 Sidecar 的 URL 或相对路径，留空不回传。", "default": ""},
+      "nacho_plana_result_token": {"description": "结果回传 Token", "type": "string", "hint": "回传时使用的 Bearer Token，留空时复用 nacho_api_token。", "default": ""}
+    }
+  },
+  "standalone_web": {
+    "description": "独立 Web 管理端（6180）",
+    "type": "object",
+    "hint": "独立运行在 AstrBot 主 Dashboard 之外；启用后访问 http://127.0.0.1:6180/。",
+    "items": {
+      "web_admin": {"description": "独立 Web 服务", "type": "object", "hint": "FastAPI/Uvicorn 独立管理端配置。", "items": {"enabled": {"description": "启用独立 Web 管理端", "type": "bool", "hint": "需要 fastapi 和 uvicorn；启用后根路径 / 会返回 Plana Dashboard。", "default": false}, "host": {"description": "监听地址", "type": "string", "hint": "0.0.0.0 监听所有网卡；本机调试可用 127.0.0.1。", "default": "0.0.0.0"}, "port": {"description": "监听端口", "type": "int", "hint": "默认 6180，避免与 AstrBot 主 Dashboard 6185 冲突。", "default": 6180}, "password": {"description": "访问密码", "type": "string", "hint": "留空不启用认证；生产环境建议设置，页面会显示登录框。", "obvious_hint": true, "default": ""}}}
+    }
+  }
+}
+
+
